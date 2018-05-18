@@ -1,0 +1,913 @@
+USE [MarcomDB]
+GO
+
+/****** Object:  Table [dbo].[m_company]    Script Date: 5/18/2018 6:00:24 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
+
+CREATE TABLE [dbo].[m_company](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[code] [varchar](50) NOT NULL,
+	[name] [varchar](50) NOT NULL,
+	[address] [varchar](255) NULL,
+	[phone] [varchar](50) NULL,
+	[email] [varchar](50) NULL,
+	[is_delete] [bit] NOT NULL,
+	[created_by] [varchar](50) NOT NULL,
+	[created_date] [datetime] NOT NULL,
+	[updated_by] [varchar](50) NULL,
+	[updated_date] [datetime] NULL,
+ CONSTRAINT [PK_m_company] PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+
+
+
+USE [MarcomDB]
+GO
+
+/****** Object:  Table [dbo].[m_employee]    Script Date: 5/18/2018 6:01:17 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
+
+CREATE TABLE [dbo].[m_employee](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[employee_number] [varchar](50) NOT NULL,
+	[first_name] [varchar](50) NOT NULL,
+	[last_name] [varchar](50) NULL,
+	[m_company_id] [int] NULL,
+	[email] [varchar](150) NULL,
+	[is_delete] [bit] NOT NULL,
+	[created_by] [varchar](50) NOT NULL,
+	[created_date] [datetime] NOT NULL,
+	[updated_by] [varchar](50) NULL,
+	[updated_date] [datetime] NULL,
+ CONSTRAINT [PK_m_employee] PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+
+ALTER TABLE [dbo].[m_employee]  WITH CHECK ADD  CONSTRAINT [FK_m_employee_m_company] FOREIGN KEY([m_company_id])
+REFERENCES [dbo].[m_company] ([id])
+GO
+
+ALTER TABLE [dbo].[m_employee] CHECK CONSTRAINT [FK_m_employee_m_company]
+GO
+
+USE [MarcomDB]
+GO
+
+/****** Object:  Table [dbo].[m_menu]    Script Date: 5/18/2018 6:01:29 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
+
+CREATE TABLE [dbo].[m_menu](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[code] [varchar](50) NOT NULL,
+	[name] [varchar](50) NOT NULL,
+	[controller] [varchar](150) NOT NULL,
+	[parent_id] [int] NULL,
+	[is_delete] [bit] NOT NULL,
+	[created_by] [varchar](50) NOT NULL,
+	[created_date] [datetime] NOT NULL,
+	[updated_by] [varchar](50) NULL,
+	[updated_date] [datetime] NULL,
+ CONSTRAINT [PK_m_menu] PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+
+
+USE [MarcomDB]
+GO
+
+/****** Object:  Table [dbo].[m_menu_access]    Script Date: 5/18/2018 6:01:40 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
+
+CREATE TABLE [dbo].[m_menu_access](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[m_role_id] [int] NOT NULL,
+	[m_menu_id] [int] NOT NULL,
+	[is_delete] [bit] NOT NULL,
+	[created_by] [varchar](50) NOT NULL,
+	[created_date] [datetime] NOT NULL,
+	[updated_by] [varchar](50) NULL,
+	[updated_date] [datetime] NULL,
+ CONSTRAINT [PK_m_menu_access] PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+
+ALTER TABLE [dbo].[m_menu_access]  WITH CHECK ADD  CONSTRAINT [FK_m_menu_access_m_menu] FOREIGN KEY([m_menu_id])
+REFERENCES [dbo].[m_menu] ([id])
+GO
+
+ALTER TABLE [dbo].[m_menu_access] CHECK CONSTRAINT [FK_m_menu_access_m_menu]
+GO
+
+ALTER TABLE [dbo].[m_menu_access]  WITH CHECK ADD  CONSTRAINT [FK_m_menu_access_m_role] FOREIGN KEY([m_role_id])
+REFERENCES [dbo].[m_role] ([id])
+GO
+
+ALTER TABLE [dbo].[m_menu_access] CHECK CONSTRAINT [FK_m_menu_access_m_role]
+GO
+
+
+
+USE [MarcomDB]
+GO
+
+/****** Object:  Table [dbo].[m_product]    Script Date: 5/18/2018 6:01:51 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
+
+CREATE TABLE [dbo].[m_product](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[code] [varchar](50) NOT NULL,
+	[name] [varchar](50) NOT NULL,
+	[description] [varchar](255) NULL,
+	[is_delete] [bit] NOT NULL,
+	[created_by] [varchar](50) NOT NULL,
+	[created_date] [datetime] NOT NULL,
+	[updated_by] [varchar](50) NULL,
+	[updated_date] [datetime] NULL,
+ CONSTRAINT [PK_m_product] PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+
+
+USE [MarcomDB]
+GO
+
+/****** Object:  Table [dbo].[m_role]    Script Date: 5/18/2018 6:02:33 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
+
+CREATE TABLE [dbo].[m_role](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[code] [varchar](50) NOT NULL,
+	[name] [varchar](50) NOT NULL,
+	[description] [varchar](255) NOT NULL,
+	[is_delete] [bit] NOT NULL,
+	[created_by] [varchar](50) NOT NULL,
+	[created_date] [datetime] NOT NULL,
+	[updated_by] [varchar](50) NULL,
+	[updated_date] [datetime] NULL,
+ CONSTRAINT [PK_m_role] PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+
+
+USE [MarcomDB]
+GO
+
+/****** Object:  Table [dbo].[m_souvenir]    Script Date: 5/18/2018 6:02:44 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
+
+CREATE TABLE [dbo].[m_souvenir](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[code] [varchar](50) NOT NULL,
+	[name] [varchar](50) NOT NULL,
+	[description] [varchar](255) NULL,
+	[m_unit_id] [int] NOT NULL,
+	[is_delete] [bit] NOT NULL,
+	[created_by] [varchar](50) NOT NULL,
+	[created_date] [datetime] NOT NULL,
+	[updated_by] [varchar](50) NULL,
+	[updated_date] [datetime] NULL,
+ CONSTRAINT [PK_m_souvenir] PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+
+ALTER TABLE [dbo].[m_souvenir]  WITH CHECK ADD  CONSTRAINT [FK_m_souvenir_m_unit] FOREIGN KEY([m_unit_id])
+REFERENCES [dbo].[m_unit] ([id])
+GO
+
+ALTER TABLE [dbo].[m_souvenir] CHECK CONSTRAINT [FK_m_souvenir_m_unit]
+GO
+
+
+USE [MarcomDB]
+GO
+
+/****** Object:  Table [dbo].[m_unit]    Script Date: 5/18/2018 6:02:53 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
+
+CREATE TABLE [dbo].[m_unit](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[code] [varchar](50) NOT NULL,
+	[name] [varchar](50) NOT NULL,
+	[description] [varchar](255) NULL,
+	[is_delete] [bit] NOT NULL,
+	[created_by] [varchar](50) NOT NULL,
+	[created_date] [datetime] NOT NULL,
+	[updated_by] [varchar](50) NULL,
+	[updated_date] [datetime] NULL,
+ CONSTRAINT [PK_m_unit] PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+
+
+USE [MarcomDB]
+GO
+
+/****** Object:  Table [dbo].[m_user]    Script Date: 5/18/2018 6:03:15 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
+
+CREATE TABLE [dbo].[m_user](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[username] [varchar](50) NOT NULL,
+	[password] [varchar](50) NOT NULL,
+	[m_role_id] [int] NOT NULL,
+	[m_employee_id] [int] NOT NULL,
+	[is_delete] [bit] NOT NULL,
+	[created_by] [varchar](50) NOT NULL,
+	[created_date] [datetime] NOT NULL,
+	[updated_by] [varchar](50) NULL,
+	[updated_date] [datetime] NULL,
+ CONSTRAINT [PK_m_user] PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+
+ALTER TABLE [dbo].[m_user]  WITH CHECK ADD  CONSTRAINT [FK_m_user_m_employee] FOREIGN KEY([m_employee_id])
+REFERENCES [dbo].[m_employee] ([id])
+GO
+
+ALTER TABLE [dbo].[m_user] CHECK CONSTRAINT [FK_m_user_m_employee]
+GO
+
+ALTER TABLE [dbo].[m_user]  WITH CHECK ADD  CONSTRAINT [FK_m_user_m_role] FOREIGN KEY([m_role_id])
+REFERENCES [dbo].[m_role] ([id])
+GO
+
+ALTER TABLE [dbo].[m_user] CHECK CONSTRAINT [FK_m_user_m_role]
+GO
+
+USE [MarcomDB]
+GO
+
+/****** Object:  Table [dbo].[t_design]    Script Date: 5/18/2018 6:03:39 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
+
+CREATE TABLE [dbo].[t_design](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[code] [varchar](50) NOT NULL,
+	[t_event_id] [int] NOT NULL,
+	[title_header] [varchar](255) NOT NULL,
+	[request_by] [int] NOT NULL,
+	[request_date] [datetime] NOT NULL,
+	[approved_by] [int] NULL,
+	[approved_date] [datetime] NULL,
+	[assign_to] [int] NULL,
+	[closed_date] [datetime] NULL,
+	[note] [varchar](255) NULL,
+	[status] [int] NULL,
+	[reject_reason] [varchar](255) NULL,
+	[is_delete] [bit] NULL,
+	[created_by] [varchar](50) NOT NULL,
+	[created_date] [datetime] NOT NULL,
+	[updated_by] [varchar](50) NULL,
+	[updated_date] [datetime] NULL,
+ CONSTRAINT [PK_t_design] PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+
+ALTER TABLE [dbo].[t_design]  WITH CHECK ADD  CONSTRAINT [FK_t_design_m_employee] FOREIGN KEY([request_by])
+REFERENCES [dbo].[m_employee] ([id])
+GO
+
+ALTER TABLE [dbo].[t_design] CHECK CONSTRAINT [FK_t_design_m_employee]
+GO
+
+ALTER TABLE [dbo].[t_design]  WITH CHECK ADD  CONSTRAINT [FK_t_design_m_employee1] FOREIGN KEY([approved_by])
+REFERENCES [dbo].[m_employee] ([id])
+GO
+
+ALTER TABLE [dbo].[t_design] CHECK CONSTRAINT [FK_t_design_m_employee1]
+GO
+
+ALTER TABLE [dbo].[t_design]  WITH CHECK ADD  CONSTRAINT [FK_t_design_m_employee2] FOREIGN KEY([assign_to])
+REFERENCES [dbo].[m_employee] ([id])
+GO
+
+ALTER TABLE [dbo].[t_design] CHECK CONSTRAINT [FK_t_design_m_employee2]
+GO
+
+ALTER TABLE [dbo].[t_design]  WITH CHECK ADD  CONSTRAINT [FK_t_design_t_design] FOREIGN KEY([id])
+REFERENCES [dbo].[t_design] ([id])
+GO
+
+ALTER TABLE [dbo].[t_design] CHECK CONSTRAINT [FK_t_design_t_design]
+GO
+
+ALTER TABLE [dbo].[t_design]  WITH CHECK ADD  CONSTRAINT [FK_t_design_t_event] FOREIGN KEY([t_event_id])
+REFERENCES [dbo].[t_event] ([id])
+GO
+
+ALTER TABLE [dbo].[t_design] CHECK CONSTRAINT [FK_t_design_t_event]
+GO
+
+
+USE [MarcomDB]
+GO
+
+/****** Object:  Table [dbo].[t_design_item]    Script Date: 5/18/2018 6:03:52 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
+
+CREATE TABLE [dbo].[t_design_item](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[t_design_id] [int] NOT NULL,
+	[m_product_id] [int] NOT NULL,
+	[title_item] [varchar](255) NOT NULL,
+	[request_pic] [int] NOT NULL,
+	[start_date] [datetime] NULL,
+	[end_date] [datetime] NULL,
+	[request_due_date] [datetime] NULL,
+	[note] [varchar](255) NULL,
+	[is_delete] [bit] NULL,
+	[created_by] [varchar](50) NOT NULL,
+	[created_date] [datetime] NOT NULL,
+	[updated_by] [varchar](50) NULL,
+	[updated_date] [datetime] NULL,
+ CONSTRAINT [PK_t_design_item] PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+
+ALTER TABLE [dbo].[t_design_item]  WITH CHECK ADD  CONSTRAINT [FK_t_design_item_m_employee] FOREIGN KEY([request_pic])
+REFERENCES [dbo].[m_employee] ([id])
+GO
+
+ALTER TABLE [dbo].[t_design_item] CHECK CONSTRAINT [FK_t_design_item_m_employee]
+GO
+
+ALTER TABLE [dbo].[t_design_item]  WITH CHECK ADD  CONSTRAINT [FK_t_design_item_m_product] FOREIGN KEY([m_product_id])
+REFERENCES [dbo].[m_product] ([id])
+GO
+
+ALTER TABLE [dbo].[t_design_item] CHECK CONSTRAINT [FK_t_design_item_m_product]
+GO
+
+ALTER TABLE [dbo].[t_design_item]  WITH CHECK ADD  CONSTRAINT [FK_t_design_item_t_design] FOREIGN KEY([t_design_id])
+REFERENCES [dbo].[t_design] ([id])
+GO
+
+ALTER TABLE [dbo].[t_design_item] CHECK CONSTRAINT [FK_t_design_item_t_design]
+GO
+
+
+USE [MarcomDB]
+GO
+
+/****** Object:  Table [dbo].[t_event]    Script Date: 5/18/2018 6:03:58 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
+
+CREATE TABLE [dbo].[t_event](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[code] [varchar](50) NOT NULL,
+	[event_name] [varchar](255) NOT NULL,
+	[start_date] [datetime] NULL,
+	[end_date] [datetime] NULL,
+	[place] [varchar](255) NULL,
+	[budget] [decimal](18, 4) NULL,
+	[request_by] [int] NOT NULL,
+	[request_date] [datetime] NOT NULL,
+	[approved_by] [int] NULL,
+	[approved_date] [datetime] NULL,
+	[assign_to] [int] NULL,
+	[closed_date] [datetime] NULL,
+	[note] [varchar](255) NULL,
+	[status] [int] NULL,
+	[reject_reason] [varchar](255) NULL,
+	[is_delete] [bit] NULL,
+	[created_by] [varchar](50) NULL,
+	[created_date] [datetime] NULL,
+	[updated_by] [varchar](50) NULL,
+	[updated_date] [datetime] NULL,
+ CONSTRAINT [PK_t_event] PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+
+ALTER TABLE [dbo].[t_event]  WITH CHECK ADD  CONSTRAINT [FK_t_event_m_employee] FOREIGN KEY([request_by])
+REFERENCES [dbo].[m_employee] ([id])
+GO
+
+ALTER TABLE [dbo].[t_event] CHECK CONSTRAINT [FK_t_event_m_employee]
+GO
+
+ALTER TABLE [dbo].[t_event]  WITH CHECK ADD  CONSTRAINT [FK_t_event_m_employee1] FOREIGN KEY([approved_by])
+REFERENCES [dbo].[m_employee] ([id])
+GO
+
+ALTER TABLE [dbo].[t_event] CHECK CONSTRAINT [FK_t_event_m_employee1]
+GO
+
+ALTER TABLE [dbo].[t_event]  WITH CHECK ADD  CONSTRAINT [FK_t_event_m_employee2] FOREIGN KEY([assign_to])
+REFERENCES [dbo].[m_employee] ([id])
+GO
+
+ALTER TABLE [dbo].[t_event] CHECK CONSTRAINT [FK_t_event_m_employee2]
+GO
+
+
+USE [MarcomDB]
+GO
+
+/****** Object:  Table [dbo].[t_promotion]    Script Date: 5/18/2018 6:04:09 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
+
+CREATE TABLE [dbo].[t_promotion](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[code] [varchar](50) NOT NULL,
+	[flag_design] [char](1) NOT NULL,
+	[t_event_id] [int] NOT NULL,
+	[t_design_id] [int] NULL,
+	[request_by] [int] NULL,
+	[request_date] [datetime] NULL,
+	[approved_by] [int] NULL,
+	[approved_date] [datetime] NULL,
+	[assign_to] [int] NULL,
+	[close_date] [datetime] NULL,
+	[note] [varchar](255) NULL,
+	[status] [int] NULL,
+	[reject_reason] [varchar](255) NULL,
+	[is_delete] [bit] NULL,
+	[created_by] [varchar](50) NOT NULL,
+	[created_date] [datetime] NOT NULL,
+	[updated_by] [varchar](50) NULL,
+	[updated_date] [datetime] NULL,
+ CONSTRAINT [PK_t_promotion] PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+
+ALTER TABLE [dbo].[t_promotion]  WITH CHECK ADD  CONSTRAINT [FK_t_promotion_m_employee] FOREIGN KEY([request_by])
+REFERENCES [dbo].[m_employee] ([id])
+GO
+
+ALTER TABLE [dbo].[t_promotion] CHECK CONSTRAINT [FK_t_promotion_m_employee]
+GO
+
+ALTER TABLE [dbo].[t_promotion]  WITH CHECK ADD  CONSTRAINT [FK_t_promotion_m_employee1] FOREIGN KEY([approved_by])
+REFERENCES [dbo].[m_employee] ([id])
+GO
+
+ALTER TABLE [dbo].[t_promotion] CHECK CONSTRAINT [FK_t_promotion_m_employee1]
+GO
+
+ALTER TABLE [dbo].[t_promotion]  WITH CHECK ADD  CONSTRAINT [FK_t_promotion_m_employee2] FOREIGN KEY([assign_to])
+REFERENCES [dbo].[m_employee] ([id])
+GO
+
+ALTER TABLE [dbo].[t_promotion] CHECK CONSTRAINT [FK_t_promotion_m_employee2]
+GO
+
+ALTER TABLE [dbo].[t_promotion]  WITH CHECK ADD  CONSTRAINT [FK_t_promotion_t_design] FOREIGN KEY([t_design_id])
+REFERENCES [dbo].[t_design] ([id])
+GO
+
+ALTER TABLE [dbo].[t_promotion] CHECK CONSTRAINT [FK_t_promotion_t_design]
+GO
+
+ALTER TABLE [dbo].[t_promotion]  WITH CHECK ADD  CONSTRAINT [FK_t_promotion_t_event] FOREIGN KEY([t_event_id])
+REFERENCES [dbo].[t_event] ([id])
+GO
+
+ALTER TABLE [dbo].[t_promotion] CHECK CONSTRAINT [FK_t_promotion_t_event]
+GO
+
+
+USE [MarcomDB]
+GO
+
+/****** Object:  Table [dbo].[t_promotion_item]    Script Date: 5/18/2018 6:04:21 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
+
+CREATE TABLE [dbo].[t_promotion_item](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[t_promotion_id] [int] NOT NULL,
+	[t_design_item_id] [int] NULL,
+	[m_product_id] [int] NOT NULL,
+	[title] [varchar](255) NOT NULL,
+	[request_pic] [int] NOT NULL,
+	[start_date] [datetime] NULL,
+	[end_date] [datetime] NULL,
+	[request_due_date] [datetime] NULL,
+	[qty] [decimal](18, 0) NULL,
+	[todo] [int] NOT NULL,
+	[note] [varchar](255) NULL,
+	[is_delete] [bit] NULL,
+	[created_by] [varchar](50) NOT NULL,
+	[created_date] [datetime] NOT NULL,
+	[updated_by] [varchar](50) NULL,
+	[updated_date] [datetime] NULL,
+ CONSTRAINT [PK_t_promotion_item] PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+
+ALTER TABLE [dbo].[t_promotion_item]  WITH CHECK ADD  CONSTRAINT [FK_t_promotion_item_m_employee] FOREIGN KEY([request_pic])
+REFERENCES [dbo].[m_employee] ([id])
+GO
+
+ALTER TABLE [dbo].[t_promotion_item] CHECK CONSTRAINT [FK_t_promotion_item_m_employee]
+GO
+
+ALTER TABLE [dbo].[t_promotion_item]  WITH CHECK ADD  CONSTRAINT [FK_t_promotion_item_m_product] FOREIGN KEY([m_product_id])
+REFERENCES [dbo].[m_product] ([id])
+GO
+
+ALTER TABLE [dbo].[t_promotion_item] CHECK CONSTRAINT [FK_t_promotion_item_m_product]
+GO
+
+ALTER TABLE [dbo].[t_promotion_item]  WITH CHECK ADD  CONSTRAINT [FK_t_promotion_item_t_design_item] FOREIGN KEY([t_design_item_id])
+REFERENCES [dbo].[t_design_item] ([id])
+GO
+
+ALTER TABLE [dbo].[t_promotion_item] CHECK CONSTRAINT [FK_t_promotion_item_t_design_item]
+GO
+
+ALTER TABLE [dbo].[t_promotion_item]  WITH CHECK ADD  CONSTRAINT [FK_t_promotion_item_t_promotion] FOREIGN KEY([t_promotion_id])
+REFERENCES [dbo].[t_promotion] ([id])
+GO
+
+ALTER TABLE [dbo].[t_promotion_item] CHECK CONSTRAINT [FK_t_promotion_item_t_promotion]
+GO
+
+
+
+USE [MarcomDB]
+GO
+
+/****** Object:  Table [dbo].[t_promotion_item_file]    Script Date: 5/18/2018 6:04:31 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
+
+CREATE TABLE [dbo].[t_promotion_item_file](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[t_promotion_id] [int] NOT NULL,
+	[filename] [int] NOT NULL,
+	[size] [varchar](11) NULL,
+	[extention] [varchar](11) NULL,
+	[start_date] [datetime] NULL,
+	[end_date] [datetime] NULL,
+	[request_due_date] [datetime] NULL,
+	[qty] [decimal](18, 0) NULL,
+	[todo] [int] NOT NULL,
+	[note] [varchar](255) NULL,
+	[is_delete] [bit] NULL,
+	[created_by] [varchar](50) NOT NULL,
+	[created_date] [datetime] NOT NULL,
+	[updated_by] [varchar](50) NULL,
+	[updated_date] [datetime] NULL,
+ CONSTRAINT [PK_t_promotion_item_file] PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+
+ALTER TABLE [dbo].[t_promotion_item_file]  WITH CHECK ADD  CONSTRAINT [FK_t_promotion_item_file_t_promotion] FOREIGN KEY([t_promotion_id])
+REFERENCES [dbo].[t_promotion] ([id])
+GO
+
+ALTER TABLE [dbo].[t_promotion_item_file] CHECK CONSTRAINT [FK_t_promotion_item_file_t_promotion]
+GO
+
+
+
+USE [MarcomDB]
+GO
+
+/****** Object:  Table [dbo].[t_souvenir]    Script Date: 5/18/2018 6:04:42 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
+
+CREATE TABLE [dbo].[t_souvenir](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[code] [varchar](50) NOT NULL,
+	[type] [varchar](11) NOT NULL,
+	[t_event_id] [int] NOT NULL,
+	[request_by] [int] NOT NULL,
+	[request_date] [datetime] NULL,
+	[request_due_date] [datetime] NULL,
+	[approved_by] [int] NULL,
+	[approved_date] [datetime] NULL,
+	[received_by] [int] NULL,
+	[received_date] [datetime] NULL,
+	[settlement_by] [int] NULL,
+	[settlement_date] [datetime] NULL,
+	[settlement_approved_by] [int] NULL,
+	[settlement_approved_date] [datetime] NULL,
+	[status] [int] NULL,
+	[note] [varchar](255) NULL,
+	[reject_reason] [varchar](255) NULL,
+	[is_delete] [bit] NULL,
+	[created_by] [varchar](50) NULL,
+	[created_date] [datetime] NULL,
+	[updated_by] [varchar](50) NULL,
+	[updated_date] [datetime] NULL,
+ CONSTRAINT [PK_t_souvenir] PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+
+ALTER TABLE [dbo].[t_souvenir]  WITH CHECK ADD  CONSTRAINT [FK_t_souvenir_m_employee] FOREIGN KEY([request_by])
+REFERENCES [dbo].[m_employee] ([id])
+GO
+
+ALTER TABLE [dbo].[t_souvenir] CHECK CONSTRAINT [FK_t_souvenir_m_employee]
+GO
+
+ALTER TABLE [dbo].[t_souvenir]  WITH CHECK ADD  CONSTRAINT [FK_t_souvenir_m_employee1] FOREIGN KEY([approved_by])
+REFERENCES [dbo].[m_employee] ([id])
+GO
+
+ALTER TABLE [dbo].[t_souvenir] CHECK CONSTRAINT [FK_t_souvenir_m_employee1]
+GO
+
+ALTER TABLE [dbo].[t_souvenir]  WITH CHECK ADD  CONSTRAINT [FK_t_souvenir_m_employee2] FOREIGN KEY([received_by])
+REFERENCES [dbo].[m_employee] ([id])
+GO
+
+ALTER TABLE [dbo].[t_souvenir] CHECK CONSTRAINT [FK_t_souvenir_m_employee2]
+GO
+
+ALTER TABLE [dbo].[t_souvenir]  WITH CHECK ADD  CONSTRAINT [FK_t_souvenir_m_employee3] FOREIGN KEY([settlement_by])
+REFERENCES [dbo].[m_employee] ([id])
+GO
+
+ALTER TABLE [dbo].[t_souvenir] CHECK CONSTRAINT [FK_t_souvenir_m_employee3]
+GO
+
+ALTER TABLE [dbo].[t_souvenir]  WITH CHECK ADD  CONSTRAINT [FK_t_souvenir_m_employee4] FOREIGN KEY([settlement_approved_by])
+REFERENCES [dbo].[m_employee] ([id])
+GO
+
+ALTER TABLE [dbo].[t_souvenir] CHECK CONSTRAINT [FK_t_souvenir_m_employee4]
+GO
+
+ALTER TABLE [dbo].[t_souvenir]  WITH CHECK ADD  CONSTRAINT [FK_t_souvenir_t_event] FOREIGN KEY([t_event_id])
+REFERENCES [dbo].[t_event] ([id])
+GO
+
+ALTER TABLE [dbo].[t_souvenir] CHECK CONSTRAINT [FK_t_souvenir_t_event]
+GO
+
+
+USE [MarcomDB]
+GO
+
+/****** Object:  Table [dbo].[t_souvenir_item]    Script Date: 5/18/2018 6:04:52 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+SET ANSI_PADDING ON
+GO
+
+CREATE TABLE [dbo].[t_souvenir_item](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[t_souvenir_id] [int] NOT NULL,
+	[m_souvenir_id] [int] NOT NULL,
+	[qty] [decimal](18, 0) NULL,
+	[qty_settlement] [decimal](18, 0) NULL,
+	[note] [varchar](255) NOT NULL,
+	[is_delete] [bit] NOT NULL,
+	[created_by] [varchar](50) NULL,
+	[created_date] [datetime] NULL,
+	[updated_by] [varchar](50) NULL,
+	[updated_date] [datetime] NULL,
+ CONSTRAINT [PK_t_souvenir_item] PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+SET ANSI_PADDING OFF
+GO
+
+ALTER TABLE [dbo].[t_souvenir_item]  WITH CHECK ADD  CONSTRAINT [FK_t_souvenir_item_m_souvenir] FOREIGN KEY([m_souvenir_id])
+REFERENCES [dbo].[m_souvenir] ([id])
+GO
+
+ALTER TABLE [dbo].[t_souvenir_item] CHECK CONSTRAINT [FK_t_souvenir_item_m_souvenir]
+GO
+
+ALTER TABLE [dbo].[t_souvenir_item]  WITH CHECK ADD  CONSTRAINT [FK_t_souvenir_item_t_souvenir] FOREIGN KEY([t_souvenir_id])
+REFERENCES [dbo].[t_souvenir] ([id])
+GO
+
+ALTER TABLE [dbo].[t_souvenir_item] CHECK CONSTRAINT [FK_t_souvenir_item_t_souvenir]
+GO
