@@ -4,21 +4,23 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using Marcom.ViewModel;
+using Marcom.Repository;
 
 namespace Marcom.API.Controllers
 {
     public class M_CompaniesController : ApiController
     {
         // GET: api/M_Companies
-        public IEnumerable<string> Get()
+        public IEnumerable<M_CompanyViewModel> Get()
         {
-            return new string[] { "value1", "value2" };
+            return M_CompanyRepo.Get();
         }
 
         // GET: api/M_Companies/5
-        public string Get(int id)
+        public M_CompanyViewModel Get(int id)
         {
-            return "value";
+            return M_CompanyRepo.GetById(id);
         }
 
         // POST: api/M_Companies

@@ -31,6 +31,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -50,6 +51,7 @@
     <Compile Include="M_UnitViewModel.cs" />
     <Compile Include="M_UserViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Responses.cs" />
     <Compile Include="T_DesignItemViewModel.cs" />
     <Compile Include="T_DesignViewModel.cs" />
     <Compile Include="T_EventViewModel.cs" />

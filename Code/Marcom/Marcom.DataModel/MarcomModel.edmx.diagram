@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="299473b10f144f79996a5ee8b48f2439" Name="Diagram1" ZoomLevel="74">
+        <EntityTypeShape EntityType="Marcom.DataModel.m_company" Width="1.5" PointX="0.75" PointY="12" IsExpanded="true" />
+        <EntityTypeShape EntityType="Marcom.DataModel.m_employee" Width="1.5" PointX="3" PointY="10.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Marcom.DataModel.m_menu" Width="1.5" PointX="3" PointY="2.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Marcom.DataModel.m_menu_access" Width="1.5" PointX="5.25" PointY="6.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Marcom.DataModel.m_product" Width="1.5" PointX="7.5" PointY="14" IsExpanded="true" />
+        <EntityTypeShape EntityType="Marcom.DataModel.m_role" Width="1.5" PointX="3" PointY="6.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Marcom.DataModel.m_souvenir" Width="1.5" PointX="10.5" PointY="29" IsExpanded="true" />
+        <EntityTypeShape EntityType="Marcom.DataModel.m_unit" Width="1.5" PointX="8.25" PointY="29.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Marcom.DataModel.m_user" Width="1.5" PointX="5.25" PointY="12" IsExpanded="true" />
+        <EntityTypeShape EntityType="Marcom.DataModel.t_design" Width="1.5" PointX="7.5" PointY="18.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Marcom.DataModel.t_design_item" Width="1.5" PointX="9.75" PointY="15.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Marcom.DataModel.t_event" Width="1.5" PointX="5.25" PointY="26.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Marcom.DataModel.t_promotion" Width="1.5" PointX="12.75" PointY="18.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Marcom.DataModel.t_promotion_item" Width="1.5" PointX="12" PointY="12.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Marcom.DataModel.t_promotion_item_file" Width="1.5" PointX="15" PointY="19.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Marcom.DataModel.t_souvenir" Width="1.5" PointX="10.5" PointY="21.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Marcom.DataModel.t_souvenir_item" Width="1.5" PointX="12.75" PointY="25.875" IsExpanded="true" />
+        <AssociationConnector Association="Marcom.DataModel.FK_m_employee_m_company" ManuallyRouted="false" />
+        <AssociationConnector Association="Marcom.DataModel.FK_m_user_m_employee" ManuallyRouted="false" />
+        <AssociationConnector Association="Marcom.DataModel.FK_t_design_item_m_employee" ManuallyRouted="false" />
+        <AssociationConnector Association="Marcom.DataModel.FK_t_design_m_employee" ManuallyRouted="false" />
+        <AssociationConnector Association="Marcom.DataModel.FK_t_design_m_employee1" ManuallyRouted="false" />
+        <AssociationConnector Association="Marcom.DataModel.FK_t_design_m_employee2" ManuallyRouted="false" />
+        <AssociationConnector Association="Marcom.DataModel.FK_t_event_m_employee" ManuallyRouted="false" />
+        <AssociationConnector Association="Marcom.DataModel.FK_t_event_m_employee1" ManuallyRouted="false" />
+        <AssociationConnector Association="Marcom.DataModel.FK_t_event_m_employee2" ManuallyRouted="false" />
+        <AssociationConnector Association="Marcom.DataModel.FK_t_promotion_item_m_employee" ManuallyRouted="false" />
+        <AssociationConnector Association="Marcom.DataModel.FK_t_promotion_m_employee" ManuallyRouted="false" />
+        <AssociationConnector Association="Marcom.DataModel.FK_t_promotion_m_employee1" ManuallyRouted="false" />
+        <AssociationConnector Association="Marcom.DataModel.FK_t_promotion_m_employee2" ManuallyRouted="false" />
+        <AssociationConnector Association="Marcom.DataModel.FK_t_souvenir_m_employee" ManuallyRouted="false" />
+        <AssociationConnector Association="Marcom.DataModel.FK_t_souvenir_m_employee1" ManuallyRouted="false" />
+        <AssociationConnector Association="Marcom.DataModel.FK_t_souvenir_m_employee2" ManuallyRouted="false" />
+        <AssociationConnector Association="Marcom.DataModel.FK_t_souvenir_m_employee3" ManuallyRouted="false" />
+        <AssociationConnector Association="Marcom.DataModel.FK_t_souvenir_m_employee4" ManuallyRouted="false" />
+        <AssociationConnector Association="Marcom.DataModel.FK_m_menu_access_m_menu" ManuallyRouted="false" />
+        <AssociationConnector Association="Marcom.DataModel.FK_m_menu_access_m_role" ManuallyRouted="false" />
+        <AssociationConnector Association="Marcom.DataModel.FK_t_design_item_m_product" ManuallyRouted="false" />
+        <AssociationConnector Association="Marcom.DataModel.FK_t_promotion_item_m_product" ManuallyRouted="false" />
+        <AssociationConnector Association="Marcom.DataModel.FK_m_user_m_role" ManuallyRouted="false" />
+        <AssociationConnector Association="Marcom.DataModel.FK_m_souvenir_m_unit" ManuallyRouted="false" />
+        <AssociationConnector Association="Marcom.DataModel.FK_t_souvenir_item_m_souvenir" ManuallyRouted="false" />
+        <AssociationConnector Association="Marcom.DataModel.FK_t_design_item_t_design" ManuallyRouted="false" />
+        <AssociationConnector Association="Marcom.DataModel.FK_t_design_t_design" ManuallyRouted="false" />
+        <AssociationConnector Association="Marcom.DataModel.FK_t_design_t_event" ManuallyRouted="false" />
+        <AssociationConnector Association="Marcom.DataModel.FK_t_promotion_t_design" ManuallyRouted="false" />
+        <AssociationConnector Association="Marcom.DataModel.FK_t_promotion_item_t_design_item" ManuallyRouted="false" />
+        <AssociationConnector Association="Marcom.DataModel.FK_t_promotion_t_event" ManuallyRouted="false" />
+        <AssociationConnector Association="Marcom.DataModel.FK_t_souvenir_t_event" ManuallyRouted="false" />
+        <AssociationConnector Association="Marcom.DataModel.FK_t_promotion_item_file_t_promotion" ManuallyRouted="false" />
+        <AssociationConnector Association="Marcom.DataModel.FK_t_promotion_item_t_promotion" ManuallyRouted="false" />
+        <AssociationConnector Association="Marcom.DataModel.FK_t_souvenir_item_t_souvenir" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

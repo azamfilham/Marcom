@@ -38,3 +38,13 @@ D:\Bootcamp\MinPro 147\Marcom\Code\Marcom\Marcom.MVC\bin\Newtonsoft.Json.xml
 D:\Bootcamp\MinPro 147\Marcom\Code\Marcom\Marcom.MVC\obj\Debug\Marcom.MVC.csprojResolveAssemblyReference.cache
 D:\Bootcamp\MinPro 147\Marcom\Code\Marcom\Marcom.MVC\obj\Debug\Marcom.MVC.dll
 D:\Bootcamp\MinPro 147\Marcom\Code\Marcom\Marcom.MVC\obj\Debug\Marcom.MVC.pdb
+D:\Bootcamp\MinPro 147\Marcom\Code\Marcom\Marcom.MVC\bin\EntityFramework.dll
+D:\Bootcamp\MinPro 147\Marcom\Code\Marcom\Marcom.MVC\bin\EntityFramework.SqlServer.dll
+D:\Bootcamp\MinPro 147\Marcom\Code\Marcom\Marcom.MVC\bin\Marcom.Repository.dll
+D:\Bootcamp\MinPro 147\Marcom\Code\Marcom\Marcom.MVC\bin\Marcom.ViewModel.dll
+D:\Bootcamp\MinPro 147\Marcom\Code\Marcom\Marcom.MVC\bin\Marcom.DataModel.dll
+D:\Bootcamp\MinPro 147\Marcom\Code\Marcom\Marcom.MVC\bin\Marcom.Repository.pdb
+D:\Bootcamp\MinPro 147\Marcom\Code\Marcom\Marcom.MVC\bin\Marcom.ViewModel.pdb
+D:\Bootcamp\MinPro 147\Marcom\Code\Marcom\Marcom.MVC\bin\EntityFramework.xml
+D:\Bootcamp\MinPro 147\Marcom\Code\Marcom\Marcom.MVC\bin\EntityFramework.SqlServer.xml
+D:\Bootcamp\MinPro 147\Marcom\Code\Marcom\Marcom.MVC\bin\Marcom.DataModel.pdb
