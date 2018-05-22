@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Marcom.Repository;
+using Marcom.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -10,9 +12,9 @@ namespace Marcom.API.Controllers
     public class M_UnitsController : ApiController
     {
         // GET: api/M_Units
-        public IEnumerable<string> Get()
+        public IEnumerable<M_UnitViewModel> Get()
         {
-            return new string[] { "value1", "value2" };
+            return M_UnitRepo.Get();
         }
 
         // GET: api/M_Units/5
