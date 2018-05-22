@@ -1,7 +1,376 @@
-﻿
-@{
-    ViewBag.Title = "Index";
+﻿@{
+    ViewBag.Title = "List Company";
 }
 
-<h2>Index</h2>
+<style>
+    /*table th {
+        width: 16%;
+    }*/
 
+    .modal {
+    }
+
+        .modal .modal-dialog {
+        }
+
+            .modal .modal-dialog .modal-content {
+                border: solid 1px #3c8dbc;
+                border-radius: 10px 10px 10px 10px;
+            }
+
+                .modal .modal-dialog .modal-content .modal-header {
+                    border: solid 1px #3c8dbc;
+                    background-color: #3c8dbc;
+                    border-radius: 10px 10px 0 0;
+                }
+
+    table #item-list {
+        counter-reset: rowNumber;
+    }
+
+    table #modal-Form td{
+        width:50%;
+    }
+
+        table #item-list tr {
+            counter-increment: rowNumber;
+        }
+
+        table #item-list td:first-child::before {
+            content: counter(rowNumber);
+            min-width: 1em;
+            margin-right: 0.5em;
+        }
+</style>
+
+<div class="box">
+    <div class="box-header">
+        <div class="row">
+            <div class="col-md-12">
+                <button type="button" id="btn-Create" class="btn btn-lg btn-success pull-right">
+                    Add
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="box-body">
+        <div class="row">
+            <div class="col-lg-12">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <table class="table table-bordered table-striped" id="data-list">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Company Code</th>
+                            <th>Company Name</th>
+                            <th>Created Date</th>
+                            <th>Create By</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="item-list"></tbody>
+                    <tfoot>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog" id="modal-Form">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">List Item</h4>
+            </div>
+            <div class="modal-body">
+                <p>One fine body&hellip;</p>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" tabindex="-1" role="dialog" id="modal-Form2">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">List Item</h4>
+            </div>
+            <div class="modal-body">
+                <p>One fine body&hellip;</p>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+@section Scripts
+{
+    <script type="text/javascript">
+
+
+        $(document).ready(function () {
+
+            ShowList();
+
+        })
+        function ShowList() {
+            $.ajax({
+                url: "http://localhost:50876/api/M_Companies",
+                type: 'get',
+                data: 'json',
+                success: function (result) {
+                    var table = "<table class='table'>";
+                    table += "<tbody>";
+                    $.each(result, function (i, item) {
+
+                        var tr = "<tr><td></td><td>" + item.Code + "</td><td>" + item.Name + "</td><td>" + item.CreatedDate + "</td><td>" + item.CreatedBy + "</td><td><button type='button' class='btn btn-sm btn-View' data-id='" + item.Id + "'onclick='ViewCompany(this)'><span class='glyphicon glyphicon-search'></span></button><button type='button' class='btn btn-sm btn-Edit' data-id='" + item.Id + "' onclick='EditCompany(this)'><span class='glyphicon glyphicon-pencil'></span></button><button type='button' class='btn btn-sm btn-Delete' data-id='" + item.Id + "'onclick='DeleteCompany(this)' ><span class='glyphicon glyphicon-trash'></span></button></td></tr>";
+                        table += tr;
+
+                    })
+                    table += "</tbody>";
+                    table += "</table>";
+                    $("#item-list").html(table);
+                    $("#data-list").DataTable();
+
+                },
+                error: function (err) {
+                    alert(err);
+                }
+            })
+        }
+
+        function myFunction() {
+            var inpObj = document.getElementById("i");
+            if (!inpObj.checkValidity()) {
+                document.getElementById("demo").innerHTML = inpObj.validationMessage;
+            } else {
+                document.getElementById("demo").innerHTML = "Input OK";
+            }
+        }
+        //Tampilan Add
+        $("#btn-Create").click(function () {
+            var form = "<form method='post'>";
+            form += "<center><table>"
+            form += "<tr><td class='control-label col-md-2'>" + '*Company Code' + "</td><td><input type='text' name='c_code' readonly='readonly' id='c_code'class='form-control col-md-6' placeholder='CPXXXX'></td><td class='control-label col-md-2'>" + '*Company Name' + "</td><td><input type='text' name='c_name' id='c_name'class='form-control col-md-6' placeholder='Type Company Name'></td></tr>"
+            form += "<tr><td class='control-label col-md-2'>" + 'Email' + "</td><td><input type='text' name='c_email' id='c_email'class='form-control col-md-6'placeholder='Type Email'></td><td class='control-label col-md-2'>" + 'Address' + "</td><td rowspan='2'><textarea name='c_address' id='c_address' class='form-control col-md-6' placeholder='Type Address'></textarea></td></tr>"
+            form += "<tr><td class='control-label col-md-2'>" + 'Phone' + "</td><td><input type='text' name='c_phone' id='c_phone' class='form-control col-md-6' placeholder='Type Phone'></td>"
+            form += "</table></center>";
+            form += "<br>"
+            form += "<button type='button' class='btn btn-sm btn-success btn-Save' onclick='AddCompany()'>Save</button><button type='button' class='btn btn-sm btn-default btn-Delete pull-right' data-dismiss='modal'>Cancel</button>"
+            form += "</form>";
+            $(".modal-body").html(form);
+            $(".modal-title").html("Add Company");
+            $("#modal-Form").modal("show");
+        })
+        // Fungsi Add
+        function AddCompany() {
+            var code = $("#c_code").val();
+            var name = $("#c_name").val();
+            var email = $("#c_email").val();
+            var address = $("#c_address").val();
+            var phone = $("#c_phone").val();
+
+            var data = { Code: code, Name: name, Email: email, Address: address, Phone: phone };
+            //alert(code);
+            //alert(JSON.stringify(data));
+            $.ajax({
+                url: "http://localhost:50876/api/M_Companies",
+                type: 'post',
+                contentType: 'application/json',
+                dataType: 'json',
+                data: JSON.stringify(data),
+                success: function (result) {
+
+                    if (result.Success) {
+                        $("#modal-Form").modal("hide");
+                        ShowList();
+                        alert("Success");
+                    }
+                    else {
+                        alert("error : " + result.Message);
+                    }
+                },
+                error: function (err) {
+                    alert(err);
+                }
+            })
+        }
+
+        //Fungsi Get Edit
+        function EditCompany(obj) {
+            var id = $(obj).attr("data-id");
+            $.ajax({
+                url: "http://localhost:50876/api/M_Companies/" + id,
+                type: 'GET',
+                contentType: "JSON",
+                success: function (result) {
+                    var tr = EditList(result);
+                    $(".modal-body").html(tr);
+                    $(".modal-title").html("Edit Company - " + result.Name + " (" + result.Code + ")");
+                    $("#modal-Form").modal("show");
+                },
+                error: function (err) {
+                    alert(err)
+                }
+            })
+        }
+
+        //Tampilan Edit
+        function EditList(data) {
+            var form = "<form method='post'>";
+            form += "<table>"
+            form += "</td><td><input data-val='true' id='dataId' name='dataId' type='hidden' value='" + data.Id + "'><tr><td class='control-label col-md-2'>" + '*Company Code' + "</td><td><input type='text' name='c_code' id='c_code'class='form-control col-md-6' value='" + data.Code + "'></td><td class='control-label col-md-2'>" + '*Company Name' + "</td><td><input type='text' name='c_name' id='c_name'class='form-control col-md-6' value='" + data.Name + "'></td></tr>"
+            form += "<tr><td class='control-label col-md-2'>" + 'Email' + "</td><td><input type='text' name='c_email' id='c_email'class='form-control col-md-6' value='" + data.Email + "'></td><td class='control-label col-md-2'>" + 'Address' + "</td><td rowspan='2'><textarea name='c_address' id='c_address' class='form-control col-md-6' >" + data.Address + "</textarea></td></tr>"
+            form += "<tr><td class='control-label col-md-2'>" + 'Phone' + "</td><td><input type='text' name='c_phone' id='c_phone' class='form-control col-md-6' value='" + data.Phone + "'></td>"
+            form += "</table>";
+            form += "<br>"
+            form += "<button type='button' class='btn btn-sm btn-success btn-Save' onclick='ConfirmUpdateCompany(this)'>Save</button><button type='button' class='btn btn-sm btn-default btn-Delete pull-right' data-dismiss='modal'>Cancel</button>"
+            form += "</form>";
+            $(".modal-body").html(form);
+            $(".modal-title").html("Edit Company");
+            $("#modal-Form").modal("show");
+        }
+
+        //confirm Edit
+        function ConfirmUpdateCompany(data) {
+            var form = "<h3>Update Data?</h3>"
+            form += "<td><input data-val='true' id='cId' type='hidden' value='" + data.Id + "'/>"
+            form += "<br>"
+            form += "<button type='button' class='btn btn-sm btn-success btn-save' onclick='UpdateCompany(this)'>Update</button>"
+            form += "<button type='button' class='btn btn-sm btn-default btn-cancel' data-dismiss='modal'>Cancel</button>"
+            form += "</form>";
+            $(".modal-body2").html(form);
+            $("#modal-Form2").modal("show");
+        }
+
+        //post edit
+        function UpdateCompany(obj) {
+            var id = $("#dataId").val();
+            var code = $("#c_code").val();
+            var name = $("#c_name").val();
+            var email = $("#c_email").val();
+            var address = $("#c_address").val();
+            var phone = $("#c_phone").val();
+
+            var data = { Code: code, Name: name, Email: email, Address: address, Phone: phone };
+            $.ajax({
+                url: "http://localhost:50876/api/M_Companies/" + id,
+                type: 'put',
+                contentType: 'application/json',
+                dataType: 'json',
+                data: JSON.stringify(data),
+                success: function (result) {
+                    if (result.Success) {
+                        alert("Success");
+                        $("#modal-Form").modal("hide");
+                        ShowList();
+                    }
+                    else {
+                        alert("error : " + result.Message);
+                    }
+                },
+                error: function (err) {
+                    alert(err);
+                }
+            })
+        }
+
+        //Fungsi View
+        function ViewCompany(obj) {
+            var id = $(obj).attr("data-id");
+            $.ajax({
+                url: "http://localhost:50876/api/M_Companies/" + id,
+                type: 'GET',
+                contentType: "JSON",
+                success: function (result) {
+                    var tr = ViewList(result);
+                    $(".modal-body").html(tr);
+                    $(".modal-title").html("View Company");
+                    $("#modal-Form").modal("show");
+                },
+                error: function (err) {
+                    alert(err)
+                }
+            })
+        }
+
+        //Tampilan View
+        function ViewList(data) {
+            var form = "<form method='post'>";
+            form += "<table>"
+            form += "</td><td><input data-val='true' id='dataId' name='dataId' type='hidden' value='" + data.Id + "'><tr><td class='control-label col-md-2'>" + '*Company Code' + "</td><td><input type='text' name='c_code' id='c_code'readonly='readonly' class='form-control col-md-6' value='" + data.Code + "'></td><td class='control-label col-md-2'>" + '*Company Name' + "</td><td><input type='text' name='c_name' id='c_name'readonly='readonly'class='form-control col-md-6' value='" + data.Name + "'></td></tr>"
+            form += "<tr><td class='control-label col-md-2'>" + 'Email' + "</td><td><input type='text' name='c_email' id='c_email'readonly='readonly'class='form-control col-md-6' value='" + data.Email + "'></td><td class='control-label col-md-2'>" + 'Address' + "</td><td rowspan='2'><textarea name='c_address' id='c_address' class='form-control col-md-6' readonly='readonly'>" + data.Address + "</textarea></td></tr>"
+            form += "<tr><td class='control-label col-md-2'>" + 'Phone' + "</td><td><input type='text' name='c_phone' id='c_phone'readonly='readonly' class='form-control col-md-6' value='" + data.Phone + "'></td>"
+            form += "</table>";
+            form += "<br>"
+            form += "<button type='button' class='btn btn-sm btn-default btn-Delete' data-dismiss='modal'>Cancel</button>"
+            form += "</form>";
+            $(".modal-body").html(form);
+            $(".modal-title").html("Edit Company");
+            $("#modal-Form").modal("show");
+        }
+
+        // Fungsi Delete
+        function DeleteCompany(obj) {
+            var id = $(obj).attr("data-id");
+            $.ajax({
+                url: "http://localhost:50876/api/M_Companies/" + id,
+                type: 'Get',
+                dataType: 'json',
+                data: id,
+                success: function (result) {
+                    var tr = DeleteItem(result);
+                    $(".modal-body").html(tr);
+                    $(".modal-title").html("Delete Employee");
+                    $("#modal-Form2").modal("show");
+                },
+                error: function (err) {
+                    alert(err);
+                }
+            })
+        }
+
+        //Tampilan Delete (dipanggil di fungsi Delete)
+        function DeleteItem(data) {
+            var form = "<h3>Delete Data?</h3>"
+            form += "<td><input data-val='true' id='dataId' type='hidden' value='" + data.Id + "'/>"
+            form += "<br>"
+            form += "<button type='button' class='btn btn-sm btn-success btn-save' onclick='ConfirmDeleteCompany(this)'>Delete</button>"
+            form += "<button type='button' class='btn btn-sm btn-default btn-cancel' data-dismiss='modal'>Cancel</button>"
+            form += "</form>";
+            $(".modal-body").html(form);
+            $("#modal-Form2").modal("show");
+        }
+
+        //post delete (update)
+        function ConfirmDeleteCompany(obj) {
+            var id = $("#dataId").val();
+            $.ajax({
+                url: "http://localhost:50876/api/M_Companies/" + id,
+                type: 'DELETE',
+                contentType: 'application/json',
+                dataType: 'json',
+                data: id,
+                success: function (result) {
+                    if (result.Success) {
+                        alert("Success");
+                        $("#modal-Form2").modal("hide");
+                        ShowList();
+                    }
+                    else {
+                        alert("error : " + result.Message);
+                    }
+                },
+                error: function (err) {
+                    alert(err);
+                }
+            })
+        }
+
+    </script>
+}
