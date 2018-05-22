@@ -1,0 +1,8 @@
+# Add any directories, files, or patterns you don't want to be tracked by version control
+bin/
+obj/
+web.config
+*.suo
+*.user
+app.config
+/D. Development/A. Code/Mazars/packages
