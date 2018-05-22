@@ -20,7 +20,7 @@ namespace Marcom.ViewModel
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
-        [Display(Name = "Last Name")]
+        [Display(Name = "Full Name")]
         public string FullName
         {
             get
@@ -28,7 +28,7 @@ namespace Marcom.ViewModel
                 return FirstName + (string.IsNullOrEmpty(LastName) ? "" : " " + LastName);
             }
         }
-
+        
         [Display(Name = "Company Name")]
         public int? MCompanyId { get; set; }
 
@@ -41,10 +41,12 @@ namespace Marcom.ViewModel
 
         public string CreatedBy { get; set; }
 
+        [DisplayFormat(DataFormatString = "{0:dd MMM yyyy}")]
         public System.DateTime CreatedDate { get; set; }
 
         public string UpdatedBy { get; set; }
 
+        [DisplayFormat(DataFormatString = "{0:dd MMM yyyy}")]
         public System.DateTime? UpdatedDate { get; set; }
     }
 }

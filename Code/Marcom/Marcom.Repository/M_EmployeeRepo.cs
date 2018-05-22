@@ -18,14 +18,18 @@ namespace Marcom.Repository
                 result = (from e in db.m_employee
                           join c in db.m_company on
                           e.m_company_id equals c.id
+                          where e.is_delete == false
                           select new M_EmployeeViewModel
                           {
                               Id = e.id,
                               EmployeeNumber = e.employee_number,
                               FirstName = e.first_name,
                               LastName = e.last_name,
+                              MCompanyId = c.id,
                               MCompanyName = c.name,
                               Email = e.email,
+                              CreatedBy = e.created_by,
+                              CreatedDate = e.created_date,
                               IsDelete = e.is_delete
                           }).ToList();
             }
@@ -47,6 +51,7 @@ namespace Marcom.Repository
                               EmployeeNumber = e.employee_number,
                               FirstName = e.first_name,
                               LastName = e.last_name,
+                              MCompanyId = c.id,
                               MCompanyName = c.name,
                               Email = e.email,
                               IsDelete = e.is_delete
