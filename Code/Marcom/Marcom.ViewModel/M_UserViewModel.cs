@@ -11,15 +11,15 @@ namespace Marcom.ViewModel
     {        
         public int Id { get; set; }
 
-        [Display(Name = "Username")]
+        [Display(Name = "Username"), Required]
         public string Username { get; set; }
 
-        [Display(Name = "Password")]
+        [Display(Name = "Password"), Required]
         public string Password { get; set; }
                 
         public int MRoleId { get; set; }
 
-        [Display(Name = "Role")]
+        [Display(Name = "Role"), Required]
         public string RoleName { get; set; }
                 
         public int MEmployeeId { get; set; }
@@ -30,7 +30,7 @@ namespace Marcom.ViewModel
         [Display(Name = "Employee")]
         public string LastName { get; set; }
 
-        [Display(Name = "Employee")]
+        [Display(Name = "Employee"), Required]
         public string FullName
         {
             get
@@ -41,7 +41,7 @@ namespace Marcom.ViewModel
 
         public int MCompanyId { get; set; }
 
-        [Display(Name = "Company")]
+        [Display(Name = "Company"), Required]
         public string CompanyName { get; set; }
 
         public bool IsDelete { get; set; }

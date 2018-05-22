@@ -1,12 +1,21 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "List User";
 }
 
 <style>
-    table th {
-        width: 16%;
+    table #item-list {
+        counter-reset: rowNumber;
     }
+
+        table #item-list tr {
+            counter-increment: rowNumber;
+        }
+
+        table #item-list td:first-child::before {
+            content: counter(rowNumber);
+            min-width: 1em;
+            margin-right: 0.5em;
+        }
 
     .modal {
     }
@@ -43,6 +52,7 @@
                 <table class="table table-bordered table-striped" id="data-list">
                     <thead>
                         <tr>
+                            <th>No</th>
                             <th>Employee</th>
                             <th>Role</th>
                             <th>Company</th>
@@ -75,14 +85,29 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+<div class="modal fade" tabindex="-1" role="dialog" id="modal-Form2">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">List Item</h4>
+            </div>
+            <div class="modal-body">
+                <p>One fine body&hellip;</p>
+            </div>
+
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 @section Scripts
-{
+{    
     <script type="text/javascript">
         $(document).ready(function () {
             ShowList();
         })
 
+        //show list semua data alias get all
         function ShowList() {
             $.ajax({
                 url: "http://localhost:50876/api/M_Users",
@@ -92,8 +117,7 @@
                     var table = "<table class='table'>";
                     table += "<tbody>";
                     $.each(result, function (i, item) {
-
-                        var tr = "<tr><td>" + item.FullName + "</td><td>'" + item.RoleName + "</td><td>" + item.CompanyName + "</td><td>" + item.Username + "</td><td>" + item.CreatedBy + "</td><td>" + item.CreatedDate + "</td><td><button type='button' class='btn btn-sm btn-info btn-View' data-id='" + item.Id + "' ><span class='glyphicon glyphicon-sunglasses'></span></button><button type='button' class='btn btn-sm btn-warning btn-Edit' data-id='" + item.Id + "'onclick='EditUser()' ><span class='glyphicon glyphicon-edit'></span></button><button type='button' class='btn btn-sm btn-danger btn-Delete' data-id='" + item.Id + "'onclick='DeleteUser(this)'  ><span class='glyphicon glyphicon-trash'></x></button></td></tr>";
+                        var tr = "<tr><td></td><td>" + item.FullName + "</td><td>" + item.RoleName + "</td><td>" + item.CompanyName + "</td><td>" + item.Username + "</td><td>" + item.CreatedBy + "</td><td>" + item.CreatedDate + "</td><td><button type='button' class='btn btn-sm btn-info btn-View' data-id='" + item.Id + "'onclick ='ViewUser(this)' ><span class='glyphicon glyphicon-search'></span></button><button type='button' class='btn btn-sm btn-warning btn-Edit' data-id='" + item.Id + "' onclick='EditUser(this)' ><span class='glyphicon glyphicon-pencil'></span></button><button type='button' class='btn btn-sm btn-danger btn-Delete' data-id='" + item.Id + "'onclick='DeleteUser(this)'  ><span class='glyphicon glyphicon-trash'></x></button></td></tr>";
                         table += tr;
 
                     })
@@ -108,6 +132,7 @@
             })
         }
 
+        //dropdown list role
         function SetRoleId(u_roleId) {
             $.ajax({
                 url: 'http://localhost:50876/api/M_Roles',
@@ -126,6 +151,7 @@
             })
         }
 
+        //dropdown list employee
         function SetEmployeeId(u_EmployeeId) {
             $.ajax({
                 url: 'http://localhost:50876/api/M_Employees',
@@ -136,7 +162,7 @@
                         var option = '<option value="' + item.Id + '">' + item.FullName + '</option>';
                         $('#u_EmployeeId').append(option);
                     })
-                    $('#u_EmployeeId').val(u_roleId)
+                    $('#u_EmployeeId').val(u_EmployeeId)
                 },
                 error: function (err) {
                     alert(err);
@@ -144,14 +170,14 @@
             })
         }
 
-
+        // get CREATE
         $("#btn-Create").click(function () {
             SetRoleId(0);
             SetEmployeeId(0);
-            var form = "<form method='post'>";//<select id='rId><o
+            var form = "<form method='post'>";
             form += "<table>"
-            form += "<tr><td>" + 'Role Name' + "</td><td><select id='u_roleId'><option value=''>Select Role</option>>/select></td><td>" + 'Username' + "</td><td><input type='text' name='u_Username' id='u_Username'></td></tr>"
-            form += "<tr><td>" + 'Employee Name' + "</td><td><select id='u_EmployeeId'><option value=''>Select Employee</option>>/select></td><td>" + 'Password' + "</td><td><input type='text' name='u_Password' id='u_Password'></td></tr>"
+            form += "<tr><td>" + '*Role Name' + "</td><td><select id='u_roleId'><option value=''>Select Role</option></select></td><td>" + '*Username' + "</td><td><input type='text' name='u_Username' id='u_Username' placeholder='Type Username'></td></tr>"
+            form += "<tr><td>" + '*Employee Name' + "</td><td><select id='u_EmployeeId'><option value=''>Select Employee</option></select></td><td>" + '*Password' + "</td><td><input type='password' name='u_Password' id='u_Password' placeholder='Type Password'></td></tr>"
             form += "</table>";
             form += "<br>"
             form += "<button type='button' class='btn btn-sm btn-success btn-Save' onclick='AddUser()'>Save</button><button type='button' class='btn btn-sm btn-default' data-dismiss='modal'>Cancel</button>"
@@ -161,6 +187,7 @@
             $("#modal-Form").modal("show");
         })
 
+        //post create
         function AddUser() {
             var m_role_id = $("#u_roleId").val();
             var username = $("#u_Username").val();
@@ -192,8 +219,10 @@
         }
 
         /////////////////////////////
+        //fungsi tombol edit
         function EditUser(obj) {
             var id = $(obj).attr("data-id");
+            //alert(JSON.stringify(id));
             $.ajax({
                 url: "http://localhost:50876/api/M_Users/" + id,
                 type: 'GET',
@@ -201,7 +230,7 @@
                 success: function (result) {
                     var tr = GetItem(result);
                     $(".modal-body").html(tr);
-                    $(".modal-title").html("Edit User");
+                    $(".modal-title").html("Edit User - " + result.FullName + " (" + result.Username + ")");
                     $("#modal-Form").modal("show");
                 },
                 error: function (err) {
@@ -212,10 +241,12 @@
 
         //get by id
         function GetItem(data) {
+            SetRoleId(data.MRoleId);
+            SetEmployeeId(data.MEmployeeId);
             var form = "<form>";
             form += "<table>"
-            form += "<tr><td>" + 'Souvenir Code' + "</td><td><input data-val='true' id='dataId' name='dataId' type='hidden' value='" + data.Id + "'><input class='form-control text-box single-line' id='dataCode' name='dataCode' readonly='readonly' type='text' value='" + data.Code + "'></td><td>" + 'Unit Name' + "</td><td><input class='form-control text-box single-line' type='text' id='dataUnit' name='dataUnit' value='" + data.mUnitId + "'></td></tr>"
-            form += "<tr><td>" + 'Souvenir name' + "</td><td><input class='form-control text-box single-line' type='text' id='dataName' name='dataName' value='" + data.Name + "'></td><td>" + 'Description' + "</td><td><input class='form-control text-box single-line' type='text' id='dataDescription' name='dataDescription' value='" + data.Description + "'></td></tr>"
+            form += "<tr><td>" + '*Role Name' + "</td><td><input data-val='true' id='dataId' name='dataId' type='hidden' value='" + data.Id + "'><select id='u_roleId'><option value=''>Select Role</option></select></td><td>" + '*Username' + "</td><td><input class='form-control text-box single-line' type='text' id='u_Username' name='u_UserName' value='" + data.Username + "'></td></tr>"
+            form += "<tr><td>" + '*Employee Name' + "</td><td><select id='u_EmployeeId'><option value=''>Select Employee</option></select></td><td>" + '*Password' + "</td><td><input class='form-control text-box single-line' type='password' id='u_Password' name='u_Password' value='" + data.Password + "'></td></tr>"
             form += "</table>";
             form += "<br>"
             form += "<button type='button' class='btn btn-sm btn-success' onclick='UpdateUser(this)'>Update</button><button type='button' class='btn btn-sm btn-default' data-dismiss='modal'>Cancel</button>"
@@ -253,17 +284,87 @@
                 }
             })
         }
+
+        //view details
+        function ViewUser(obj) {
+            var id = $(obj).attr("data-id");
+            //alert(JSON.stringify(id));
+            $.ajax({
+                url: "http://localhost:50876/api/M_Users/" + id,
+                type: 'GET',
+                contentType: "JSON",
+                success: function (result) {
+                    var tr = GetData(result);
+                    $(".modal-body").html(tr);
+                    $(".modal-title").html("View User - " + result.FullName + " (" + result.Username + ")");
+                    $("#modal-Form").modal("show");
+                },
+                error: function (err) {
+                    alert(err)
+                }
+            })
+        }
+
+        //nampilin data view
+        function GetData(data) {
+            SetRoleId(data.MRoleId);
+            SetEmployeeId(data.MEmployeeId);
+            var form = "<form>";
+            form += "<table>"
+            form += "<tr><td>" + '*Role Name' + "</td><td><input data-val='true' id='dataId' name='dataId' type='hidden' value='" + data.Id + "'><select id='u_roleId' disabled><option value=''>Select Role</option>>/select></td><td>" + '*Username' + "</td><td><input class='form-control text-box single-line' type='text' id='u_Username' name='u_UserName' readonly='readonly' value='" + data.Username + "'></td></tr>"
+            form += "<tr><td>" + '*Employee Name' + "</td><td><select id='u_EmployeeId' disabled><option value=''>Select Employee</option></select></td><td>" + '*Password' + "</td><td><input class='form-control text-box single-line' type='password' id='u_Password' name='u_Password' readonly='readonly' value='" + data.Password + "'></td></tr>"
+            form += "</table>";
+            form += "<br>"
+            form += "<button type='button' class='btn btn-sm btn-success' onclick='UpdateUser(this)'>Update</button><button type='button' class='btn btn-sm btn-default' data-dismiss='modal'>Cancel</button>"
+            form += "</form>";
+
+            return form;
+        }
+
         //delete
         function DeleteUser(obj) {
             var id = $(obj).attr("data-id");
             $.ajax({
                 url: "http://localhost:50876/api/M_Users/" + id,
-                type: 'delete',
+                type: 'GET',
+                contentType: "JSON",
+                success: function (result) {
+                    var tr = DeleteItem(result);
+                    $(".modal-body").html(tr);
+                    $(".modal-title").html("Delete User");
+                    $("#modal-Form2").modal("show");
+                },
+                error: function (err) {
+                    alert(err);
+                }
+            })
+        }
+
+        //tampilan Delete (dipanggil di fungsi Delete)
+        function DeleteItem(data) {
+            var form = "<h3>Are You Sure to Delete This Data?</h3>"
+            form += "<td><input data-val='true' id='uId' type='hidden' value='" + data.Id + "'/>"
+            form += "<br>"
+            form += "<button type='button' class='btn btn-sm btn-success btn-save' onclick='ConfirmDeleteUser(this)'>Delete</button>"
+            form += "<button type='button' class='btn btn-sm btn-default btn-cancel' data-dismiss='modal'>Cancel</button>"
+            form += "</form>";
+            $(".modal-body").html(form);
+            $("#modal-Form2").modal("show");
+        }
+
+        //post delete (update)
+        function ConfirmDeleteUser(obj) {
+            var id = $("#uId").val();
+            $.ajax({
+                url: "http://localhost:50876/api/M_Users/" + id,
+                type: 'DELETE',
+                contentType: 'application/json',
                 dataType: 'json',
-                data: id,
+                data: { Id: id },
                 success: function (result) {
                     if (result.Success) {
                         alert("Success");
+                        $("#modal-Form2").modal("hide");
                         ShowList();
                     }
                     else {

@@ -202,6 +202,13 @@
     <Content Include="Views\M_Role\Index.cshtml" />
     <Content Include="Views\M_Souvenir\Index.cshtml" />
     <Content Include="Views\M_Unit\Index.cshtml" />
+    <Content Include="Web - Copy.config" />
+    <Content Include="Web - Copy.Debug.config">
+      <DependentUpon>Web - Copy.config</DependentUpon>
+    </Content>
+    <Content Include="Web - Copy.Release.config">
+      <DependentUpon>Web - Copy.config</DependentUpon>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="AdminLTE\" />
