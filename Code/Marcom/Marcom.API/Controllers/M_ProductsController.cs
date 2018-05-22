@@ -1,39 +1,46 @@
-﻿using System;
+﻿using Marcom.Repository;
+using Marcom.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace Marcom.API.Controllers
 {
+    [EnableCorsAttribute("*", "*", "*")]
     public class M_ProductsController : ApiController
     {
         // GET: api/M_Products
-        public IEnumerable<string> Get()
+        public IEnumerable<M_ProductViewModel> Get()
         {
-            return new string[] { "value1", "value2" };
+            return M_ProductRepo.Get();
         }
 
         // GET: api/M_Products/5
-        public string Get(int id)
+        public M_ProductViewModel Get(int id)
         {
-            return "value";
+            return M_ProductRepo.GetById(id);
         }
 
         // POST: api/M_Products
-        public void Post([FromBody]string value)
+        public Responses Post([FromBody]M_ProductViewModel entities)
         {
+            return M_ProductRepo.update(entities);
         }
 
         // PUT: api/M_Products/5
-        public void Put(int id, [FromBody]string value)
+        public Responses Put(int id, [FromBody]M_ProductViewModel entity)
         {
+            return M_ProductRepo.update(entity);
         }
 
         // DELETE: api/M_Products/5
-        public void Delete(int id)
+        public Responses Delete(int id)
         {
+            return M_ProductRepo.Delete(id);
         }
     }
 }
