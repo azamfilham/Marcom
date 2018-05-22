@@ -1,7 +1,357 @@
-﻿
-@{
-    ViewBag.Title = "Index";
+﻿@{
+    ViewBag.Title = "List Role";
 }
 
-<h2>Index</h2>
+<style>
+    table th {
+        width: 16%;
+    }
 
+    .modal {
+    }
+
+        .modal .modal-dialog {
+        }
+
+            .modal .modal-dialog .modal-content {
+                border: solid 1px #3c8dbc;
+                border-radius: 10px 10px 10px 10px;
+            }
+
+                .modal .modal-dialog .modal-content .modal-header {
+                    border: solid 1px #3c8dbc;
+                    background-color: #3c8dbc;
+                    border-radius: 10px 10px 0 0;
+                }
+
+    ::-webkit-input-placeholder {
+        font-style: italic;
+    }
+
+    ::-moz-placeholder {
+        font-style: italic;
+    }
+</style>
+
+<div class="box">
+    <div class="box-header">
+
+    </div>
+    <div class="box-body">
+        <div class="row">
+
+            <div class="col-lg-12">
+                <button type="button" class="btn btn-info" id="btn-Create">Add</button>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-lg-12">
+                <table class="table table-bordered table-striped" id="data-list">
+                    <thead>
+                        <tr>
+                            <th>Role Code</th>
+                            <th>Role Name</th>
+                            <th>Created By</th>
+                            <th>Create Date</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="item-list"></tbody>
+
+                    <tfoot>
+
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog" id="modal-Form">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">List Item</h4>
+
+            </div>
+
+            <div class="modal-body">
+                <p>One fine body&hellip;</p>
+            </div>
+
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" tabindex="-1" role="dialog" id="modal-Form2">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+                <p>One fine body&hellip;</p>
+            </div>
+
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" tabindex="-1" role="dialog" id="modal-added">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <p><b>Data Saved!</b>  New role has been added with code</p>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+
+@section Scripts
+{
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            GetList();
+        })
+
+        function GetList() {
+            $.ajax({
+                url: "http://localhost:50876/api/M_Roles",
+                type: 'get',
+                data: 'json',
+                success: function (result) {
+                    var table = "<table class='table'>";
+                    table += "<tbody>";
+                    $.each(result, function (i, item) {
+
+                        var tr = "<tr><td>" + item.Code + "</td><td>" + item.Name + "</td><td>" + item.CreatedBy + "</td><td>" + item.CreatedDate + "</td><td><button type='button' class='btn btn-sm btn-success btn-View' data-id='" + item.Id + "' onclick='ViewRole(this)' ><span class='glyphicon glyphicon-search'></span></button><button type='button' class='btn btn-sm btn-success btn-Edit' data-id='" + item.Id + "' onclick='EditRole(this)' ><span class='glyphicon glyphicon-pencil'></span></button><button type='button' class='btn btn-sm btn-success btn-Delete' data-id='" + item.Id + "' onclick='DeleteRole(this)' ><span class='glyphicon glyphicon-trash'></span></button></td></tr>";
+                        table += tr;
+
+                    })
+                    table += "</tbody>";
+                    table += "</table>";
+                    $("#item-list").html(table);
+                    $("#data-list").DataTable();
+
+                },
+                error: function (err) {
+                    alert(err);
+                }
+            })
+        }
+
+        @*$("#btn-Create").click(function () {
+            $.ajax({
+                url: '@Url.Action("Create", "M_Role")',
+                type: 'get',
+                success: function (result) {
+                    $(".modal-body").html(result);
+                    $(".modal-title").html("Add Role");
+                    $("#modal-Form").modal("show");
+                }
+            })
+        })*@
+
+        //Get Create
+        $("#btn-Create").click(function () {
+            var form = "<form method='post' class='form-horizontal'>";
+            form += "<table class='table col-md-12'>"
+            form += "<tr><td class='control-label col-md-2'>" + 'Role Code' + "</td><td><input type='text' name='r_code' id='r_code' class='form-control col-md-6' readonly='readonly' placeholder='ROXXXX'></td></tr>"
+            form += "<tr><td class='control-label col-md-2'>" + 'Role name' + "</td><td><input type='text' name='r_name' id='r_name'class='form-control col-md-6' placeholder='Type Role Name'></td></tr>"
+            form += "<tr><td class='control-label col-md-2' >" + 'Description' + "</td><td><input type='text' name='r_description' id='r_description' class='form-control col-md-6' placeholder='Type Description'></td></tr>"
+            form += "</table>";
+            form += "<br>"
+            form += "<button type='button' class='btn btn-sm btn-success btn-Save' onclick='AddRole()'>Save</button><button type='button' class='btn btn-sm btn-default' data-dismiss='modal'>Cancel</button>"
+            form += "</form>";
+            $(".modal-body").html(form);
+            $(".modal-title").html("Add Role");
+            $("#modal-Form").modal("show");
+        })
+        //Post create
+        function AddRole() {
+            var code = $("#r_code").val();
+            var name = $("#r_name").val();
+            var description = $("#r_description").val();
+
+            var data = { Code: code, Name: name, Description: description };
+            //alert(JSON.stringify(data));
+            $.ajax({
+                url: "http://localhost:50876/api/M_Roles",
+                type: 'post',
+                contentType: 'application/json',
+                dataType: 'json',
+                data: JSON.stringify(data),
+                success: function (result) {
+                    if (result.Success) {
+                        $("#modal-added").modal("show");
+                        $("#modal-Form").modal("hide");
+                        GetList();
+                    }
+                    else {
+                        alert("error : " + result.Message);
+                    }
+                },
+                error: function (err) {
+                    alert(err);
+                }
+            })
+        }
+
+        //fungsi View
+        function ViewRole(obj) {
+            var id = $(obj).attr("data-id");
+            $.ajax({
+                url: "http://localhost:50876/api/M_Roles/" + id,
+                type: 'GET',
+                contentType: "JSON",
+                success: function (result) {
+                    var tr = ViewItem(result);
+                    $(".modal-body").html(tr);
+                    $(".modal-title").html("View Role");
+                    $("#modal-Form").modal("show");
+                },
+                error: function (err) {
+                    alert(err)
+                }
+            })
+        }
+        //tampilan View (dipanggil di fungsi View)
+        function ViewItem(data) {
+            var form = "<form class='form-horizontal'>";
+            form += "<table class='table col-md-12'>"
+            form += "<tr><td>" + 'Role Code' + "</td><td><input data-val='true' id='dataId' name='dataId' type='hidden' value='" + data.Id + "'><input class='form-control text-box single-line' id='dataCode' name='dataCode' readonly='readonly' type='text' value='" + data.Code + "'></td></tr>"
+            form += "<tr><td>" + 'Role name' + "</td><td><input class='form-control text-box single-line' type='text' id='dataName' name='dataName' readonly='readonly' value='" + data.Name + "'></td></tr>"
+            form += "<tr><td>" + 'Description' + "</td><td><input class='form-control text-box single-line' type='text' id='dataDescription' name='dataDescription' readonly='readonly' value='" + data.Description + "'></td></tr>"
+            form += "</table>";
+            form += "<br>"
+            form += "<button type='button' class='btn btn-sm btn-default btn-cancel' data-dismiss='modal'>Close</button>"
+            form += "</form>";
+            $(".modal-body").html(form);
+            $("#modal-Form").modal("show");
+        }
+
+        //tampilan edit
+        function EditRole(obj) {
+            var id = $(obj).attr("data-id");
+            $.ajax({
+                url: "http://localhost:50876/api/M_Roles/" + id,
+                type: 'GET',
+                contentType: "JSON",
+                success: function (result) {
+                    var tr = GetItem(result);
+                    $(".modal-body").html(tr);
+                    $(".modal-title").html("Edit Role");
+                    $("#modal-Form").modal("show");
+                },
+                error: function (err) {
+                    alert(err)
+                }
+            })
+        }
+        //get by id
+        function GetItem(data) {
+            var form = "<form>";
+            form += "<table>"
+            form += "<tr><td>" + 'Role Code' + "</td><td><input data-val='true' id='dataId' name='dataId' type='hidden' value='" + data.Id + "'><input class='form-control text-box single-line' id='dataCode' name='dataCode' readonly='readonly' type='text' value='" + data.Code + "'></td></tr>"
+            form += "<tr><td>" + 'Role name' + "</td><td><input class='form-control text-box single-line' type='text' id='dataName' name='dataName' value='" + data.Name + "'></td></tr>"
+            form += "<tr><td>" + 'Description' + "</td><td><input class='form-control text-box single-line' type='text' id='dataDescription' name='dataDescription' value='" + data.Description + "'></td></tr>"
+            form += "</table>";
+            form += "<br>"
+            form += "<button type='button' class='btn btn-sm btn-success' onclick='UpdateRole(this)'>Update</button><button type='button' class='btn btn-sm btn-default btn-Delete' data-dismiss='modal'>Cancel</button>"
+            form += "</form>";
+
+            return form;
+        }
+        //post edit
+        function UpdateRole(obj) {
+            var id = $("#dataId").val();
+            var code = $("#dataCode").val();
+            var name = $("#dataName").val();
+            var description = $("#dataDescription").val();
+
+            var data = { Id: id, Code: code, Name: name, Description: description };
+            $.ajax({
+                url: "http://localhost:50876/api/M_Roles/" + id,
+                type: 'put',
+                contentType: 'application/json',
+                dataType: 'json',
+                data: JSON.stringify(data),
+                success: function (result) {
+                    if (result.Success) {
+                        alert("Success");
+                        $("#modal-Form").modal("hide");
+                        GetList();
+                    }
+                    else {
+                        alert("error : " + result.Message);
+                    }
+                },
+                error: function (err) {
+                    alert(err);
+                }
+            })
+        }
+
+        //delete
+        function DeleteRole(obj) {
+            var id = $(obj).attr("data-id");
+            //alert($(obj).attr("data-id"));
+            $.ajax({
+                url: "http://localhost:50876/api/M_Roles/" + id,
+                type: 'GET',
+                dataType: 'JSON',
+                success: function (result) {
+
+                    var tr = DeleteItem(result);
+                    $(".modal-body").html(tr);
+                    $(".modal-title").html("Delete Role");
+                    $("#modal-Form2").modal("show");
+                },
+                error: function (err) {
+                    alert(err);
+                }
+            })
+        }
+        //tampilan Delete (dipanggil di fungsi Delete)
+        function DeleteItem(data) {
+            var form = "<h3>Delete Data?</h3>"
+            form += "<td><input data-val='true' id='rId' type='hidden' value='" + data.Id + "'/>"
+            form += "<br>"
+            form += "<button type='button' class='btn btn-sm btn-success btn-save' onclick='ConfirmDelete(this)'>Delete</button>"
+            form += "<button type='button' class='btn btn-sm btn-default btn-cancel' data-dismiss='modal'>Cancel</button>"
+            form += "</form>";
+            $(".modal-body").html(form);
+            $("#modal-Form2").modal("show");
+        }
+        //post delete (update)
+        function ConfirmDelete(obj) {
+            var id = $("#rId").val();
+            $.ajax({
+                url: "http://localhost:50876/api/M_Roles/" + id,
+                type: 'DELETE',
+                contentType: 'application/json',
+                dataType: 'json',
+                data: { Id: id },
+                success: function (result) {
+                    if (result.Success) {
+                        alert("Success");
+                        $("#modal-Form2").modal("hide");
+                        GetList();
+                    }
+                    else {
+                        alert("error : " + result.Message);
+                    }
+                },
+                error: function (err) {
+                    alert(err);
+                }
+            })
+        }
+    </script>
+}
