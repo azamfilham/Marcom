@@ -24,18 +24,23 @@ namespace Marcom.API.Controllers
         }
 
         // POST: api/M_Users
-        public void Post([FromBody]string value)
+        public Responses Post([FromBody]M_UserViewModel entity)
         {
+            return M_UserRepo.Update(entity);
         }
 
         // PUT: api/M_Users/5
-        public void Put(int id, [FromBody]string value)
+        public Responses Put(int id, [FromBody]M_UserViewModel entity)
         {
+            entity.Id = id;
+            return M_UserRepo.Update(entity);
         }
 
         // DELETE: api/M_Users/5
-        public void Delete(int id)
+        [HttpDelete]
+        public Responses Delete(int id)
         {
+            return M_UserRepo.Delete(id);
         }
     }
 }

@@ -20,6 +20,15 @@ namespace Marcom.ViewModel
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
+        [Display(Name = "Last Name")]
+        public string FullName
+        {
+            get
+            {
+                return FirstName + (string.IsNullOrEmpty(LastName) ? "" : " " + LastName);
+            }
+        }
+
         [Display(Name = "Company Name")]
         public int? MCompanyId { get; set; }
 

@@ -22,6 +22,7 @@ namespace Marcom.Repository
                           u.m_role_id equals r.id
                           join c in db.m_company on
                           e.m_company_id equals c.id
+                          where u.is_delete == false
                           select new M_UserViewModel
                           {
                               Id = u.id,
@@ -48,7 +49,7 @@ namespace Marcom.Repository
             using (var db = new MarcomContext())
             {
                 result = (from u in db.m_user
-                          where u.id == id
+                          where u.id == id && u.is_delete == false
                           join r in db.m_role on
                           u.m_role_id equals r.id
                           join e in db.m_employee on
@@ -68,7 +69,7 @@ namespace Marcom.Repository
                               CompanyName = c.name,
                               CreatedBy = u.created_by,
                               CreatedDate = u.created_date,
-                              IsDelete = u.is_delete
+                              IsDelete = false
                           }).FirstOrDefault();
             }
             return result;
@@ -92,7 +93,7 @@ namespace Marcom.Repository
                             mUser.m_role_id = entity.MRoleId;
                             mUser.updated_by = "Azam";
                             mUser.updated_date = DateTime.Now;
-                            mUser.is_delete = entity.IsDelete;
+                            mUser.is_delete = false;
                             db.SaveChanges();
                         }
                     }
@@ -102,7 +103,7 @@ namespace Marcom.Repository
                         mUser.username = entity.Username;
                         mUser.password = entity.Password;
                         mUser.m_employee_id = entity.MEmployeeId;
-                        mUser.m_role_id = entity.MRoleId;                        
+                        mUser.m_role_id = entity.MRoleId;           
                         mUser.created_by = "Azam";
                         mUser.created_date = DateTime.Now;
                         mUser.is_delete = false;
@@ -119,14 +120,14 @@ namespace Marcom.Repository
             return result;
         }
 
-        public static Responses Delete(M_UserViewModel entity)
+        public static Responses Delete(int id)
         {
             Responses result = new Responses();
             try
             {
                 using (var db = new MarcomContext())
                 {
-                    m_user mUser = db.m_user.Where(u => u.id == entity.Id).FirstOrDefault();
+                    m_user mUser = db.m_user.Where(u => u.id == id).FirstOrDefault();
                     if (mUser != null)
                     {
                         mUser.is_delete = true;

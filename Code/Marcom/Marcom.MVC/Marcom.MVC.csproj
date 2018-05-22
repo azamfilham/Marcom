@@ -194,20 +194,19 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\_SidebarPartial.cshtml" />
     <Content Include="Views\M_User\Index.cshtml" />
-    <Content Include="Views\M_User\_Create.cshtml" />
+    <Content Include="Views\M_Company\Index.cshtml" />
+    <Content Include="Views\M_Employee\Index.cshtml" />
+    <Content Include="Views\M_MenuAccess\Index.cshtml" />
+    <Content Include="Views\M_Menu\Index.cshtml" />
+    <Content Include="Views\M_Product\Index.cshtml" />
+    <Content Include="Views\M_Role\Index.cshtml" />
+    <Content Include="Views\M_Souvenir\Index.cshtml" />
+    <Content Include="Views\M_Unit\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="AdminLTE\" />
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
-    <Folder Include="Views\M_Company\" />
-    <Folder Include="Views\M_Employee\" />
-    <Folder Include="Views\M_MenuAccess\" />
-    <Folder Include="Views\M_Menu\" />
-    <Folder Include="Views\M_Product\" />
-    <Folder Include="Views\M_Role\" />
-    <Folder Include="Views\M_Souvenir\" />
-    <Folder Include="Views\M_Unit\" />
     <Folder Include="Views\Tr_Event\" />
     <Folder Include="Views\T_DesignItem\" />
     <Folder Include="Views\T_Design\" />
