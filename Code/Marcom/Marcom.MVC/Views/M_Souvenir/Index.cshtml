@@ -1,7 +1,357 @@
 ﻿
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Souvenir List";
 }
 
-<h2>Index</h2>
+<style>
+    table th {
+        width: 12%;
+    }
 
+    .modal {
+    }
+
+        .modal .modal-dialog {
+        }
+
+            .modal .modal-dialog .modal-content {
+                border: solid 1px #3c8dbc;
+                border-radius: 10px 10px 10px 10px;
+            }
+
+                .modal .modal-dialog .modal-content .modal-header {
+                    border: solid 1px #3c8dbc;
+                    background-color: #3c8dbc;
+                    border-radius: 10px 10px 0 0;
+                }
+</style>
+
+<div class="box">
+    <div class="box-header">
+        
+    </div>
+    <div class="box-body">
+        <div class="row">
+            <div class="col-lg-12">
+                <button type="button" id="btn-Create" class="btn btn-md btn-info pull-right">
+                    Add
+                </button>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-lg-12">
+                <table class="table table-bordered table-striped" id="data-list">
+                    <thead>
+                        <tr>
+                            <th style="width:3%;">No</th>
+                            <th>Souvenir Code</th>
+                            <th>Souvenir Name</th>
+                            <th>Unit</th>
+                            <th>Created Date</th>
+                            <th>Created By</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="item-list"></tbody>
+
+                    <tfoot>
+
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog" id="modal-Form">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title"></h4>
+
+
+            </div>
+
+            <div class="modal-body">
+                <p>One fine body&hellip;</p>
+            </div>
+
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" tabindex="-1" role="dialog" id="modal-Form2">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title"></h4>
+
+
+            </div>
+
+            <div class="modal-body">
+                <p>One fine body&hellip;</p>
+            </div>
+
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+@section Scripts
+{
+    <script type="text/javascript">
+
+
+        $(document).ready(function () {
+            ShowList();
+        })
+        //list
+        function ShowList() {
+            $.ajax({
+                url: "http://localhost:50876/api/M_Souvenirs",
+                type: 'get',
+                data: 'json',
+                success: function (result) {
+                    var no = 1;
+                    var table = "<table class='table'>";
+                    table += "<tbody>";
+                    $.each(result, function (i, item) {
+
+                        var tr = "<tr><td>"+no+"</td><td>" + item.Code + "</td><td>" + item.Name + "</td><td>" + item.unitName + "</td><td>" + item.Created_date + "</td><td>" + item.Created_by + "</td><td><button type='button' class='btn btn-sm btn-info' data-id='" + item.Id + "' onclick='LihatSouvenir(this)'><span class='glyphicon glyphicon-search'></span></button><button type='button' class='btn btn-sm btn-success' data-id='" + item.Id + "' onclick='EditSouvenir(this)' ><span class='glyphicon glyphicon-edit'></span></button><button type='button' class='btn btn-sm btn-danger' data-id='" + item.Id + "' onclick='DeleteSouvenir(this)' ><span class='glyphicon glyphicon-trash'></span></button></td></tr>";
+                        table += tr;
+                        no++;
+                    })
+                    table += "</tbody>";
+                    table += "</table>";
+                    $("#item-list").html(table);
+                    $("#data-list").DataTable();
+                },
+                error: function (err) {
+                    alert(err);
+                }
+            })
+        }
+
+        //tampilan create
+        $("#btn-Create").click(function () {
+            SetUnitId(0);
+            var form = "<form method='post'>";
+            form += "<table>"
+            form += "<tr><td>" + 'Souvenir Code' + "</td><td><input class='form-control text-box single-line input-validation-error' data-val='true' data-val-maxlength-max='10' data-val-required='The Code field is required.' input type='text' name='s_code' id='s_code'></td><td>" + 'Unit Name' + "</td><td><select class='form-control valid' data-val='true' data-val-number='The field must be a number.' id='UnitId' name='UnitId'><option value=''>Select Unit</option></select></td></tr>"
+            form += "<tr><td>" + 'Souvenir name' + "</td><td><input class='form-control text-box single-line input-validation-error' type='text' name='s_name' id='s_name'></td><td>" + 'Description' + "</td><td><input class='form-control text-box single-line input-validation-error' type='text' name='s_description' id='s_description'></td></tr>"
+            form += "</table>";
+            form += "<br>"
+            form += "<button type='button' class='btn btn-sm btn-success btn-Save' onclick='AddSouvenir()'>Save</button><button type='button' class='btn btn-sm btn-default btn-Delete' data-dismiss='modal'>Cancel</button>"
+            form += "</form>";
+            $(".modal-body").html(form);
+            $(".modal-title").html("Add Souvenir");
+            $("#modal-Form").modal("show");
+        })
+        //post create
+        function AddSouvenir() {
+                var code = $("#s_code").val();
+                var name = $("#s_name").val();
+                var m_unit_id = $("#UnitId").val();
+                var description = $("#s_description").val();
+
+                var data = { Code: code, Name: name, mUnitId: m_unit_id, Description: description };
+                //alert(JSON.stringify(data));
+                $.ajax({
+                    url: "http://localhost:50876/api/M_Souvenirs",
+                    type: 'post',
+                    contentType: 'application/json',
+                    dataType: 'json',
+                    data: JSON.stringify(data),
+                    success: function (result) {
+                        if (result.Success) {
+                            alert("Success");
+                            $("#modal-Form").modal("hide");
+                            ShowList();
+                        }
+                        else {
+                            alert("error : " + result.Message);
+                        }
+                    },
+                    error: function (err) {
+                        alert(err);
+                    }
+                })
+        }
+        //tampilan esit
+        function EditSouvenir(obj) {
+            var id = $(obj).attr("data-id");
+            $.ajax({
+                url: "http://localhost:50876/api/M_Souvenirs/" + id,
+                type: 'GET',
+                contentType: "JSON",
+                success: function (result) {
+                    var tr = GetItem(result);
+                    $(".modal-body").html(tr);
+                    $(".modal-title").html("Edit Souvenir");
+                    $("#modal-Form").modal("show");
+                },
+                error: function (err) {
+                    alert(err)
+                }
+            })
+        }
+
+        //get by id
+        function GetItem(data) {
+            SetUnitId(data.mUnitId);
+            var form = "<form>";
+            form += "<table>"
+            //form += "<tr><td>" + 'Souvenir Code' + "</td><td><input data-val='true' id='dataId' name='dataId' type='hidden' value='" + data.Id + "'><input class='form-control text-box single-line' id='dataCode' name='dataCode' readonly='readonly' type='text' value='" + data.Code + "'></td><td>" + 'Unit Name' + "</td><td><input class='form-control text-box single-line' type='text' id='dataUnit' name='dataUnit' value='" + data.mUnitId + "'></td></tr>"
+            form += "<tr><td>" + 'Souvenir Code' + "</td><td><input data-val='true' id='dataId' name='dataId' type='hidden' value='" + data.Id + "'><input class='form-control text-box single-line' id='dataCode' name='dataCode' readonly='readonly' type='text' value='" + data.Code + "'></td><td>" + 'Unit Name' + "</td><td><select class='form-control valid' data-val='true' data-val-number='The field must be a number.' id='UnitId' name='UnitId'><option value=''>Select Unit</option></select></td></tr>"
+            form += "<tr><td>" + 'Souvenir name' + "</td><td><input class='form-control text-box single-line' type='text' id='dataName' name='dataName' value='" + data.Name + "'></td><td>" + 'Description' + "</td><td><input class='form-control text-box single-line' type='text' id='dataDescription' name='dataDescription' value='" + data.Description + "'></td></tr>"
+            form += "</table>";
+            form += "<br>"
+            form += "<button type='button' class='btn btn-sm btn-success' onclick='UpdateSouvenir(this)'>Update</button><button type='button' class='btn btn-sm btn-default btn-Delete' data-dismiss='modal'>Cancel</button>"
+            form += "</form>";
+            
+            return form;
+        }
+        //post edit
+        function UpdateSouvenir(obj) {
+            var id = $("#dataId").val();
+            var code = $("#dataCode").val();
+            var name = $("#dataName").val();
+            var m_unit_id = $("#UnitId").val();
+            var description = $("#dataDescription").val();
+
+            var data = { Id: id, Code: code, Name: name, mUnitId: m_unit_id, Description: description };
+            $.ajax({
+                url: "http://localhost:50876/api/M_Souvenirs/" + id,
+                type: 'put',
+                contentType: 'application/json',
+                dataType: 'json',
+                data: JSON.stringify(data),
+                success: function (result) {
+                    if (result.Success) {
+                        alert("Success");
+                        $("#modal-Form").modal("hide");
+                        ShowList();
+                    }
+                    else {
+                        alert("error : " + result.Message);
+                    }
+                },
+                error: function (err) {
+                    alert(err);
+                }
+            })
+        }
+        //ambil data delete
+        function DeleteSouvenir(obj) {
+            var id = $(obj).attr("data-id");
+            $.ajax({
+                url: "http://localhost:50876/api/M_Souvenirs/" + id,
+                type: 'GET',
+                contentType: "JSON",
+                success: function (result) {
+                    var tr = DeleteItem(result);
+                    $(".modal-body").html(tr);
+                    $(".modal-title").html("Delete Employee");
+                    $("#modal-Form2").modal("show");
+                },
+                error: function (err) {
+                    alert(err)
+                }
+            })
+        }
+
+        //delete confirmation
+        function DeleteItem(data) {
+            var form = "<h3>Delete Data Code " + data.Code + "?</h3>"
+            form += "<td><input data-val='true' id='eId' type='hidden' value='" + data.Id + "'/>"
+            form += "<br>"
+            form += "<button type='button' class='btn btn-sm btn-success btn-save' onclick='ConfirmDeleteSouvenir(this)'>Delete</button>"
+            form += "<button type='button' class='btn btn-sm btn-default btn-cancel' data-dismiss='modal'>Cancel</button>"
+            form += "</form>";
+            $(".modal-body").html(form);
+            $("#modal-Form2").modal("show");
+        }
+
+        //delete post
+        function ConfirmDeleteSouvenir(obj) {
+            var id = $("#eId").val();
+            $.ajax({
+                url: "http://localhost:50876/api/M_Souvenirs/" + id,
+                type: 'delete',
+                dataType: 'json',
+                data: id,
+                success: function (result) {
+                    if (result.Success) {
+                        alert("Success");
+                        $("#modal-Form2").modal("hide");
+                        ShowList();
+                    }
+                    else {
+                        alert("error : " + result.Message);
+                    }
+                },
+                error: function (err) {
+                    alert(err);
+                }
+            })
+        }
+        //dropdown function
+        function SetUnitId(divId) {
+            $.ajax({
+                url: 'http://localhost:50876/api/M_Units',
+                type: 'GET',
+                success: function (result) {
+                    $('#UnitId').html('<option value="0">Select Unit</option>');
+                    $.each(result, function (i, item) {
+                        var option = '<option value="' + item.Id + '">' + item.Name + '</option>';
+                        $('#UnitId').append(option);
+                    })
+                    $('#UnitId').val(divId);
+                },
+                error: function (err) {
+                    alert(err);
+                    $('#UnitId').html('<option value="0">Select Unit</option>');
+                }
+            })
+        }
+
+        //detail
+        function LihatSouvenir(obj) {
+            var data = $(obj).attr("data-id");
+            $.ajax({
+                url: "http://localhost:50876/api/M_Souvenirs/" + data,
+                type: 'GET',
+                contentType: "JSON",
+                success: function (result) {
+                    var tr = GetDetails(result);
+                    $(".modal-body").html(tr);
+                    $(".modal-title").html("Lihat Souvenir");
+                    $("#modal-Form").modal("show");
+                },
+                error: function (err) {
+                    alert(err)
+                }
+            })
+        }
+
+        function GetDetails(data) {
+            SetUnitId(data.mUnitId);
+            var form = "<form>";
+            form += "<table>"
+            form += "<tr><td>" + 'Souvenir Code' + "</td><td><input data-val='true' id='dataId' name='dataId' type='hidden' value='" + data.Id + "'><input class='form-control text-box single-line' id='dataCode' name='dataCode' readonly='readonly' type='text' value='" + data.Code + "'></td><td>" + 'Unit Name' + "</td><td><select class='form-control valid' data-val='true' data-val-number='The field must be a number.' id='UnitId' name='UnitId' disabled><option value=''>Select Unit</option></select></td></tr>"
+            form += "<tr><td>" + 'Souvenir name' + "</td><td><input class='form-control text-box single-line' type='text' id='dataName' name='dataName' readonly='readonly' value='" + data.Name + "'></td><td>" + 'Description' + "</td><td><input class='form-control text-box single-line' type='text' id='dataDescription' name='dataDescription' readonly='readonly' value='" + data.Description + "'></td></tr>"
+            form += "</table>";
+            form += "<br>"
+            form += "<button type='button' class='btn btn-sm btn-default' data-dismiss='modal'>Cancel</button>"
+            form += "</form>";
+
+            return form;
+        }
+
+    </script>
+}

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Marcom.Repository;
+using Marcom.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -10,30 +12,35 @@ namespace Marcom.API.Controllers
     public class M_SouvenirsController : ApiController
     {
         // GET: api/M_Souvenirs
-        public IEnumerable<string> Get()
+        public IEnumerable<M_SouvenirViewModel> Get()
         {
-            return new string[] { "value1", "value2" };
+            return M_SouvenirRepo.Get();
         }
 
         // GET: api/M_Souvenirs/5
-        public string Get(int id)
+        public M_SouvenirViewModel Get(int id)
         {
-            return "value";
+            return M_SouvenirRepo.GetById(id);
         }
 
         // POST: api/M_Souvenirs
-        public void Post([FromBody]string value)
+        public Responses Post([FromBody]M_SouvenirViewModel entity)
         {
+            return M_SouvenirRepo.Update(entity);
         }
 
         // PUT: api/M_Souvenirs/5
-        public void Put(int id, [FromBody]string value)
+        public Responses Put(int id, [FromBody]M_SouvenirViewModel entity)
         {
+            entity.Id = id;
+            return M_SouvenirRepo.Update(entity);
         }
 
         // DELETE: api/M_Souvenirs/5
-        public void Delete(int id)
+        [HttpDelete]
+        public Responses Delete(int id)
         {
+            return M_SouvenirRepo.Delete(id);
         }
     }
 }
