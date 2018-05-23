@@ -6,9 +6,11 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace Marcom.API.Controllers
 {
+    [EnableCorsAttribute("*", "*", "*")]
     public class M_EmployeesController : ApiController
     {
         // GET: api/M_Employees
@@ -26,14 +28,32 @@ namespace Marcom.API.Controllers
         // POST: api/M_Employees
         public Responses Post([FromBody]M_EmployeeViewModel entity)
         {
-            return M_EmployeeRepo.Update(entity);
+            Responses result = new Responses();
+            if (ModelState.IsValid)
+            {
+                result = M_EmployeeRepo.Update(entity);
+            }
+            else
+            {
+                result.Success = false;
+            }
+            return result;
         }
 
         // PUT: api/M_Employees/5
         public Responses Put(int id, [FromBody]M_EmployeeViewModel entity)
         {
             entity.Id = id;
-            return M_EmployeeRepo.Update(entity);
+            Responses result = new Responses();
+            if (ModelState.IsValid)
+            {
+                result = M_EmployeeRepo.Update(entity);
+            }
+            else
+            {
+                result.Success = false;
+            }
+            return result;
         }
 
         // DELETE: api/M_Employees/5

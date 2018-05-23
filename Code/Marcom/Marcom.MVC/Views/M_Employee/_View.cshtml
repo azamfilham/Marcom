@@ -1,0 +1,86 @@
+﻿@model Marcom.ViewModel.M_EmployeeViewModel
+
+
+@using (Html.BeginForm("View", "M_Employee", FormMethod.Post, new { id = "create-form", name = "create-form" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <div class="row">
+            <div class="form-group">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.Id)
+
+                @Html.LabelFor(model => model.EmployeeNumber, htmlAttributes: new { @class = "control-label col-md-3" })
+                <div class="col-md-3">
+                    @Html.EditorFor(model => model.EmployeeNumber, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly"} })
+                    @Html.ValidationMessageFor(model => model.EmployeeNumber, "", new { @class = "text-danger" })
+                </div>
+                @Html.LabelFor(model => model.MCompanyId, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-3">
+                    <select class="form-control valid" data-val="true" data-val-number="The field Company Name must be selected." data-val-required="The Company Name field is required." id="MCompanyId" name="MCompanyId" disabled>
+                        <option value="">Select Company Name</option>
+                        <option selected="selected" value="@Model.MCompanyId">@Model.MCompanyName</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-3" })
+                <div class="col-md-3">
+                    @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                </div>
+                @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-3">
+                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+
+                @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label col-md-3" })
+                <div class="col-md-3">
+                    @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-10 col-md-10">
+                <input type="button" value="Close" class="btn btn-warning" data-dismiss="modal" />
+            </div>
+        </div>
+    </div>
+}
+
+@Scripts.Render("~/bundles/jqueryval")
+
+<script type="text/javascript">
+        $(document).ready(function () {
+            SetCompanyId(@Model.MCompanyId);
+        })
+
+        //ambil company Id untuk dropdown
+        function SetCompanyId(MenuId) {
+            $.ajax({
+                url: 'http://localhost:50876/api/M_Companies',
+                type: 'GET',
+                success: function (result) {
+                    $('#MCompanyId').html('<option value="0">Select Company</option>');
+                    $.each(result, function (i, item) {
+                        var option = '<option value="' + item.Id + '">' + item.Name + '</option>';
+                        $('#MCompanyId').append(option);
+                    })
+                    $('#MCompanyId').val(MenuId);
+                },
+                error: function (err) {
+                    alert(err);
+                }
+            })
+        }
+
+</script>

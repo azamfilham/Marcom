@@ -11,7 +11,7 @@ namespace Marcom.ViewModel
     {
         public int Id { get; set; }
 
-        [Display(Name = "Employee ID Number"), Required]
+        [Display(Name = "Employee ID Number")]
         public string EmployeeNumber { get; set; }
 
         [Display(Name = "First Name"), Required]
@@ -20,7 +20,7 @@ namespace Marcom.ViewModel
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
-        [Display(Name = "Full Name")]
+        [Display(Name = "Employee Name")]
         public string FullName
         {
             get
@@ -29,7 +29,7 @@ namespace Marcom.ViewModel
             }
         }
         
-        [Display(Name = "Company Name")]
+        [Display(Name = "Company Name"), Required]
         public int? MCompanyId { get; set; }
 
         [Display(Name = "Company Name")]

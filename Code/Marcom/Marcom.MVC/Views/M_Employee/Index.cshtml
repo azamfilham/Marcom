@@ -21,10 +21,6 @@
                     border-radius: 10px 10px 0 0;
                 }
 
-        .modal .btn {
-            align
-        }
-
     table #item-list {
         counter-reset: rowNumber;
     }
@@ -51,7 +47,7 @@
         background-color: gray;
     }
 
-    input[type=text], select {
+    /*input[type=text], select {
         width: 100%;
         padding: 6px 10px;
         margin: 6px 0;
@@ -59,15 +55,15 @@
         border: 1px solid #ccc;
         border-radius: 4px;
         box-sizing: border-box;
-    }
+    }*/
 </style>
 
 
 <div class="box-header">
     <div class="row">
         <div class="col-md-12">
-            <button type="button" id="btn-Create" class="btn btn-lg btn-success pull-right">
-                Create New
+            <button type="button" id="btn-Create" class="btn btn-lg btn-info pull-right">
+                Add
             </button>
         </div>
     </div>
@@ -90,7 +86,7 @@
                     </thead>
 
                     <tbody id="item-list"></tbody>
-
+                    
                     <tfoot>
 
                     </tfoot>
@@ -100,7 +96,7 @@
     </div>
 </div>
 
-<div class="modal fade" tabindex="1" role="dialog" id="modal-Form">
+<div class="modal fade" tabindex="-1" role="dialog" id="modal-Form">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -116,7 +112,7 @@
 </div><!-- /.modal -->
 
 <div class="modal fade" tabindex="-1" role="dialog" id="modal-Form2">
-    <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -129,8 +125,6 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-
-
 
 @section Scripts
 {
@@ -150,8 +144,8 @@
                     table += "<tbody>";
                     $.each(result, function (i, item) {
                         var tr = "<tr><td></td><td>" + item.EmployeeNumber + "</td><td>" + item.FullName + "</td><td>" + item.MCompanyName + "</td><td>" + item.CreatedDate + "</td><td>" + item.CreatedBy + "</td>"
-                        tr += "<td><button type='button' class='btn btn-sm btn-success btn-View' data-id='" + item.Id + "'onclick='ViewEmployee(this)' ><span class='glyphicon glyphicon-sunglasses'></span></button>"
-                        tr += "<button type='button' class='btn btn-sm btn-success btn-Edit' data-id='" + item.Id + "'onclick='EditEmployee(this)'><span class='glyphicon glyphicon-edit'></span></button>"
+                        tr += "<td><button type='button' class='btn btn-sm btn-success btn-View' data-id='" + item.Id + "' data-name='" + item.FullName + "' data-number='" + item.EmployeeNumber + "'onclick='ViewEmployee(this)' ><span class='glyphicon glyphicon-sunglasses'></span></button>"
+                        tr += "<button type='button' class='btn btn-sm btn-success btn-Edit' data-id='" + item.Id + "' data-name='" + item.FullName + "' data-number='" + item.EmployeeNumber + "'onclick='EditEmployee(this)'><span class='glyphicon glyphicon-edit'></span></button>"
                         tr += "<button type='button' class='btn btn-sm btn-success btn-Delete' data-id='" + item.Id + "'onclick='DeleteEmployee(this)'><span class='glyphicon glyphicon-trash'></span></button></td></tr>"
                         table += tr;
                     })
@@ -168,170 +162,35 @@
             })
         }
 
-        //ambil company Id untuk dropdown
-        function SetCompanyId(cId) {
-            $.ajax({
-                url: 'http://localhost:50876/api/M_Companies',
-                type: 'GET',
-                data: 'json',
-                success: function (result) {
-                    $('#cId').html('<option value="0">- Select Company Name -</option>');
-                    $.each(result, function (i, item) {
-                        var option = '<option value="' + item.Id + '">' + item.Name + '</option>';
-                        $('#cId').append(option);
-                    })
-                    $('#cId').val(cId);
-                },
-                error: function (err) {
-                    alert(err);
-                }
-            })
-        }
-
-        //fungsi button create
+        //fungsi Create
         $("#btn-Create").click(function () {
-            SetCompanyId(0);
-            var form = "<form method='post'>";
-            form += "<center><table>"
-            form += "<tr><td><div align='right'><label>*Emp ID Number </label></td>"
-            form += "<td><input type='text' id='eNumber'></td>"
-            form += "<td><div align='right'><label>*Company Name </label></td>"
-            form += "<td><select id='cId'><option value=''>- Select Company Name -</option></select></td></tr>"
-            form += "<tr><td><div align='right'><label>*First Name </label></td>"
-            form += "<td><input type='text' id='eFName' /></td>"
-            form += "<td><div align='right'><label>*Email </label></td>"
-            form += "<td><input type='text' id='eEmail' /></td><td></td></tr>"
-            form += "<tr><td><div align='right'><label>Last Name </label></td>"
-            form += "<td><input type='text' id='eLName' /></td></tr>"
-            form += "</table></center>";
-            form += "<br>"
-            form += "<input type='button' class='btn btn-sm btn-success btn-save' onclick='AddEmployee()'>Save</button>"
-            form += "<input type='button' class='btn btn-sm btn-default btn-cancel' data-dismiss='modal'>Cancel</button>"
-            form += "</form>";
-            $(".modal-body").html(form);
-            $(".modal-title").html("Add Employee");
-            $("#modal-Form").modal("show");
-        })
-
-        //post Create
-        function AddEmployee() {
-            var number = $("#eNumber").val();
-            var fName = $("#eFName").val();
-            var lName = $("#eLName").val();
-            var cId = $("#cId").val();
-            var email = $("#eEmail").val();
-
-            var data = { EmployeeNumber: number, FirstName: fName, LastName: lName, MCompanyId: cId, Email: email };
             $.ajax({
-                url: "http://localhost:50876/api/M_Employees",
-                type: 'post',
-                contentType: 'application/json',
-                dataType: 'json',
-                data: JSON.stringify(data),
+                url: '@Url.Action("Create", "M_Employee")',
+                type: 'get',
                 success: function (result) {
-                    if (result.Success) {
-                        alert("Success");
-                        $("#modal-Form").modal("hide");
-                        ShowList();
-                    }
-                    else {
-                        alert("error : " + result.Message);
-                    }
-                },
-                error: function (err) {
-                    alert(err);
+                    $(".modal-body").html(result);
+                    $(".modal-title").html("Add Employee");
+                    $("#modal-Form").modal("show");
                 }
             })
-        }
+        })
 
         //fungsi Edit
         function EditEmployee(obj) {
             var id = $(obj).attr("data-id");
+            var name = $(obj).attr("data-name");
+            var number = $(obj).attr("data-number");
             $.ajax({
-                url: "http://localhost:50876/api/M_Employees/" + id,
+                url: '@Url.Action("Edit", "M_Employee")',
                 type: 'GET',
-                contentType: "JSON",
+                data: {id : id },
                 success: function (result) {
-                    var tr = EditItem(result);
-                    $(".modal-body").html(tr);
-                    $(".modal-title").html("Edit Employee - " + result.FullName + " (" + result.EmployeeNumber + ")");
+                    $(".modal-body").html(result);
+                    $(".modal-title").html("Edit Employee - " + name + " (" + number + ")");
                     $("#modal-Form").modal("show");
                 },
                 error: function (err) {
                     alert(err)
-                }
-            })
-        }
-
-        //tampilan Edit (dipanggil di fungsi Edit)
-        function EditItem(data) {
-            SetCompanyId(data.MCompanyId);
-            var form = "<form method='post'>";
-            form += "<center><table>"
-            form += "<tr><td><div align='right'><label>*Emp ID Number</label></td>"
-            form += "<td><input data-val='true' id='eId' name='dataId' type='hidden' value='" + data.Id + "'><input type='text' id='eNumber' value='" + data.EmployeeNumber + "'/></td>"
-            form += "<td><div align='right'><label>*Company Name</label></td>"
-            form += "<td><select id='cId'><option value=''></option>Select</select></td></tr>"
-            form += "<tr><td><div align='right'><label>*First Name</label></td>"
-            form += "<td><input type='text' id='eFName' value='" + data.FirstName + "' /></td>"
-            form += "<td><div align='right'><label>*Email</label></td>"
-            form += "<td><input type='text' id='eEmail' value='" + data.Email + "'/></td></tr>"
-            form += "<tr><td><div align='right'><label>Last Name</label></td>"
-            if (data.LastName != null) {
-                form += "<td><input type='text' id='eLName' value='" + data.LastName + "'/></td></tr>"
-            }
-            else {
-                form += "<td><input type='text' id='eLName' value=''/></td></tr>"
-            }
-            form += "</table></center>";
-            form += "<br>"
-            form += "<button type='button' class='btn btn-sm btn-success btn-save' onclick='UpdateItem(this)'>Save</button>"
-            form += "<button type='button' class='btn btn-sm btn-default btn-cancel' data-dismiss='modal'>Cancel</button>"
-            form += "</form>";
-            $(".modal-body").html(form);
-            $("#modal-Form").modal("show");
-        }
-
-        function UpdateItem(data) {
-            var form = "<h3><center>Update Data?</center></h3>"
-            form += "<input data-val='true' id='eId' type='hidden' value='" + data.Id + "'/>"
-            form += "<button type='button' class='btn btn-sm btn-success btn-save' onclick='ConfirmUpdateEmployee(this)'>Update</button>"
-            form += "<button type='button' class='btn btn-sm btn-default btn-cancel' data-dismiss='modal'>Cancel</button>"
-            $(".modal-title2").html("");
-            $(".modal-body2").html(form);
-            $("#modal-Form2").modal("show");
-        }
-
-        //post Edit (update)
-        function ConfirmUpdateEmployee(obj) {
-            var id = $("#eId").val();
-            var number = $("#eNumber").val();
-            var fName = $("#eFName").val();
-            var lName = $("#eLName").val();
-            var cId = $("#cId").val();
-            var email = $("#eEmail").val();
-
-            var data = { EmployeeNumber: number, FirstName: fName, LastName: lName, MCompanyId: cId, Email: email };
-            //alert(JSON.stringify(data));
-            $.ajax({
-                url: "http://localhost:50876/api/M_Employees/" + id,
-                type: 'PUT',
-                contentType: 'application/json',
-                dataType: 'json',
-                data: JSON.stringify(data),
-                success: function (result) {
-                    if (result.Success) {
-                        alert("Success");
-                        $("#modal-Form").modal("hide");
-                        $("#modal-Form2").modal("hide");
-                        ShowList();
-                    }
-                    else {
-                        alert("error : " + result.Message);
-                    }
-                },
-                error: function (err) {
-                    alert(err);
                 }
             })
         }
@@ -339,14 +198,15 @@
         //fungsi View
         function ViewEmployee(obj) {
             var id = $(obj).attr("data-id");
+            var name = $(obj).attr("data-name");
+            var number = $(obj).attr("data-number");
             $.ajax({
-                url: "http://localhost:50876/api/M_Employees/" + id,
+                url: '@Url.Action("View", "M_Employee")',
                 type: 'GET',
-                contentType: "JSON",
+                data: { id: id },
                 success: function (result) {
-                    var tr = ViewItem(result);
-                    $(".modal-body").html(tr);
-                    $(".modal-title").html("View Employee");
+                    $(".modal-body").html(result);
+                    $(".modal-title").html("View Employee - " + name + " (" + number + ")");
                     $("#modal-Form").modal("show");
                 },
                 error: function (err) {
@@ -355,45 +215,16 @@
             })
         }
 
-        //tampilan View (dipanggil di fungsi View)
-        function ViewItem(data) {
-            SetCompanyId(data.MCompanyId);
-            var form = "<form method='post'>";
-            form += "<center><table>"
-            form += "<tr><td><div align='right'><label>*Emp ID Number</label></td>"
-            form += "<td><input data-val='true' id='eId' name='dataId' type='hidden' value='" + data.Id + "'/><input type='text' id='eNumber' readonly='readonly' value='" + data.EmployeeNumber + "'/></td>"
-            form += "<td><div align='right'><label>*Company Name</label></td>"
-            form += "<td><select id='cId' disabled><option value=''></option>Select</select></td></tr>"
-            form += "<tr><td><div align='right'><label>*First Name</label></td>"
-            form += "<td><input type='text' id='eFName' value='" + data.FirstName + "' readonly='readonly'/></td>"
-            form += "<td><div align='right'><label>*Email</label></td>"
-            form += "<td><input type='text' id='eEmail' value='" + data.Email + "' readonly='readonly'/></td></tr>"
-            form += "<tr><td><div align='right'><label>Last Name</label></td>"
-            if (data.LastName != null) {
-                form += "<td><input type='text' id='eLName' value='" + data.LastName + "' readonly='readonly'/></td></tr>"
-            }
-            else {
-                form += "<td><input type='text' id='eLName' value='' readonly='readonly'/></td></tr>"
-            }
-            form += "</table></center>";
-            form += "<br>"
-            form += "<button type='button' class='btn btn-sm btn-default btn-cancel' data-dismiss='modal'>Close</button>"
-            form += "</form>";
-            $(".modal-body").html(form);
-            $("#modal-Form").modal("show");
-        }
-
         //fungsi Delete
         function DeleteEmployee(obj) {
             var id = $(obj).attr("data-id");
             $.ajax({
-                url: "http://localhost:50876/api/M_Employees/" + id,
+                url: '@Url.Action("Delete", "M_Employee")',
                 type: 'GET',
-                contentType: "JSON",
+                data: { id: id },
                 success: function (result) {
-                    var tr = DeleteItem(result);
-                    $(".modal-body2").html(tr);
-                    $(".modal-title").html("Delete Employee");
+                    $(".modal-body2").html(result);
+                    $(".modal-title2").html("Delete Employee");
                     $("#modal-Form2").modal("show");
                 },
                 error: function (err) {
@@ -402,42 +233,239 @@
             })
         }
 
-        //tampilan Delete (dipanggil di fungsi Delete)
-        function DeleteItem(data) {
-            var form = "<h3><center>Delete Data?</center></h3>"
-            form += "<input data-val='true' id='eId' type='hidden' value='" + data.Id + "'/>"
-            form += "<button type='button' class='btn btn-lg btn-success btn-save' onclick='ConfirmDeleteEmployee(this)'>Delete</button>"
-            form += "<button type='button' class='btn btn-lg btn-default btn-cancel pull-right' data-dismiss='modal'>Cancel</button>"
-            form += "</br>"
-            $(".modal-title2").html("");
-            $(".modal-body2").html(form);
-            $("#modal-Form2").modal("show");
-        }
+        ////fungsi button create
+        //$("#btn-Create").click(function () {
+        //    SetCompanyId(0);
+        //    var form = "<form method='post'>";
+        //    form += "<center><table>"
+        //    form += "<tr><td><div align='right'><label>*Emp ID Number </label></td>"
+        //    form += "<td><input type='text' id='eNumber'></td>"
+        //    form += "<td><div align='right'><label>*Company Name </label></td>"
+        //    form += "<td><select id='cId'><option value=''>- Select Company Name -</option></select></td></tr>"
+        //    form += "<tr><td><div align='right'><label>*First Name </label></td>"
+        //    form += "<td><input type='text' id='eFName' /></td>"
+        //    form += "<td><div align='right'><label>*Email </label></td>"
+        //    form += "<td><input type='text' id='eEmail' /></td><td></td></tr>"
+        //    form += "<tr><td><div align='right'><label>Last Name </label></td>"
+        //    form += "<td><input type='text' id='eLName' /></td></tr>"
+        //    form += "</table></center>";
+        //    form += "<br>"
+        //    form += "<button type='button' class='btn btn-sm btn-success btn-save' onclick='AddEmployee()'>Save</button>"
+        //    form += "<button type='button' class='btn btn-sm btn-default btn-cancel' data-dismiss='modal'>Cancel</button>"
+        //    form += "</form>";
+        //    $(".modal-body").html(form);
+        //    $(".modal-title").html("Add Employee");
+        //    $("#modal-Form").modal("show");
+        //})
 
-        //post delete (update)
-        function ConfirmDeleteEmployee(obj) {
-            var id = $("#eId").val();
-            $.ajax({
-                url: "http://localhost:50876/api/M_Employees/" + id,
-                type: 'DELETE',
-                contentType: 'application/json',
-                dataType: 'json',
-                data: { Id: id },
-                success: function (result) {
-                    if (result.Success) {
-                        alert("Success");
-                        $("#modal-Form2").modal("hide");
-                        ShowList();
-                    }
-                    else {
-                        alert("error : " + result.Message);
-                    }
-                },
-                error: function (err) {
-                    alert(err);
-                }
-            })
-        }
+        ////post Create
+        //function AddEmployee() {
+        //    var number = $("#eNumber").val();
+        //    var fName = $("#eFName").val();
+        //    var lName = $("#eLName").val();
+        //    var cId = $("#cId").val();
+        //    var email = $("#eEmail").val();
+
+        //    var data = { EmployeeNumber: number, FirstName: fName, LastName: lName, MCompanyId: cId, Email: email };
+        //    $.ajax({
+        //        url: "http://localhost:50876/api/M_Employees",
+        //        type: 'post',
+        //        contentType: 'application/json',
+        //        dataType: 'json',
+        //        data: JSON.stringify(data),
+        //        success: function (result) {
+        //            if (result.Success) {
+        //                alert("Success");
+        //                $("#modal-Form").modal("hide");
+        //                ShowList();
+        //            }
+        //            else {
+        //                alert("error : " + result.Message);
+        //            }
+        //        },
+        //        error: function (err) {
+        //            alert(err);
+        //        }
+        //    })
+        //}
+
+
+
+        ////tampilan Edit (dipanggil di fungsi Edit)
+        //function EditItem(data) {
+        //    SetCompanyId(data.MCompanyId);
+        //    var form = "<form method='post'>";
+        //    form += "<center><table>"
+        //    form += "<tr><td><div align='right'><label>*Emp ID Number</label></td>"
+        //    form += "<td><input data-val='true' id='eId' name='dataId' type='hidden' value='" + data.Id + "'><input type='text' id='eNumber' value='" + data.EmployeeNumber + "'/></td>"
+        //    form += "<td><div align='right'><label>*Company Name</label></td>"
+        //    form += "<td><select id='cId'><option value=''></option>Select</select></td></tr>"
+        //    form += "<tr><td><div align='right'><label>*First Name</label></td>"
+        //    form += "<td><input type='text' id='eFName' value='" + data.FirstName + "' /></td>"
+        //    form += "<td><div align='right'><label>*Email</label></td>"
+        //    form += "<td><input type='text' id='eEmail' value='" + data.Email + "'/></td></tr>"
+        //    form += "<tr><td><div align='right'><label>Last Name</label></td>"
+        //    if (data.LastName != null) {
+        //        form += "<td><input type='text' id='eLName' value='" + data.LastName + "'/></td></tr>"
+        //    }
+        //    else {
+        //        form += "<td><input type='text' id='eLName' value=''/></td></tr>"
+        //    }
+        //    form += "</table></center>";
+        //    form += "<br>"
+        //    form += "<button type='button' class='btn btn-sm btn-success btn-save' onclick='UpdateItem(this)'>Save</button>"
+        //    form += "<button type='button' class='btn btn-sm btn-default btn-cancel' data-dismiss='modal'>Cancel</button>"
+        //    form += "</form>";
+        //    $(".modal-body").html(form);
+        //    $("#modal-Form").modal("show");
+        //}
+
+        //function UpdateItem(data) {
+        //    var form = "<h3><center>Update Data?</center></h3>"
+        //    form += "<input data-val='true' id='eId' type='hidden' value='" + data.Id + "'/>"
+        //    form += "<button type='button' class='btn btn-sm btn-success btn-save' onclick='ConfirmUpdateEmployee(this)'>Update</button>"
+        //    form += "<button type='button' class='btn btn-sm btn-default btn-cancel' data-dismiss='modal'>Cancel</button>"
+        //    $(".modal-title2").html("");
+        //    $(".modal-body2").html(form);
+        //    $("#modal-Form2").modal("show");
+        //}
+
+        ////post Edit (update)
+        //function ConfirmUpdateEmployee(obj) {
+        //    var id = $("#eId").val();
+        //    var number = $("#eNumber").val();
+        //    var fName = $("#eFName").val();
+        //    var lName = $("#eLName").val();
+        //    var cId = $("#cId").val();
+        //    var email = $("#eEmail").val();
+
+        //    var data = { EmployeeNumber: number, FirstName: fName, LastName: lName, MCompanyId: cId, Email: email };
+        //    //alert(JSON.stringify(data));
+        //    $.ajax({
+        //        url: "http://localhost:50876/api/M_Employees/" + id,
+        //        type: 'PUT',
+        //        contentType: 'application/json',
+        //        dataType: 'json',
+        //        data: JSON.stringify(data),
+        //        success: function (result) {
+        //            if (result.Success) {
+        //                alert("Success");
+        //                $("#modal-Form").modal("hide");
+        //                $("#modal-Form2").modal("hide");
+        //                ShowList();
+        //            }
+        //            else {
+        //                alert("error : " + result.Message);
+        //            }
+        //        },
+        //        error: function (err) {
+        //            alert(err);
+        //        }
+        //    })
+        //}
+
+        ////fungsi View
+        //function ViewEmployee(obj) {
+        //    var id = $(obj).attr("data-id");
+        //    $.ajax({
+        //        url: "http://localhost:50876/api/M_Employees/" + id,
+        //        type: 'GET',
+        //        contentType: "JSON",
+        //        success: function (result) {
+        //            var tr = ViewItem(result);
+        //            $(".modal-body").html(tr);
+        //            $(".modal-title").html("View Employee");
+        //            $("#modal-Form").modal("show");
+        //        },
+        //        error: function (err) {
+        //            alert(err)
+        //        }
+        //    })
+        //}
+
+        ////tampilan View (dipanggil di fungsi View)
+        //function ViewItem(data) {
+        //    SetCompanyId(data.MCompanyId);
+        //    var form = "<form method='post'>";
+        //    form += "<center><table>"
+        //    form += "<tr><td><div align='right'><label>*Emp ID Number</label></td>"
+        //    form += "<td><input data-val='true' id='eId' name='dataId' type='hidden' value='" + data.Id + "'/><input type='text' id='eNumber' readonly='readonly' value='" + data.EmployeeNumber + "'/></td>"
+        //    form += "<td><div align='right'><label>*Company Name</label></td>"
+        //    form += "<td><select id='cId' disabled><option value=''></option>Select</select></td></tr>"
+        //    form += "<tr><td><div align='right'><label>*First Name</label></td>"
+        //    form += "<td><input type='text' id='eFName' value='" + data.FirstName + "' readonly='readonly'/></td>"
+        //    form += "<td><div align='right'><label>*Email</label></td>"
+        //    form += "<td><input type='text' id='eEmail' value='" + data.Email + "' readonly='readonly'/></td></tr>"
+        //    form += "<tr><td><div align='right'><label>Last Name</label></td>"
+        //    if (data.LastName != null) {
+        //        form += "<td><input type='text' id='eLName' value='" + data.LastName + "' readonly='readonly'/></td></tr>"
+        //    }
+        //    else {
+        //        form += "<td><input type='text' id='eLName' value='' readonly='readonly'/></td></tr>"
+        //    }
+        //    form += "</table></center>";
+        //    form += "<br>"
+        //    form += "<button type='button' class='btn btn-sm btn-default btn-cancel' data-dismiss='modal'>Close</button>"
+        //    form += "</form>";
+        //    $(".modal-body").html(form);
+        //    $("#modal-Form").modal("show");
+        //}
+
+        ////fungsi Delete
+        //function DeleteEmployee(obj) {
+        //    var id = $(obj).attr("data-id");
+        //    $.ajax({
+        //        url: "http://localhost:50876/api/M_Employees/" + id,
+        //        type: 'GET',
+        //        contentType: "JSON",
+        //        success: function (result) {
+        //            var tr = DeleteItem(result);
+        //            $(".modal-body2").html(tr);
+        //            $(".modal-title").html("Delete Employee");
+        //            $("#modal-Form2").modal("show");
+        //        },
+        //        error: function (err) {
+        //            alert(err)
+        //        }
+        //    })
+        //}
+
+        ////tampilan Delete (dipanggil di fungsi Delete)
+        //function DeleteItem(data) {
+        //    var form = "<h3><center>Delete Data?</center></h3>"
+        //    form += "<input data-val='true' id='eId' type='hidden' value='" + data.Id + "'/>"
+        //    form += "<button type='button' class='btn btn-lg btn-success btn-save' onclick='ConfirmDeleteEmployee(this)'>Delete</button>"
+        //    form += "<button type='button' class='btn btn-lg btn-default btn-cancel pull-right' data-dismiss='modal'>Cancel</button>"
+        //    form += "</br>"
+        //    $(".modal-title2").html("");
+        //    $(".modal-body2").html(form);
+        //    $("#modal-Form2").modal("show");
+        //}
+
+        ////post delete (update)
+        //function ConfirmDeleteEmployee(obj) {
+        //    var id = $("#eId").val();
+        //    $.ajax({
+        //        url: "http://localhost:50876/api/M_Employees/" + id,
+        //        type: 'DELETE',
+        //        contentType: 'application/json',
+        //        dataType: 'json',
+        //        data: { Id: id },
+        //        success: function (result) {
+        //            if (result.Success) {
+        //                alert("Success");
+        //                $("#modal-Form2").modal("hide");
+        //                ShowList();
+        //            }
+        //            else {
+        //                alert("error : " + result.Message);
+        //            }
+        //        },
+        //        error: function (err) {
+        //            alert(err);
+        //        }
+        //    })
+        //}
 
 
 
