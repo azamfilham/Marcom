@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Marcom.Repository;
+using Marcom.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using Marcom.ViewModel;
-using Marcom.Repository;
 
 namespace Marcom.API.Controllers
 {
@@ -24,18 +24,23 @@ namespace Marcom.API.Controllers
         }
 
         // POST: api/M_Roles
-        public void Post([FromBody]string value)
+        public Responses Post([FromBody]M_RoleViewModel entity)
         {
+            entity.Code = M_RoleRepo.GetNewCode();
+            return M_RoleRepo.Update(entity);
         }
 
         // PUT: api/M_Roles/5
-        public void Put(int id, [FromBody]string value)
+        public Responses Put(int id, [FromBody]M_RoleViewModel entity)
         {
+            entity.Id = id;
+            return M_RoleRepo.Update(entity);
         }
 
         // DELETE: api/M_Roles/5
-        public void Delete(int id)
+        public Responses Delete(int id)
         {
+            return M_RoleRepo.Delete(id);
         }
     }
 }
