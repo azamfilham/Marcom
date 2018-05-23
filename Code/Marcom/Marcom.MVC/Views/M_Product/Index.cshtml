@@ -2,7 +2,7 @@
     ViewBag.Title = "Master Product";
 }
 
-<style>
+@*<style>
     table #item-list {
         counter-reset: rowNumber;
     }
@@ -17,6 +17,26 @@
             margin-right: 0.5em;
         }
 
+    .modal {
+    }
+
+        .modal .modal-dialog {
+        }
+
+            .modal .modal-dialog .modal-content {
+                border: solid 1px #3c8dbc;
+                border-radius: 10px 10px 10px 10px;
+            }
+
+                .modal .modal-dialog .modal-content .modal-header {
+                    border: solid 1px #3c8dbc;
+                    background-color: #3c8dbc;
+                    border-radius: 10px 10px 0 0;
+                }
+</style>*@
+
+<style>
+    
     .modal {
     }
 
@@ -91,8 +111,8 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-<div class="modal fade" tabindex="-1" role="dialog" id="modal-Form2">
-    <div class="modal-dialog" role="document">
+<div class="modal fade" tabindex="-1" role="dialog" id="modal-Form">
+    <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -102,6 +122,23 @@
             </div>
 
             <div class="modal-body">
+                <p>One fine body&hellip;</p>
+            </div>
+
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" tabindex="-1" role="dialog" id="modal-Form2">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h5 class="modal-title" align="center" ></h5>
+
+            </div>
+
+            <div class="modal-body" align="center">
                 <p>One fine body&hellip;</p>
             </div>
 
@@ -124,15 +161,15 @@
                     var table = "<table class='table''>";
                     table += "<tbody>";
                     $.each(result, function (i, item) {
-
-                        var tr = "<tr><td>  </td><td>"
+                        var no = i + 1;
+                        var tr = "<tr><td>" + no + "</td><td>"
                         + item.Code + "</td><td>"
                         + item.Name + "</td><td>"
                         + item.Description + "</td><td>"
                         + item.CreatedDate + "</td><td>"
-                        + item.CreatedBy + "</td><td><button type='button' class='btn btn-sm  btn-View' data-id='"
-                        + item.Id + "' onclick ='LihatUnit(this)' ><span class='glyphicon glyphicon-search'></span></button><button type='button' class='btn btn-sm btn-warning btn-Edit' data-id='"
-                        + item.Id + "' onclick ='SelectUnit(this)'><span class='glyphicon glyphicon-edit'></span></button><button type='button' class='btn btn-sm btn-danger btn-Delete' data-id='"
+                        + item.CreatedBy + "</td><td><button type='button' class='btn btn-sm  btn-success' data-code='" + item.Code + "' data-name='" + item.Name + "' data-id='"
+                        + item.Id + "' onclick ='LihatUnit(this)' ><span class='glyphicon glyphicon-search'></span></button><button type='button' class='btn btn-sm btn-success btn-Edit' data-code='" + item.Code + "' data-name='" + item.Name + "' data-id='"
+                        + item.Id + "' onclick ='SelectUnit(this)'><span class='glyphicon glyphicon-edit'></span></button><button type='button' class='btn btn-sm btn-success btn-Delete' data-id='"
                         + item.Id + "' onclick ='DeleteUnit(this)' ><span class='glyphicon glyphicon-trash'></span></button></td></tr>";
                         table += tr;
                     })
@@ -148,20 +185,83 @@
         }
 
 
+        //$("#btn-Create").click(function () {
+        //    var form = "<form method='post'>";
+        //    form += "<table border='0' cellspacing='7'>"
+        //    form += "<tr><td class='control-label col-md-4'>" + 'Product Code' + "</td><td><input type='text' name='s_code' id='s_code' class='form-control'></td></tr>"
+        //    form += "<tr><td class='control-label col-md-4'>" + 'Product Name' + "</td><td><input type='text' name='s_name' id='s_name' class='form-control'></td></tr>"
+        //    form += "<tr><td class='control-label col-md-4'>" + 'Description' + "</td><td><input type='text' name='s_description' id='s_description' class='form-control'></td></tr>"
+        //    form += "</table>";
+        //    form += "<br>"
+        //    form += "<button type='button' class='btn btn-sm btn-success btn-Save' onclick='AddUnit()'>Save</button><button type='button' class='btn btn-sm btn-default btn-Delete' data-dismiss='modal'>Cancel</button>"
+        //    form += "</form>";
+        //    $(".modal-body").html(form);
+        //    $(".modal-title").html("Add Unit");
+        //    $("#modal-Form").modal("show");
+        //})
+
         $("#btn-Create").click(function () {
-            var form = "<form method='post'>";
-            form += "<table border='0' cellspacing='7'>"
-            form += "<tr><td class='control-label col-md-4'>" + 'Product Code' + "</td><td><input type='text' name='s_code' id='s_code' class='form-control'></td></tr>"
-            form += "<tr><td class='control-label col-md-4'>" + 'Product Name' + "</td><td><input type='text' name='s_name' id='s_name' class='form-control'></td></tr>"
-            form += "<tr><td class='control-label col-md-4'>" + 'Description' + "</td><td><input type='text' name='s_description' id='s_description' class='form-control'></td></tr>"
-            form += "</table>";
-            form += "<br>"
-            form += "<button type='button' class='btn btn-sm btn-success btn-Save' onclick='AddUnit()'>Save</button><button type='button' class='btn btn-sm btn-default btn-Delete' data-dismiss='modal'>Cancel</button>"
-            form += "</form>";
-            $(".modal-body").html(form);
-            $(".modal-title").html("Add Unit");
-            $("#modal-Form").modal("show");
+            $.ajax({
+                url: '@Url.Action("Create", "M_Product")',
+                type: 'get',
+                success: function (result) {
+                    $(".modal-body").html(result);
+                    $(".modal-title").html("Add Product");
+                    $("#modal-Form").modal("show");
+                }
+            })
+
         })
+
+        function SelectUnit(obj) {
+            var idS = $(obj).attr("data-id");
+            var idS1 = $(obj).attr("data-name");
+            var idS2 = $(obj).attr("data-code");
+
+            $.ajax({
+                url: '@Url.Action("Edit", "M_Product")',
+                type: 'get',
+                data: { id: idS },
+                success: function (result) {
+                    $(".modal-body").html(result);
+                    $(".modal-title").html("Edit Product - " + idS1 + "("+ idS2+")" );
+                    $("#modal-Form").modal("show");
+                }
+            })
+        }
+
+        
+
+        function LihatUnit(obj) {
+            var idS = $(obj).attr("data-id");
+            var idS1 = $(obj).attr("data-name");
+            var idS2 = $(obj).attr("data-code");
+
+            $.ajax({
+                url: '@Url.Action("View", "M_Product")',
+                type: 'get',
+                data: { id: idS },
+                success: function (result) {
+                    $(".modal-body").html(result);
+                    $(".modal-title").html("View Product - " + idS1 + " ("+ idS2+")" );
+                    $("#modal-Form").modal("show");
+                }
+            })
+        }
+
+        @*function DeleteUnit(obj) {
+            var idS = $(obj).attr("data-id");
+            $.ajax({
+                url: '@Url.Action("Delete", "M_Product")',
+                type: 'get',
+                data: { id: idS },
+                success: function (result) {
+                    $(".modal-body").html(result);
+                    $(".modal-title").html("View Product");
+                    $("#modal-Form").modal("show");
+                }
+            })
+        }*@
 
         function AddUnit() {
             var code = $("#s_code").val();
@@ -193,24 +293,26 @@
             })
         }
 
+
+
         //tampilan edit
-        function SelectUnit(obj) {
-            var id = $(obj).attr("data-id");
-            $.ajax({
-                url: "http://localhost:50876/api/M_Products/" + id,
-                type: 'GET',
-                contentType: "JSON",
-                success: function (result) {
-                    var tr = GetItem(result);
-                    $(".modal-body").html(tr);
-                    $(".modal-title").html("Edit Unit");
-                    $("#modal-Form").modal("show");
-                },
-                error: function (err) {
-                    alert(err)
-                }
-            })
-        }
+        //function SelectUnit(obj) {
+        //    var id = $(obj).attr("data-id");
+        //    $.ajax({
+        //        url: "http://localhost:50876/api/M_Products/" + id,
+        //        type: 'GET',
+        //        contentType: "JSON",
+        //        success: function (result) {
+        //            var tr = GetItem(result);
+        //            $(".modal-body").html(tr);
+        //            $(".modal-title").html("Edit Unit");
+        //            $("#modal-Form").modal("show");
+        //        },
+        //        error: function (err) {
+        //            alert(err)
+        //        }
+        //    })
+        //}
 
         //get by id
         function GetItem(data) {
@@ -271,7 +373,7 @@
                 success: function (result) {
                     var tr = DeleteItem(result);
                     $(".modal-body").html(tr);
-                    $(".modal-title").html("Delete Employee");
+                    $(".modal-title").html("Delete Data");
                     $("#modal-Form2").modal("show");
                 },
                 error: function (err) {
@@ -282,19 +384,19 @@
 
         //tampilan Delete (dipanggil di fungsi Delete)
         function DeleteItem(data) {
-            var form = "<h3>Delete Data?</h3>"
-            form += "<td><input data-val='true' id='eId' type='hidden' value='" + data.Id + "'/>"
-            form += "<br>"
-            form += "<button type='button' class='btn btn-sm btn-success btn-save' onclick='ConfirmDeleteEmployee(this)'>Delete</button>"
-            form += "<button type='button' class='btn btn-sm btn-default btn-cancel' data-dismiss='modal'>Cancel</button>"
-            form += "</form>";
+            
+            var form = "<td><input data-val='true' id='eId' type='hidden' value='" + data.Id + "'/>";
+            form += "<td align='center'>";
+            form += "<button type='button' class='btn btn-sm btn-success btn-delete' onclick='ConfirmDeleteProduct(this)'>Delete</button>";
+            form += "<button type='button' class='btn btn-sm btn-default btn-cancel' data-dismiss='modal'>Cancel</button>";
+            form += "</td>";
             $(".modal-body").html(form);
             $("#modal-Form2").modal("show");
         }
 
 
         //post delete (update)
-        function ConfirmDeleteEmployee(obj) {
+        function ConfirmDeleteProduct(obj) {
             var id = $("#eId").val();
             $.ajax({
                 url: "http://localhost:50876/api/M_Products/" + id,
@@ -336,23 +438,23 @@
             return form;
         }
         //detail
-        function LihatUnit(obj) {
-            var data = $(obj).attr("data-id");
-            $.ajax({
-                url: "http://localhost:50876/api/M_Products/" + data,
-                type: 'GET',
-                contentType: "JSON",
-                success: function (result) {
-                    var tr = GetDetails(result);
-                    $(".modal-body").html(tr);
-                    $(".modal-title").html("View Unit");
-                    $("#modal-Form").modal("show");
-                },
-                error: function (err) {
-                    alert(err)
-                }
-            })
-        }
+        //function LihatUnit(obj) {
+        //    var data = $(obj).attr("data-id");
+        //    $.ajax({
+        //        url: "http://localhost:50876/api/M_Products/" + data,
+        //        type: 'GET',
+        //        contentType: "JSON",
+        //        success: function (result) {
+        //            var tr = GetDetails(result);
+        //            $(".modal-body").html(tr);
+        //            $(".modal-title").html("View Unit");
+        //            $("#modal-Form").modal("show");
+        //        },
+        //        error: function (err) {
+        //            alert(err)
+        //        }
+        //    })
+        //}
 
         //load data table
         $(document).ready(function () {

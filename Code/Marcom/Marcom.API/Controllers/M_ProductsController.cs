@@ -28,12 +28,14 @@ namespace Marcom.API.Controllers
         // POST: api/M_Products
         public Responses Post([FromBody]M_ProductViewModel entities)
         {
+            entities.Code = M_ProductRepo.GetNewCode();
             return M_ProductRepo.update(entities);
         }
 
         // PUT: api/M_Products/5
         public Responses Put(int id, [FromBody]M_ProductViewModel entity)
         {
+            entity.Id = id;
             return M_ProductRepo.update(entity);
         }
 

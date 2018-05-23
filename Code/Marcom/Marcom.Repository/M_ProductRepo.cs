@@ -16,6 +16,7 @@ namespace Marcom.Repository
             using (var db = new MarcomContext())
             {
                 result = (from u in db.m_product
+                          where u.is_delete == false
                           select new M_ProductViewModel
                           {
                               Id = u.id,
@@ -81,7 +82,7 @@ namespace Marcom.Repository
                         m_product.name = entity.Name;
                         m_product.description = entity.Description;
                         m_product.is_delete = entity.IsDelete;
-                        m_product.created_by = "David";
+                        m_product.created_by = entity.CreatedBy;
                         m_product.created_date = DateTime.Now;           
                         db.m_product.Add(m_product);
                         db.SaveChanges();
@@ -108,8 +109,9 @@ namespace Marcom.Repository
 
                     if (m_product != null)
                     {
-                        db.m_product.Remove(m_product);
+                        m_product.is_delete = true;
                         db.SaveChanges();
+                        
                     }
                 }
             }
@@ -123,6 +125,47 @@ namespace Marcom.Repository
             return result;
 
         }
+
+        public static string GetNewCode()
+        {
+            int newIncrement = 1;
+            string newCode = string.Format("PR");
+            using (var db = new MarcomContext())
+            {
+                var result = (from r in db.m_product
+                              where r.code.Contains(newCode)
+                              select new { code = r.code })
+                              .OrderByDescending(o => o.code)
+                              .FirstOrDefault();
+                if (result != null)
+                {
+                    string[] oldCode = SplitCode(result.code);
+                    newIncrement = int.Parse(oldCode[0]) + 1;
+                }
+
+            }
+            newCode += newIncrement.ToString("D4");
+            return newCode;
+        }
+
+        public static string[] SplitCode(string data)
+        {
+            string numbers = "";
+            string alpha = "";
+            foreach (char c in data)
+            {
+                if (Char.IsDigit(c))
+                {
+                    numbers = numbers + c;
+                }
+                else if (Char.IsLetter(c))
+                {
+                    alpha = alpha + c;
+                }
+            }
+            return new string[] { numbers, alpha };
+        }
+
     }
 
     //public class MUResponse : Responses
