@@ -28,7 +28,7 @@ namespace Marcom.MVC.Controllers
         //[CustomAuthorize(Roles = "Devision", AccessLevel = "W")]
         public ActionResult Create()
         {
-            ViewBag.M_UnitList = new SelectList(M_UnitRepo.Get(), "Id", "Description");
+            //ViewBag.M_UnitList = new SelectList(M_UnitRepo.Get(), "Id", "Description");
             return View("_Create");
         }
 
@@ -102,10 +102,11 @@ namespace Marcom.MVC.Controllers
 
             return Json(new { success = false, massage = "Error" }, JsonRequestBehavior.AllowGet);
         }
+
         //Get Detail
-        public ActionResult Details(int id)
+        public ActionResult Views(int id)
         {
-            return View(M_UnitRepo.GetById(id));
+            return View("_View",M_UnitRepo.GetById(id));
         }
     }
 }

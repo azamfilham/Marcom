@@ -22,8 +22,8 @@ namespace Marcom.Repository
                               Code = u.code,
                               Name = u.name,
                               Description = u.description,
+                              CreatedDate = u.created_date,
                               CreatedBy = u.created_by,
-                              CratedDate = u.created_date
                           }).ToList();
             }
             return result;
@@ -32,7 +32,7 @@ namespace Marcom.Repository
         public static M_UnitViewModel GetById(int Id)
         {
             M_UnitViewModel result = new M_UnitViewModel();
-            using (var db = new MarcomContext())    
+            using (var db = new MarcomContext())
             {
                 result = (from u in db.m_unit
                           where u.id == Id
@@ -43,7 +43,7 @@ namespace Marcom.Repository
                               Name = u.name,
                               Description = u.description,
                               CreatedBy = u.created_by,
-                              CratedDate = u.created_date
+                              CreatedDate = u.created_date,
                           }).FirstOrDefault();
 
             }
@@ -53,7 +53,7 @@ namespace Marcom.Repository
         public static Responses update(M_UnitViewModel entity)
         {
             Responses result = new Responses();
-            
+
             try
             {
                 using (var db = new MarcomContext())
@@ -66,8 +66,8 @@ namespace Marcom.Repository
                             m_unit.code = entity.Code;
                             m_unit.name = entity.Name;
                             m_unit.description = entity.Description;
-                            m_unit.is_delete = entity.IsDelete;        
-                            m_unit.updated_by = "DavidAgung";
+                            m_unit.is_delete = entity.IsDelete;
+                            m_unit.updated_by = "David";
                             m_unit.updated_date = DateTime.Now;
                             db.SaveChanges();
                         }
@@ -76,14 +76,14 @@ namespace Marcom.Repository
 
                     else
                     {
-                        m_unit M_unit = new m_unit();
-                        M_unit.code = entity.Code;
-                        M_unit.name = entity.Name;
-                        M_unit.description = entity.Description;
-                        M_unit.is_delete = entity.IsDelete;
-                        M_unit.created_by = "David";
-                        M_unit.created_date = DateTime.Now;
-                        db.m_unit.Add(M_unit);
+                        m_unit m_unit = new m_unit();
+                        m_unit.code = entity.Code;
+                        m_unit.name = entity.Name;
+                        m_unit.description = entity.Description;
+                        m_unit.is_delete = entity.IsDelete;
+                        m_unit.created_by = "David";
+                        m_unit.created_date = DateTime.Now;
+                        db.m_unit.Add(m_unit);
                         db.SaveChanges();
                     }
                 }
@@ -125,10 +125,9 @@ namespace Marcom.Repository
         }
     }
 
-    public class MUResponse : Responses
-    {
-        public string Reference { get; set; }
-    }
-
+    //public class MUResponse : Responses
+    //{
+    //    public string Reference { get; set; }
+    //}
 }
 

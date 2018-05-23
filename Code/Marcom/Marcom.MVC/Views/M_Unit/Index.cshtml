@@ -72,7 +72,7 @@
 
 </div>
 
-<div class="modal fade" tabindex="-1" role="dialog" id="modal-Form">
+<div class="modal fade" tabindex="-1" role="dialog" id="modal-Form"> @*<<<------- modal Form*@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -82,7 +82,7 @@
 
             </div>
 
-            <div class="modal-body">
+            <div class="modal-body"> @*<<<------- modal body*@
                 <p>One fine body&hellip;</p>
             </div>
 
@@ -117,13 +117,13 @@
         function ShowList() {
             $.ajax({
                 url: "http://localhost:50876/api/M_Units",
-                type: 'get',
+                type: 'get', //memanggil value
                 data: 'json',
                 success: function (result) {
                     var table = "<table class='table''>";
                     table += "<tbody>";
                     $.each(result, function (i, item) {
-      
+
                         var tr = "<tr><td>  </td><td>"
                         + item.Code + "</td><td>"
                         + item.Name + "</td><td>"
@@ -146,61 +146,95 @@
         }
 
 
+        //$("#btn-Create").click(function () {
+        //    var form = "<form method='post'>";
+        //    form += "<table border='0' cellspacing='7'>"
+        //    form += "<tr><td class='control-label col-md-4'>" + 'Role Code' + "</td><td><input type='text' name='s_code' id='s_code' class='form-control'></td></tr>"
+        //    form += "<tr><td class='control-label col-md-4'>" + 'Role Name' + "</td><td><input type='text' name='s_name' id='s_name' class='form-control'></td></tr>"
+        //    form += "<tr><td class='control-label col-md-4'>" + 'Description' + "</td><td><input type='text' name='s_description' id='s_description' class='form-control'></td></tr>"
+        //    form += "</table>";
+        //    form += "<br>"
+        //    form += "<button type='button' class='btn btn-sm btn-success btn-Save' onclick='AddUnit()'>Save</button><button type='button' class='btn btn-sm btn-default btn-Delete' data-dismiss='modal'>Cancel</button>"
+        //    form += "</form>";
+        //    $(".modal-body").html(form);
+        //    $(".modal-title").html("Add Unit");
+        //    $("#modal-Form").modal("show");
+        //})
+
+        //function AddUnit() {
+        //    var code = $("#s_code").val();
+        //    var name = $("#s_name").val();
+        //    var description = $("#s_description").val();
+
+        //    var data = { Code: code, Name: name, Description: description };
+        //    //alert(JSON.stringify(data));
+        //    $.ajax({
+        //        url: "http://localhost:50876/api/M_Units",
+        //        type: 'post', //menambahkan value
+        //        contentType: 'application/json',
+        //        dataType: 'json',
+        //        data: JSON.stringify(data),
+        //        success: function (result) {
+        //            //alert('coba');
+        //            if (result.Success) {
+        //                alert("Success")
+        //                $("#modal-Form").modal("hide");
+        //                ShowList();
+        //            }
+        //            else {
+        //                alert("error : " + result.Message);
+        //            }
+        //        },
+        //        error: function (err) {
+        //            alert(err);
+        //        }
+        //    })
+        //}
+
+        //Menggunakan Partial View
         $("#btn-Create").click(function () {
-            var form = "<form method='post'>";
-            form += "<table border='0' cellspacing='7'>"
-            form += "<tr><td class='control-label col-md-4'>" + 'Role Code' + "</td><td><input type='text' name='s_code' id='s_code' class='form-control'></td></tr>"
-            form += "<tr><td class='control-label col-md-4'>" + 'Role Name' + "</td><td><input type='text' name='s_name' id='s_name' class='form-control'></td></tr>"
-            form += "<tr><td class='control-label col-md-4'>" + 'Description' + "</td><td><input type='text' name='s_description' id='s_description' class='form-control'></td></tr>"
-            form += "</table>";
-            form += "<br>"
-            form += "<button type='button' class='btn btn-sm btn-success btn-Save' onclick='AddUnit()'>Save</button><button type='button' class='btn btn-sm btn-default btn-Delete' data-dismiss='modal'>Cancel</button>"
-            form += "</form>";
-            $(".modal-body").html(form);
-            $(".modal-title").html("Add Unit");
-            $("#modal-Form").modal("show");
-        })
-
-        function AddUnit() {
-            var code = $("#s_code").val();
-            var name = $("#s_name").val();
-            var description = $("#s_description").val();
-
-            var data = { Code: code, Name: name, Description: description };
-            //alert(JSON.stringify(data));
             $.ajax({
-                url: "http://localhost:50876/api/M_Units",
-                type: 'post',
-                contentType: 'application/json',
-                dataType: 'json',
-                data: JSON.stringify(data),
+                url: '@Url.Action("Create","M_Unit")',
+                type: 'get',
                 success: function (result) {
-                    //alert('coba');
-                    if (result.Success) {
-                        alert("Success")
-                        $("#modal-Form").modal("hide");
-                        ShowList();
-                    }
-                    else {
-                        alert("error : " + result.Message);
-                    }
-                },
-                error: function (err) {
-                    alert(err);
+                    $(".modal-body").html(result);
+                    $(".modal-title").html("Add Unit");
+                    $("#modal-Form").modal("show");
+                    ShowList();
                 }
             })
-        }
+        })
 
-        //tampilan edit
+
+        ////tampilan edit
+        //function SelectUnit(obj) {
+        //    var id = $(obj).attr("data-id");
+        //    $.ajax({
+        //        url: "http://localhost:50876/api/M_Units/" + id,
+        //        type: 'GET',
+        //        contentType: "JSON",
+        //        success: function (result) {
+        //            var tr = GetItem(result);
+        //            $(".modal-body").html(tr);
+        //            $(".modal-title").html("Edit Unit");
+        //            $("#modal-Form").modal("show");
+        //        },
+        //        error: function (err) {
+        //            alert(err)
+        //        }
+        //    })
+        //}
+
+        ////Menggunakan PartialView
         function SelectUnit(obj) {
             var id = $(obj).attr("data-id");
             $.ajax({
-                url: "http://localhost:50876/api/M_Units/" + id,
+                url: "@Url.Action("Edit", "M_Unit")",
                 type: 'GET',
-                contentType: "JSON",
+                data: {id:id},
                 success: function (result) {
-                    var tr = GetItem(result);
-                    $(".modal-body").html(tr);
+                    //var tr = GetItem(result);
+                    $(".modal-body").html(result);
                     $(".modal-title").html("Edit Unit");
                     $("#modal-Form").modal("show");
                 },
@@ -210,54 +244,55 @@
             })
         }
 
+
         //get by id
-        function GetItem(data) {
-            var form = "<form>";
-            form += "<table>"
-            form += "<tr><td class='control-label col-md-4'>" + 'Role Code' + "</td><td><input data-val='true' id='dataId' name='dataId' type='hidden' value='" + data.Id
-             + "'><input class='form-control text-box single-line' id='dataCode' name='dataCode' readonly='readonly' type='text' value='"
-             + data.Code + "'></td><td>"
-            form += "<tr><td class='control-label col-md-4'>" + 'Role Name' + "</td><td><input class='form-control text-box single-line' type='text' id='dataName' name='dataName' value='" + data.Name + "'></td><td>"
-            form += "<tr><td class='control-label col-md-4'>" + 'Description' + "</td><td><input class='form-control text-box single-line' type='text' id='dataDescription' name='dataDescription' value='" + data.Description + "'></td></tr>"
-            form += "</table>";
-            form += "<br>"
-            form += "<button type='button' class='btn btn-sm btn-success' onclick='UpdateUnit(this)'>Update</button><button type='button' class='btn btn-sm btn-default btn-Delete' data-dismiss='modal'>Cancel</button>"
-            form += "</form>";
+        //function GetItem(data) {
+        //    var form = "<form>";
+        //    form += "<table>"
+        //    form += "<tr><td class='control-label col-md-4'>" + 'Role Code' + "</td><td><input data-val='true' id='dataId' name='dataId' type='hidden' value='" + data.Id
+        //     + "'><input class='form-control text-box single-line' id='dataCode' name='dataCode' type='text' value='"
+        //     + data.Code + "'></td><td>"
+        //    form += "<tr><td class='control-label col-md-4'>" + 'Role Name' + "</td><td><input class='form-control text-box single-line' type='text' id='dataName' name='dataName' value='" + data.Name + "'></td><td>"
+        //    form += "<tr><td class='control-label col-md-4'>" + 'Description' + "</td><td><input class='form-control text-box single-line' type='text' id='dataDescription' name='dataDescription' value='" + data.Description + "'></td></tr>"
+        //    form += "</table>";
+        //    form += "<br>"
+        //    form += "<button type='button' class='btn btn-sm btn-success' onclick='UpdateUnit(this)'>Update</button><button type='button' class='btn btn-sm btn-default btn-Delete' data-dismiss='modal'>Cancel</button>"
+        //    form += "</form>";
 
-            return form;
-        }
+        //    return form;
+        //}
 
-        //post edit
-        function UpdateUnit(obj) {
-            var id = $("#dataId").val();
-            var code = $("#dataCode").val();
-            var name = $("#dataName").val();
-            var description = $("#dataDescription").val();
+        ////post edit
+        //function UpdateUnit(obj) {
+        //    var id = $("#dataId").val();
+        //    var code = $("#dataCode").val();
+        //    var name = $("#dataName").val();
+        //    var description = $("#dataDescription").val();
 
-            var data = { Id : id, Code: code, Name: name, Description: description };
-            //alert(JSON.stringify(data));
+        //    var data = { Id : id, Code: code, Name: name, Description: description }; // pemasukan data
+        //    //alert(JSON.stringify(data));
 
-            $.ajax({
-                url: "http://localhost:50876/api/M_Units/" + id,
-                type: 'put',
-                contentType: 'application/json',
-                dataType: 'json',
-                data: JSON.stringify(data),
-                success: function (result) {
-                    if (result.Success) {
-                        alert("Success");
-                        $("#modal-Form").modal("hide");
-                        ShowList();
-                    }
-                    else {
-                        alert("error : " + result.Message);
-                    }
-                },
-                error: function (err) {
-                    alert(err);
-                }
-            })
-        }
+        //    $.ajax({
+        //        url: "http://localhost:50876/api/M_Units/" + id,
+        //        type: 'put', //mengubah value
+        //        contentType: 'application/json',
+        //        dataType: 'json',
+        //        data: JSON.stringify(data),
+        //        success: function (result) {
+        //            if (result.Success) {
+        //                alert("Success");
+        //                $("#modal-Form").modal("hide");
+        //                ShowList();
+        //            }
+        //            else {
+        //                alert("error : " + result.Message);
+        //            }
+        //        },
+        //        error: function (err) {
+        //            alert(err);
+        //        }
+        //    })
+        //}
 
         //delete
         function DeleteUnit(obj) {
@@ -290,7 +325,7 @@
             $("#modal-Form2").modal("show");
         }
 
-      
+
         //post delete (update)
         function ConfirmDeleteEmployee(obj) {
             var id = $("#eId").val();
@@ -317,14 +352,14 @@
         }
 
 
-        //Form Detail
+        ////Form Detail
         function GetDetails(data) {
             var form = "<form>";
             form += "<table>"
             form += "<tr><td>" + 'Role Code' + "</td><td><input data-val='true' id='dataId' name='dataId' type='hidden' value='"
                 + data.Id + "'><input class='form-control text-box single-line' id='dataCode' name='dataCode' readonly='readonly' type='text' value='"
                 + data.Code + "'></td><td>"
-            form += "<tr><td>" + 'Role name' + "</td><td><input class='form-control text-box single-line' type='text' id='dataName' name='dataName' readonly='readonly' value='" + data.Name + "'></td><td>" 
+            form += "<tr><td>" + 'Role name' + "</td><td><input class='form-control text-box single-line' type='text' id='dataName' name='dataName' readonly='readonly' value='" + data.Name + "'></td><td>"
             form += "<tr><td>" + 'Description' + "</td><td><input class='form-control text-box single-line' type='text' id='dataDescription' name='dataDescription' readonly='readonly' value='" + data.Description + "'></td></tr>"
             form += "</table>";
             form += "<br>"
@@ -333,6 +368,7 @@
 
             return form;
         }
+
         //detail
         function LihatUnit(obj) {
             var data = $(obj).attr("data-id");
@@ -352,7 +388,25 @@
             })
         }
 
-        
+        /////Menggunakan Partial View (Detail)
+        //function LihatUnit(obj) {
+        //    var data = $(obj).attr("data-id");
+        //    $.ajax({
+        //        url: "http://localhost:50876/api/M_Units/" + data,
+        //        type: 'GET',
+        //        contentType: "JSON",
+        //        success: function (result) {
+        //            var tr = GetDetails(result);
+        //            $(".modal-body").html(tr);
+        //            $(".modal-title").html("View Unit");
+        //            $("#modal-Form").modal("show");
+        //        },
+        //        error: function (err) {
+        //            alert(err)
+        //        }
+        //    })
+        //}
+
 
         //load data table
         $(document).ready(function () {

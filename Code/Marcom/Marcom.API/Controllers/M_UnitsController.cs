@@ -29,13 +29,34 @@ namespace Marcom.API.Controllers
         // POST: api/M_Units
         public Responses Post([FromBody]M_UnitViewModel entity) //bagian Add
         {
-            return M_UnitRepo.update(entity);
+
+            Responses result = new Responses();
+            if (ModelState.IsValid)
+            {
+                result = M_UnitRepo.update(entity);
+            }
+            else
+            {
+                result.Success = false;
+            }
+            return result;
         }
 
         // PUT: api/M_Units/5
         public Responses Put(int id, [FromBody]M_UnitViewModel entity) //Bagian Edit(Update)
         {
-            return M_UnitRepo.update(entity);
+            entity.Id = id;
+            Responses result = new Responses();
+            if (ModelState.IsValid)
+            {
+                result = M_UnitRepo.update(entity);
+            }
+            else
+            {
+                result.Success = false;
+            }
+            return result;
+          
         }
 
         // DELETE: api/M_Units/5
