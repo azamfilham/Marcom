@@ -77,7 +77,7 @@ namespace Marcom.Repository
                     else
                     {
                         m_unit m_unit = new m_unit();
-                        m_unit.code = entity.Code;
+                        m_unit.code = GetNewCode();
                         m_unit.name = entity.Name;
                         m_unit.description = entity.Description;
                         m_unit.is_delete = entity.IsDelete;
@@ -122,6 +122,47 @@ namespace Marcom.Repository
 
             return result;
 
+        }
+        public static string GetNewCode()
+        {
+
+
+            int newIncrement = 1;
+            string newCode = string.Format("RO");
+            using (var db = new MarcomContext())
+            {
+                var result = (from r in db.m_role
+                              where r.code.Contains(newCode)
+                              select new { code = r.code })
+                              .OrderByDescending(o => o.code)
+                              .FirstOrDefault();
+                if (result != null)
+                {
+                    string[] oldCode = SplitCode(result.code);
+                    newIncrement = int.Parse(oldCode[0]) + 1;
+                }
+
+            }
+            newCode += newIncrement.ToString("D4");
+            return newCode;
+        }
+
+        public static string[] SplitCode(string data)
+        {
+            string numbers = "";
+            string alpha = "";
+            foreach (char c in data)
+            {
+                if (Char.IsDigit(c))
+                {
+                    numbers = numbers + c;
+                }
+                else if (Char.IsLetter(c))
+                {
+                    alpha = alpha + c;
+                }
+            }
+            return new string[] { numbers, alpha };
         }
     }
 

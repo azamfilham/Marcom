@@ -11,7 +11,7 @@ namespace Marcom.ViewModel
     {
         public int Id { get; set; }
 
-        [Display(Name = "Unit Code"), Required(ErrorMessage = "Please enter Unit Code.")]
+        [Display(Name = "Unit Code")]
         public string Code { get; set; }
 
         [Display(Name = "Unit Name"), Required(ErrorMessage = "Please enter Unit Name.")]
