@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Marcom.Repository;
+using Marcom.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -10,30 +12,33 @@ namespace Marcom.API.Controllers
     public class M_MenusController : ApiController
     {
         // GET: api/M_Menus
-        public IEnumerable<string> Get()
+        public IEnumerable<M_MenuViewModel> Get()
         {
-            return new string[] { "value1", "value2" };
+            return M_MenuRepo.Get();
         }
 
         // GET: api/M_Menus/5
-        public string Get(int id)
+        public M_MenuViewModel Get(int id)
         {
-            return "value";
+            return M_MenuRepo.GetById(id); 
         }
 
         // POST: api/M_Menus
-        public void Post([FromBody]string value)
+        public Responses Post([FromBody]M_MenuViewModel entity)
         {
+            return M_MenuRepo.Update(entity);
         }
 
         // PUT: api/M_Menus/5
-        public void Put(int id, [FromBody]string value)
+        public Responses Put(int id, [FromBody]M_MenuViewModel entity)
         {
+            return M_MenuRepo.Update(entity);
         }
 
         // DELETE: api/M_Menus/5
-        public void Delete(int id)
+        public Responses Delete(int id)
         {
+            return M_MenuRepo.Delete(id);
         }
     }
 }
