@@ -26,14 +26,34 @@ namespace Marcom.API.Controllers
         // POST: api/M_Companies
         public Responses Post([FromBody]M_CompanyViewModel entity)
         {
-            return M_CompanyRepo.Update(entity);
+            Responses result = new Responses();
+            if (ModelState.IsValid)
+            {
+                
+                result = M_CompanyRepo.Update(entity);
+            }
+            else
+            {
+                result.Success = false;
+            }
+            return result;
         }
 
         // PUT: api/M_Companies/5
         public Responses Put(int id, [FromBody]M_CompanyViewModel entity)
         {
             entity.Id = id;
-            return M_CompanyRepo.Update(entity);
+            Responses result = new Responses();
+            if (ModelState.IsValid)
+            {
+
+                result = M_CompanyRepo.Update(entity);
+            }
+            else
+            {
+                result.Success = false;
+            }
+            return result;
         }
 
         // DELETE: api/M_Companies/5

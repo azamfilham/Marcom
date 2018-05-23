@@ -12,10 +12,13 @@ namespace Marcom.ViewModel
         public int Id { get; set; }
         [Display(Name = "Company Code")]
         public string Code { get; set; }
-        [Display(Name = "Company Name")]
+        [Display(Name = "Company Name"), Required(ErrorMessage = "Please enter Company Name.")]
         public string Name { get; set; }
+        [Display(Name = "Address"), Required(ErrorMessage = "Please enter Address.")]
         public string Address { get; set; }
+        [Display(Name = "Phone"), Required]
         public string Phone { get; set; }
+        [Display(Name = "Email"), Required]
         public string Email { get; set; }
         public bool IsDelete { get; set; }
         [Display(Name = "Created By")]
