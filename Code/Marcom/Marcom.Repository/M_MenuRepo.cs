@@ -22,7 +22,7 @@ namespace Marcom.Repository
                               Id = m.id,
                               Code = m.code,
                               Name = m.name,
-
+                              ParentId = m.parent_id,
                               CreatedBy = m.created_by,
                               CreatedDate = m.created_date
                           }).ToList();
@@ -59,7 +59,7 @@ namespace Marcom.Repository
                 {
                     if (entity.Id != 0)
                     {
-                        m_menu menu = db.m_menu.Where(m => m.id == entity.Id).FirstOrDefault();
+                        m_menu menu = db.m_menu.Where(m => m.id == entity.Id && m.id != entity.ParentId).FirstOrDefault();
                         if (menu != null)
                         {
                             menu.code = entity.Code;
@@ -162,6 +162,25 @@ namespace Marcom.Repository
                 }
             }
             return new string[] { numbers, alpha };
+        }
+
+        //parent id
+        public static List<M_MenuViewModel> GetByParentId(int PId)
+        {
+            List<M_MenuViewModel> result = new List<M_MenuViewModel>();
+            using (var db = new MarcomContext())
+            {
+                result = (from m in db.m_menu
+                         where m.parent_id != PId
+                          select new M_MenuViewModel
+                          {
+                              Id = m.id,
+                              Code = m.code,
+                              Name = m.name,
+                              ParentId = m.parent_id
+                          }).ToList();
+            }
+            return result;
         }
     }
 }

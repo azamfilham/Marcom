@@ -1,0 +1,122 @@
+﻿@model Marcom.ViewModel.M_MenuViewModel
+
+@{
+    ViewBag.Title = "Add Menu";
+}
+
+@{
+    Layout = "";
+}
+
+@using (Html.BeginForm("", "M_Menu", FormMethod.Post, new { id = "create-form", name = "create-form" }))
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+       
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @*<div class="form-group">
+            @Html.LabelFor(model => model.Code, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Code, new { htmlAttributes = new { @class = "form-control" ,  @name ="code" , @id = "code" } })
+                @Html.ValidationMessageFor(model => model.Code, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" ,  @name = "name", @id = "name"} } )
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Controller, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Controller, new { htmlAttributes = new { @class = "form-control", @name = "controller", @id = "controller" } })
+                @Html.ValidationMessageFor(model => model.Controller, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ParentId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <select class="form-control valid" data-val="true" id="parentid" name="parentid">
+                    <option value="0">Select Parent Id</option>
+                </select>
+
+                @*@Html.EditorFor(model => model.ParentId, new { htmlAttributes = new { @class = "form-control", @name = "parentid", @id = "parentid" } })*@
+                @Html.ValidationMessageFor(model => model.ParentId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" id="btn-save" class="btn btn-default btn-info" value="Create"/>
+                   
+            </div>
+        </div>
+    </div>
+}
+
+@Scripts.Render("~/bundles/jqueryval")
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        SetParentId(0);
+    })
+    //dropdown list role
+    function SetParentId(parentId) {
+        $.ajax({
+            url: 'http://localhost:50876/api/M_Menus',
+            type: 'GET',
+            success: function (result) {
+                $.each(result, function (i, item) {
+                    var option = '<option value="' + item.Id + '">' + item.Name + '</option>';
+                    $('#parentid').append(option);
+                })
+                $('#parentid').val(parentId);
+
+            },
+            error: function (err) {
+                alert(err);
+            }
+        })
+    }
+
+
+    $("#create-form").submit(function () {
+        
+        var code = $("#code").val();
+        var name = $("#name").val();
+        var controller = $("#controller").val();
+        var parentid = $("#parentid").val();
+
+        var data = { Code: code, Name: name, Controller: controller, ParentId: parentid };
+        //alert (JSON.stringify(data));
+        $.ajax({
+            url: "http://localhost:50876/api/M_Menus",
+            type: 'post',
+            contentType: 'application/json',
+            dataType: 'json',
+            data: JSON.stringify(data),
+            success: function (result) {
+                if (result.Success) {
+
+                    alert("Success");
+                    $("#modal-Form").modal("hide");
+                    ShowList();
+                }
+                else {
+                    alert("error : " + result.Message);
+                }
+            },
+            error: function (err) {
+                alert(err);
+            }
+        })
+        return false;
+ })
+</script>

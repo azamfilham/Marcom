@@ -1,4 +1,5 @@
-﻿
+﻿@model Marcom.ViewModel.M_MenuViewModel
+
 @{
     ViewBag.Title = "Master Menu";
 }
@@ -64,7 +65,7 @@
                     </thead>
 
                     <tbody id="item-list"></tbody>
-
+                   
                   
                 </table>
             </div>
@@ -93,11 +94,34 @@
 
 
 
+<div class="modal fade" tabindex="-1" role="dialog" id="modal-Form2">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">   </h4>
+
+
+            </div>
+
+            <div class="modal-body">
+                <p>One fine body&hellip;</p>
+            </div>
+            
+            
+
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 @section Scripts
 {
 
-
 <script type="text/javascript">
+
+    $(".datepicker").datepicker({
+        format: 'dd M yyyy'
+    })
 
  
     //load data table
@@ -134,154 +158,158 @@
         })
     }
 
-    //menampilkan modal edit
-    function SelectItem(obj) {
-        var id = $(obj).attr("data-id");
-       // alert(JSON.stringify(id));
-        $.ajax({
-            url: "http://localhost:50876/api/M_Menus/" + id,
-            type: 'get',
-            data: 'json',
-            success: function (result) {
-                var tr = GetItem(result);
-                $(".modal-body").html(tr);
-                $(".modal-title").html("Edit Menu - " + result.Name  + "( " + result.Code + " ) " );
-                $("#modal-Form").modal("show");
-            },
-            error: function (err) {
-                alert(err);
-            }
-        })
+    ////menampilkan modal edit
+    //function SelectItem(obj) {
+    //    var id = $(obj).attr("data-id");
+    //   // alert(JSON.stringify(id));
+    //    $.ajax({
+    //        url: "http://localhost:50876/api/M_Menus/" + id,
+    //        type: 'get',
+    //        data: 'json',
+    //        success: function (result) {
+    //            var tr = GetItem(result);
+    //            $(".modal-body").html(tr);
+    //            $(".modal-title").html("Edit Menu - " + result.Name  + "( " + result.Code + " ) " );
+    //            $("#modal-Form").modal("show");
+    //        },
+    //        error: function (err) {
+    //            alert(err);
+    //        }
+    //    })
 
-    }
+    //}
 
     
 
-    //get by id buat popup edit
-    function GetItem(data) {
-        var form = "<form method='post' class='form-horizontal'>";
+    ////get by id buat popup edit
+    //function GetItem(data) {
+    //    var form = "<form method='post' class='form-horizontal'>";
 
-        form += "<table class='table col-md-12'>"
-        form += "<tr><td class='control-label col-md-2'>" + ' Code' + "</td><td> <input data-val='true' id='id' name='id' type='hidden' value='" + data.Id + "'><input class='form-control text-box single-line' id='code' name='code' readonly='readonly' type='text' value='" + data.Code + "'></td>"
-        form += "<tr><td class='control-label col-md-2'>" + ' Name' + "</td><td> <input class='form-control text-box single-line' type='text' id='name' name='name' value='" + data.Name + "'> </td>"
-        form += "<tr><td class='control-label col-md-2'>" + ' Controller' + "</td><td> <input class='form-control text-box single-line' type='text' id='controller' name='controller' value='" + data.Controller + "'> </td>"
-        form += "<tr><td class='control-label col-md-2'>" + ' ParentId' + "</td><td> <input class='form-control text-box single-line' type='text' id='parentid' name='parentid' value='" + data.ParentId + "'> </td>"
-        form += "</table>";
-        form += "<br>"
-        form += "<button type='button' class='btn btn-sm btn-success btn-Save' onclick='UpdateMenu()'>Save</button> <button type='button' class='btn btn-sm btn-default' data-dismiss='modal'>Cancel</button>"
-        form += "</form>";
+    //    form += "<table class='table col-md-12'>"
+    //    form += "<tr><td class='control-label col-md-2'>" + ' Code' + "</td><td> <input data-val='true' id='id' name='id' type='hidden' value='" + data.Id + "'><input class='form-control text-box single-line' id='code' name='code' readonly='readonly' type='text' value='" + data.Code + "'></td>"
+    //    form += "<tr><td class='control-label col-md-2'>" + ' Name' + "</td><td> <input class='form-control text-box single-line' type='text' id='name' name='name' value='" + data.Name + "'> </td>"
+    //    form += "<tr><td class='control-label col-md-2'>" + ' Controller' + "</td><td> <input class='form-control text-box single-line' type='text' id='controller' name='controller' value='" + data.Controller + "'> </td>"
+    //    form += "<tr><td class='control-label col-md-2'>" + ' ParentId' + "</td><td> <input class='form-control text-box single-line' type='text' id='parentid' name='parentid' value='" + data.ParentId + "'> </td>"
+       
 
-        $(".modal-body").html(form);
-    }
+
+    //    form += "</table>";
+    //    form += "<br>"
+    //    form += "<button type='button' class='btn btn-sm btn-success btn-Save' onclick='UpdateMenu()'>Save</button> <button type='button' class='btn btn-sm btn-default' data-dismiss='modal'>Cancel</button>"
+    //    form += "</form>";
+
+    //    $(".modal-body").html(form);
+    //}
 
 
    
-    //menampilkan popup create
-    $("#btn-Create").click(function () {
-        
+    ////menampilkan popup create
+    //$("#btn-Create").click(function () {
+    //    SetParentId(0);
 
-        var form = "<form method='post' class='form-horizontal' name='menu' id='menu'>";
+    //    var form = "<form method='post' class='form-horizontal' name='menu' id='menu'>";
 
-        form += "<table class='table col-md-12'>"
-        form += "<tr><td class='control-label col-md-2'>" + ' Code' + "</td><td><input type='text' name='code' id='code' class='form-control col-md-6' readonly='readonly' placeholder='ME0003'></td>"
-        form += "<tr><td class='control-label col-md-2'>" + ' Name' + "</td><td><input type='text' name='name' id='name' class='form-control' data-validation='length alphanumeric'></td>"
-        form += "<tr><td class='control-label col-md-2'>" + ' Controller' + "</td><td><input type='text' name='code' id='controller' class='form-control'></td>"
-        form += "<tr><td class='control-label col-md-2'>" + ' ParentId' + "</td><td><input type='text' name='name' id='parentid' class='form-control'></td>"
-        form += "</table>";
-        form += "<br>"
-        form += "<button type='button' class='btn btn-sm btn-success btn-Save' onclick='AddMenu()'>Save</button> <button type='button' class='btn btn-sm btn-default' data-dismiss='modal'>Cancel</button>"
-        form += "</form>";
-        $(".modal-body").html(form);
-        $(".modal-title").html("Add Menu");
-        $("#modal-Form").modal("show");
-    })
+    //    form += "<table class='table col-md-12'>"
+    //    form += "<tr><td class='control-label col-md-2'>" + ' Code' + "</td><td><input type='text' name='code' id='code' class='form-control col-md-6' readonly='readonly' placeholder='ME0003'></td>"
+    //    form += "<tr><td class='control-label col-md-2'>" + ' Name' + "</td><td><input type='text' name='name' id='name' class='form-control'> </td>"
+    //    form += "<tr><td class='control-label col-md-2'>" + ' Controller' + "</td><td><input type='text' name='code' id='controller' class='form-control'></td>"
+    //    //form += "<tr><td class='control-label col-md-2'>" + ' ParentId' + "</td><td><input type='text' name='name' id='parentid' class='form-control'></td>"
+    //    form += "<tr><td class='control-label col-md-2'>" + ' ParentId' + "</td><td> <select class='form-control valid' data-val='true' data-val-number='The field must be a number.' id='parentid' name='parentid'><option value=''>Select Parent</option></select> </td>"
+    //    form += "</table>";
+    //    form += "<br>"
+    //    form += "<button type='button' class='btn btn-sm btn-success btn-Save' onclick='AddMenu()'>Save</button> <button type='button' class='btn btn-sm btn-default' data-dismiss='modal'>Cancel</button>"
+    //    form += "</form>";
+    //    $(".modal-body").html(form);
+    //    $(".modal-title").html("Add Menu");
+    //    $("#modal-Form").modal("show");
+    //})
 
-    //fungsi tambah atau post create
-    function AddMenu() {
-        var code = $("#code").val();
-        var name = $("#name").val();
-        var controller = $("#controller").val();
-        var parentid = $("#parentid").val();
+    ////fungsi tambah atau post create
+    //function AddMenu() {
+    //    var code = $("#code").val();
+    //    var name = $("#name").val();
+    //    var controller = $("#controller").val();
+    //    var parentid = $("#parentid").val();
 
-        var data = { Code: code, Name: name, Controller: controller, ParentId: parentid };
-        //alert (JSON.stringify(data));
-        $.ajax({
-            url: "http://localhost:50876/api/M_Menus",
-            type: 'post',
-            contentType: 'application/json',
-            dataType: 'json',
-            data: JSON.stringify(data),
-            success: function (result) {
-                if (result.Success) {
+    //    var data = { Code: code, Name: name, Controller: controller, ParentId: parentid };
+    //    //alert (JSON.stringify(data));
+    //    $.ajax({
+    //        url: "http://localhost:50876/api/M_Menus",
+    //        type: 'post',
+    //        contentType: 'application/json',
+    //        dataType: 'json',
+    //        data: JSON.stringify(data),
+    //        success: function (result) {
+    //            if (result.Success) {
                   
-                    alert("Success");
-                    $("#modal-Form").modal("hide");
-                    ShowList();
-                }
-                else {
-                    alert("error : " + result.Message);
-                }
-            },
-            error: function (err) {
-                alert(err);
-            }
-        })
-    }
+    //                alert("Success");
+    //                $("#modal-Form").modal("hide");
+    //                ShowList();
+    //            }
+    //            else {
+    //                alert("error : " + result.Message);
+    //            }
+    //        },
+    //        error: function (err) {
+    //            alert(err);
+    //        }
+    //    })
+    //}
 
-    //post edit
-    function UpdateMenu(obj) {
-        var id = $("#id").val();
-        var code = $("#code").val();
-        var name = $("#name").val();
-        var controller = $("#controller").val();
-        var parentid = $("#parentid").val();
+    ////post edit
+    //function UpdateMenu(obj) {
+    //    var id = $("#id").val();
+    //    var code = $("#code").val();
+    //    var name = $("#name").val();
+    //    var controller = $("#controller").val();
+    //    var parentid = $("#parentid").val();
 
-        var data = { Id: id, Code: code, Name: name, Controller: controller, ParentId: parentid };
-        $.ajax({
-            url: "http://localhost:50876/api/M_Menus/" + id,
-            type: 'put',
-            contentType: 'application/json',
-            dataType: 'json',
-            data: JSON.stringify(data),
-            success: function (result) {
-                if (result.Success) {
-                    alert("Success");
-                    $("#modal-Form").modal("hide");
-                    ShowList();
-                }
-                else {
-                    alert("error : " + result.Message);
-                }
-            },
-            error: function (err) {
-                alert(err);
-            }
-        })
-    }
+    //    var data = { Id: id, Code: code, Name: name, Controller: controller, ParentId: parentid };
+    //    $.ajax({
+    //        url: "http://localhost:50876/api/M_Menus/" + id,
+    //        type: 'put',
+    //        contentType: 'application/json',
+    //        dataType: 'json',
+    //        data: JSON.stringify(data),
+    //        success: function (result) {
+    //            if (result.Success) {
+    //                alert("Success");
+    //                $("#modal-Form").modal("hide");
+    //                ShowList();
+    //            }
+    //            else {
+    //                alert("error : " + result.Message);
+    //            }
+    //        },
+    //        error: function (err) {
+    //            alert(err);
+    //        }
+    //    })
+    //}
 
-    //delete
-    function DeleteMenu(obj) {
-        var id = $(obj).attr("data-id");
-       // alert (JSON.stringify(id));
-        $.ajax({
-            url: "http://localhost:50876/api/M_Menus/" + id,
-            type: 'delete',
-            dataType: 'json',
-            data: id,
-            success: function (result) {
-                if (result.Success) {
-                    alert("Success");
-                    ShowList();
-                }
-                else {
-                    alert("error : " + result.Message);
-                }
-            },
-            error: function (err) {
-                alert(err);
-            }
-        })
-    }
+    ////delete
+    //function DeleteMenu(obj) {
+    //    var id = $(obj).attr("data-id");
+    //   // alert (JSON.stringify(id));
+    //    $.ajax({
+    //        url: "http://localhost:50876/api/M_Menus/" + id,
+    //        type: 'delete',
+    //        dataType: 'json',
+    //        data: id,
+    //        success: function (result) {
+    //            if (result.Success) {
+    //                alert("Success");
+    //                ShowList();
+    //            }
+    //            else {
+    //                alert("error : " + result.Message);
+    //            }
+    //        },
+    //        error: function (err) {
+    //            alert(err);
+    //        }
+    //    })
+    //}
 
     //detail
     function LihatMenu(obj) {
@@ -319,10 +347,124 @@
         $(".modal-body").html(form);
     }
 
+    //dropdown list role
+    function SetParentId(parentId) {
+        $.ajax({
+            url: 'http://localhost:50876/api/M_Menus',
+            type: 'GET',
+            success: function (result) {
+                $.each(result, function (i, item) {
+                    var option = '<option value="' + item.Id + '">' + item.Name + '</option>';
+                    $('#parentid').append(option);
+                })
+                $('#parentid').val(parentId);
+
+            },
+            error: function (err) {
+                alert(err);
+            }
+        })
+    }
 
 
+
+    //fungsi Delete
+    function DeleteMenu(obj) {
+        var id = $(obj).attr("data-id");
+        $.ajax({
+            url: "http://localhost:50876/api/M_Menus/" + id,
+            type: 'GET',
+            contentType: "JSON",
+            success: function (result) {
+                var tr = DeleteItem(result);
+                $(".modal-body").html(tr);
+                $(".modal-title").html("Delete Menu");
+                $("#modal-Form2").modal("show");
+               
+
+            },
+            error: function (err) {
+                alert(err)
+            }
+        })
+    }
+
+    //tampilan Delete (dipanggil di fungsi Delete)
+    function DeleteItem(data) {
+        var form = "<h5>Delete Data?</h5>"
+        form += "<td><input data-val='true' id='id' type='hidden' value='" + data.Id + "'/>"
+        form += "<br>"
+        form += "<p> " + data.Name +  " </p>"
+        form += "<button type='button' class='btn btn-sm btn-danger btn-save' onclick='ConfirmDelete(this)'>Delete</button>"
+        form += "<button type='button' class='btn btn-sm btn-default btn-cancel' data-dismiss='modal'>Cancel</button>"
+        form += "</form>";
+        $(".modal-body").html(form);
+        $("#modal-Form2").modal("show");
+    }
+
+    //post delete (update)
+    function ConfirmDelete(obj) {
+        var id = $("#id").val();
+        $.ajax({
+            url: "http://localhost:50876/api/M_Menus/" + id,
+            type: 'DELETE',
+            contentType: 'application/json',
+            dataType: 'json',
+            data: { Id: id },
+            success: function (result) {
+                if (result.Success) {
+                    alert("Success");
+                    $("#modal-Form2").modal("hide");
+                    ShowList();
+                }
+                else {
+                    alert("error : " + result.Message);
+                }
+            },
+            error: function (err) {
+                alert(err);
+            }
+        })
+    }
+
+
+
+
+
+    //view partial pakainya disini//
+
+    $("#btn-Create").click(function () {
+        
+        $.ajax({
+            url: '@Url.Action("Create", "M_Menu")',
+            type: 'get',
+            success: function (result) {
+                $(".modal-body").html(result);
+                $(".modal-title").html("Add Menu");
+                $("#modal-Form").modal("show");
+            }
+        })
+    })
+
+   // menampilkan modal edit
+    function SelectItem(obj) {
+        var id = $(obj).attr("data-id");
+        //alert(JSON.stringify(id));
+        $.ajax({
+            url: '@Url.Action("Edit", "M_Menu")',
+            type: 'get',
+            data: {id:id},
+            success: function (result) {
+                $(".modal-body").html(result);
+                $(".modal-title").html("Edit Menu");
+                $("#modal-Form").modal("show");
+            },
+            error: function (err) {
+                alert(err);
+            }
+        })
+    }
     
-
 
 </script>
 }

@@ -11,7 +11,7 @@ namespace Marcom.ViewModel
     {
         public int Id { get; set; }
 
-        [Display(Name = "Code"), Required, MaxLength(50)]
+        [Display(Name = "Code"), MaxLength(50)]
         public string Code { get; set; }
 
         [Display(Name = "Menu Name"), Required, MaxLength(50)]
