@@ -75,22 +75,22 @@ namespace Marcom.Repository
             return result;
         }
 
-        public static bool UserExist(string user)
-        {
-            bool result = true;
-            using (var db = new MarcomContext())
-            {
-                m_user us = db.m_user.Where(u => u.username == user).FirstOrDefault();
-                if (us == null)
-                {
-                    return result = false;
-                }
-                else
-                {
-                    return result = true;
-                }
-            }
-        }
+        //public static bool UserExist(string user)
+        //{
+        //    bool result = true;
+        //    using (var db = new MarcomContext())
+        //    {
+        //        m_user us = db.m_user.Where(u => u.username == user).FirstOrDefault();
+        //        if (us == null)
+        //        {
+        //            return result = false;
+        //        }
+        //        else
+        //        {
+        //            return result = true;
+        //        }
+        //    }
+        //}
 
         public static Responses Update(M_UserViewModel entity)
         {

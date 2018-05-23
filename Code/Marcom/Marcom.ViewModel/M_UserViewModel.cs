@@ -30,7 +30,7 @@ namespace Marcom.ViewModel
         [Display(Name = "Employee")]
         public string LastName { get; set; }
 
-        [Display(Name = "Employee"), Required]
+        [Display(Name = "Employee Name"), Required]
         public string FullName
         {
             get
