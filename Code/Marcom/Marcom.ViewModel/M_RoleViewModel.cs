@@ -15,20 +15,21 @@ namespace Marcom.ViewModel
         }
         public int Id { get; set; }
 
-        [Display(Name ="Role Code"), Required]
+        [Display(Name ="Role Code")]
         public string Code { get; set; }
 
-        [Display(Name = "Role Name"), Required]
+        [Display(Name = "Role Name")]
+        [Required (ErrorMessage = "Role name is required")]
         public string Name { get; set; }
 
         public string Description { get; set; }
 
         public bool IsDelete { get; set; }
 
-        [Display(Name = "Created By"), Required]
+        [Display(Name = "Created By")]
         public string CreatedBy { get; set; }
 
-        [Display(Name = "Created Date"), DisplayFormat(DataFormatString = "{0:dd MMM yyyy}"), Required]
+        [Display(Name = "Created Date"), DisplayFormat(DataFormatString = "{0:dd MMM yyyy}")]
         public DateTime CreatedDate { get; set; }
 
         public string UpdatedBy { get; set; }

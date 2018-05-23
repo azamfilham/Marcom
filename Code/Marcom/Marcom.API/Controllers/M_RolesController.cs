@@ -27,7 +27,16 @@ namespace Marcom.API.Controllers
         public Responses Post([FromBody]M_RoleViewModel entity)
         {
             entity.Code = M_RoleRepo.GetNewCode();
-            return M_RoleRepo.Update(entity);
+            Responses result = new Responses();
+            if (ModelState.IsValid)
+            {
+                result = M_RoleRepo.Update(entity);
+            }
+            else
+            {
+                result.Success = false;
+            }
+            return result;
         }
 
         // PUT: api/M_Roles/5

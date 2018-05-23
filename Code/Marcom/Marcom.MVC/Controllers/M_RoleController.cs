@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Marcom.Repository;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -16,6 +17,18 @@ namespace Marcom.MVC.Controllers
         public ActionResult Create()
         {
             return PartialView("_Create");
+        }
+        public ActionResult Edit(int id)
+        {
+            return PartialView("_Edit", M_RoleRepo.GetById(id));
+        }
+        public ActionResult View(int id)
+        {
+            return PartialView("_View", M_RoleRepo.GetById(id));
+        }
+        public ActionResult Delete(int id)
+        {
+            return PartialView("_Delete", M_RoleRepo.GetById(id));
         }
     }
 }
