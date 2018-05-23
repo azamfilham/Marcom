@@ -10,21 +10,25 @@ namespace Marcom.ViewModel
     public class M_SouvenirViewModel
     {
         public int Id { get; set; }
-        [Required]
+
+        [Display(Name = "Souvenir Code")]
         public string Code { get; set; }
+        [Display(Name ="Souvenir Name"), Required]
         public string Name { get; set; }
         public string Description { get; set; }
+        [Display(Name ="Unit Name")]
         public int mUnitId { get; set; }
         public string unitName { get; set; }
         public bool isDelete { get; set; }
+
+        [Display(Name = "Created By")]
         public string Created_by { get; set; }
 
-        [DisplayFormat(DataFormatString = "{0:d}")]
+        [Display(Name ="Created Date")]
         public DateTime Created_date { get; set; }
 
         public string Updated_by { get; set; }
 
-        [DisplayFormat(DataFormatString = "{0:d}")]
         public DateTime? Updated_date { get; set; }
     }
 }

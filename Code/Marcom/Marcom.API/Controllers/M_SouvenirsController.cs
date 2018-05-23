@@ -26,7 +26,16 @@ namespace Marcom.API.Controllers
         // POST: api/M_Souvenirs
         public Responses Post([FromBody]M_SouvenirViewModel entity)
         {
-            return M_SouvenirRepo.Update(entity);
+            Responses result = new Responses();
+            if (ModelState.IsValid)
+            {
+                result = M_SouvenirRepo.Update(entity);
+            }
+            else
+            {
+                result.Success = false;
+            }
+            return result;
         }
 
         // PUT: api/M_Souvenirs/5
