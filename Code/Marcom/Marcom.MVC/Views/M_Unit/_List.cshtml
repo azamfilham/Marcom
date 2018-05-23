@@ -1,0 +1,95 @@
+﻿@model IEnumerable<Marcom.ViewModel.M_UnitViewModel>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Code)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsDelete)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreatedBy)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreatedDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UpdatedBy)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UpdatedDate)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Code)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CreatedBy)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CreatedDate)
+        </td>
+
+        <td>
+            <button type='button' class='btn btn-sm  btn-View' data-id='' onclick ='LihatUnit(this)' ><span class='glyphicon glyphicon-search'></span></button>
+            <button type='button' class='btn btn-sm btn-warning btn-Edit' data-id=' ' onclick ='SelectUnit(this)'><span class='glyphicon glyphicon-edit'></span></button>
+            <button type='button' class='btn btn-sm btn-danger btn-Delete' data-id=' ' onclick ='DeleteUnit(this)' ><span class='glyphicon glyphicon-trash'></span></button>
+        </td>
+    </tr>
+}
+
+</table>
+    
+
+<script type="text/javascript">
+    $("#data-list").DataTable();
+    $(".btn-Edit").click(function () {
+        //alert($(this).attr("data-id"));
+            $.ajax({
+                url: '@Url.Action("Edit","M_Unit")',
+                type: 'get',
+                data : {id: $(this).attr("data-id")},
+                success: function (result) {
+                    $(".modal-body").html(result);
+                    $(".modal-title").html("Edit Unit");
+                    $("#modal-Form").modal("show");
+                }
+            })
+    })
+
+    $(".btn-Delete").click(function () {
+        //alert($(this).attr("data-id"));
+        $.ajax({
+            url: '@Url.Action("Delete","M_Unit")',
+            type: 'get',
+            data: { id: $(this).attr("data-id") },
+            success: function (result) {
+                $(".modal-body").html(result);
+                $(".modal-title").html("Delete Unit");
+                $("#modal-Form").modal("show");
+            }
+        })
+    })
+
+</script>
+    
