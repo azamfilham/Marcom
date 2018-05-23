@@ -1,7 +1,135 @@
 ﻿
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "List Menu Access";
 }
 
-<h2>Index</h2>
+<style>
+    table th {
+        width: 16%;
+    }
+</style>
+
+<div class="box">
+    <div class="box-header">
+        
+    </div>
+    <div class="box-body">
+        <div class="row">
+
+            <div class="col-lg-12">
+                <button type="button" id="btn-Create" class="btn btn-lg btn-success pull-right">
+                    Add
+                </button>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-lg-12">
+                <table class="table table-bordered table-striped" id="data-list">
+                    <thead>
+                        <tr>
+                            <th>Role Code</th>
+                            <th>Role Name</th>
+                            <th>Created Date</th>
+                            <th>Create By</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="item-list"></tbody>
+
+                    <tfoot>
+                        
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog" id="modal-Form">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">List Item</h4>
+
+            </div>
+
+            <div class="modal-body">
+                <p>One fine body&hellip;</p>
+            </div>
+
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+@section Scripts
+{
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            ItemList();
+        })
+
+        function ItemList()
+        {
+            $.ajax({
+                url: "http://localhost:50876/api/M_Roles",
+                type: 'get',
+                data: 'json',
+                success: function (result) {
+                    var table = "<table class='table'>";
+                    table += "<tbody>";
+                    $.each(result, function (i, item) {
+
+                        var tr = "<tr><td>" + item.Code + "</td><td>" + item.Name + "</td><td>" + item.CreatedBy + "</td><td>" + item.CreatedDate + "</td><td><button type='button' class='btn btn-sm btn-success btn-View' data-id='" + item.Id + "' ><span class='glyphicon glyphicon-sunglasses'></span></button><button type='button' class='btn btn-sm btn-success btn-Edit' data-id='" + item.Id + "' onclick ='EditItem(this)'><span class='glyphicon glyphicon-edit'></span></button><button type='button' class='btn btn-sm btn-success btn-Delete' data-id='" + item.Id + "' ><span class='glyphicon glyphicon-trash'></span></button></td></tr>";
+                        table += tr;
+
+                    })
+                    table += "</tbody>";
+                    table += "</table>";
+                    $("#item-list").html(table);
+                    $("#data-list").DataTable();
+
+                },
+                error: function (err) {
+                    alert(err);
+                }
+            })
+        }
+
+        function EditItem(obj) {
+            var id = $(obj).attr("data-id");
+
+            $(".btn-Edit").click(function () {
+                $.ajax({
+                    url: '@Url.Action("Edit", "M_MenuAccess")',
+                    type: 'get',
+                    success: function (result) {
+                        $(".modal-body").html(result);
+                        $(".modal-title").html("Edit Menu Access");
+                        $("#modal-Form").modal("show");
+                    }
+                })
+            })
+
+        }
+
+        $("#btn-Create").click(function () {
+            $.ajax({
+                url: '@Url.Action("Create", "M_MenuAccess")',
+                type: 'get',
+                success: function (result) {
+                    $(".modal-body").html(result);
+                    $(".modal-title").html("Add Menu Access");
+                    $("#modal-Form").modal("show");
+                }
+            })
+        })
+
+
+    </script>
+}
 

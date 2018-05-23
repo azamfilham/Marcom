@@ -1,0 +1,192 @@
+﻿@model Marcom.ViewModel.T_SouvenirViewModel
+
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Code, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Code, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Code, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ReceivedBy, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <select class="form-control valid" data-val="true" id="EmployeeReceived" name="EmployeeReceived">
+                    <option value="0">Select Employee</option>
+                </select>
+                @Html.ValidationMessageFor(model => model.ReceivedBy, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ReceivedDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ReceivedDate, new { htmlAttributes = new { @class = "form-control datepicker" } })
+                @Html.ValidationMessageFor(model => model.ReceivedDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Note, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.Note, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Note, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        
+
+        <div class="row">
+            <div class="col-lg-12">
+                <button type="button" id="btn-addItem" class="btn btn-default btn-success">
+                    Add Item
+                </button>
+                <br />
+
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Souvenir Name</th>
+                            <th>Qty</th>
+                            <th>Note</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="souvenir-list"></tbody>
+
+                    <tfoot>
+
+                    </tfoot>
+                </table>
+                
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <button type="button" id="btn-save" class="btn btn-default btn-info pull-right">
+                    Save
+                </button>
+            </div>
+        </div>
+    </div>
+}
+
+    @Scripts.Render("~/bundles/jqueryval")
+
+<script>
+
+    $(document).ready(function () {
+        SetEmployeeReceived(0);
+    })
+
+    $(".datepicker").datepicker({
+        format: 'dd M yyyy',
+        
+    })
+
+    function SetEmployeeReceived(EmployeeReceived) {
+        $.ajax({
+            url: 'http://localhost:50876/api/M_Employees',
+            type: 'GET',
+            success: function (result) {
+                $.each(result, function (i, item) {
+                    var option = '<option value="' + item.Id + '">' + item.EmployeeName + '</option>';
+                    $('#EmployeeReceived').append(option);
+                })
+                $('#EmployeeReceived').val(EmployeeReceived);
+            },
+            error: function (err) {
+                alert(err);
+            }
+        })
+    }
+
+    function GetListItem() {
+        var table = "<tr>";
+        table += "<th><select class='form-control col-md-6' data-val='true' id='u_SouvenirId' name='u_SouvenirId'><option value=' '>Select Souvenir</option></select></th> <th><input id='qty' name='qty' placeholder='Qty' type='number' /></th> <th><input id='note' name='note' placeholder='Note' /></th> <th><button type='button' class='btn btn-danger btn-sm btn-remove' onclick='Remove(this)'> <span class='glyphicon glyphicon-trash'></span></button></th>";
+
+        table += "</tr>";
+
+        return table;
+    }
+
+    $("#btn-addItem").click(function () {
+        var tr = GetListItem();
+        $("#souvenir-list").append(tr);  //memasukkan TR ke itemlist
+        SetSouvenir(0);
+    })
+
+    function Remove(obj) {
+        $(obj).closest("tr").remove();
+    }
+    
+    $("#btn-save").click(function () {
+
+        var transactionCode = document.getElementById('Code').value;
+        var rcvDate = document.getElementById('ReceivedDate').value;
+        var note = document.getElementById('Note').value;
+
+        var empRcv = document.getElementById('EmployeeReceived');
+        //alert(mMenuId.selectedIndex);
+        //alert(mMenuId.options[mMenuId.selectedIndex].value);
+        var empRcvv = empRcv.options[empRcv.selectedIndex].value;
+        
+
+        var now = new Date();
+
+        var data = { ReceivedBy: empRcvv, ReceivedDate: rcvDate, Note: note, Type: "Additional", TEventId: 1, CreatedBy: "Admin", CreatedDate: now, Code: transactionCode, RequestBy: empRcvv };
+
+        //alert(JSON.stringify(data));
+
+        $.ajax({
+            url: "http://localhost:50876/api/T_Souvenirs",
+            type: 'post',
+            contentType: 'application/json',
+            dataType: 'json',
+            data: JSON.stringify(data),
+            success: function (result) {
+                if (result.Success) {
+                    alert("Success");
+                    $("#modal-Form").modal("hide");
+                    ItemList();
+                }
+                else {
+                    alert("error : " + result.Message);
+                }
+            },
+            error: function (err) {
+                alert(err);
+            }
+        })
+    })
+
+    function SetSouvenir(u_SouvenirId) {
+        $.ajax({
+            url: 'http://localhost:50876/api/M_Souvenirs',
+            type: 'GET',
+            success: function (result) {
+                $('#u_SouvenirId').html('<option value="0">Select Souvenir</option>');
+                $.each(result, function (i, item) {
+                    var option = '<option value="' + item.Id + '">' + item.Name + '</option>';
+                    $('#u_SouvenirId').append(option);
+                })
+                $('#u_SouvenirId').val(u_SouvenirId)
+            },
+            error: function (err) {
+                alert(err);
+            }
+        })
+    }
+
+</script>

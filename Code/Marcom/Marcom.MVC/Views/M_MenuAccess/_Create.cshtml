@@ -1,0 +1,123 @@
+﻿@model Marcom.ViewModel.M_MenuAccessViewModel
+
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.MRoleId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <select class="form-control valid" data-val="true" id="MRoleId" name="MRoleId">
+                    <option value="0">Select Role</option>
+                </select>
+                @Html.ValidationMessageFor(model => model.MRoleId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.MMenuId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <select class="form-control valid" data-val="true" id="MMenuId" name="MMenuId">
+                    <option value="0">Select Menu Access</option>
+                </select>
+                @Html.ValidationMessageFor(model => model.MMenuId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <button type="button" id="btn-save" class="btn btn-default btn-info">
+                    Create
+                </button>
+            </div>
+        </div>
+        
+    </div>
+    
+}
+
+
+@Scripts.Render("~/bundles/jqueryval")
+
+<script>
+    $(document).ready(function () {
+        SetMRoleId(0);
+        SetMMenuId(0);
+    })
+
+    function SetMRoleId(RoleId) {
+        $.ajax({
+            url: 'http://localhost:50876/api/M_Roles',
+            type: 'GET',
+            success: function (result) {
+                $.each(result, function (i, item) {
+                    var option = '<option value="' + item.Id + '">' + item.Name + '</option>';
+                    $('#MRoleId').append(option);
+                })
+                $('#MRoleId').val(RoleId);
+            },
+            error: function (err) {
+                alert(err);
+            }
+        })
+    }
+
+        function SetMMenuId(MenuId) {
+            $.ajax({
+                url: 'http://localhost:50876/api/M_Menus',
+                type: 'GET',
+                success: function (result) {
+                    $.each(result, function (i, item) {
+                        var option = '<option value="' + item.Id + '">' + item.Name + '</option>';
+                        $('#MMenuId').append(option);
+                    })
+                    $('#MMenuId').val(MenuId);
+                    
+                },
+                error: function (err) {
+                    alert(err);
+                }
+            })
+        }
+
+    
+        $("#btn-save").click(function () {
+           
+            var mRoleId = document.getElementById('MRoleId');
+            var mMenuId = document.getElementById('MMenuId');
+            //alert(mRoleId.selectedIndex);
+            //alert(mRoleId.options[mRoleId.selectedIndex].value);
+            var mmRoleId = mRoleId.options[mRoleId.selectedIndex].value;
+            var mmMenuId = mMenuId.options[mMenuId.selectedIndex].value;
+            var now = new Date();
+            
+            var data = { MRoleId: mmRoleId, MMenuId: mmMenuId, IsDelete: false, CreatedBy: "csk", CreatedDate: now };
+            //alert(JSON.stringify(data));
+
+            $.ajax({
+                url: "http://localhost:50876/api/M_MenuAcesses",
+                type: 'post',
+                contentType: 'application/json',
+                dataType: 'json',
+                data: JSON.stringify(data),
+                success: function (result) {
+                    if (result.Success) {
+                        alert("Success");
+                        $("#modal-Form").modal("hide");
+                    }
+                    else {
+                        alert("error : " + result.Message);
+                    }
+                },
+                error: function (err) {
+                    alert(err);
+                }
+            })
+        })
+
+</script>
+

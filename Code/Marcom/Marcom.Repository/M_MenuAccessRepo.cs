@@ -13,6 +13,7 @@ namespace Marcom.Repository
         public static Responses Update(M_MenuAccessViewModel entity)
         {
             Responses result = new Responses();
+
             try
             {
                 using (var db = new MarcomContext())
@@ -20,24 +21,23 @@ namespace Marcom.Repository
                     if (entity.Id != 0)
                     {
                         m_menu_access mAccess = db.m_menu_access.Where(o => o.id == entity.Id).FirstOrDefault();
-                        //if (role != null)
-                        //{
-                        //    role.code = entity.Code;
-                        //    role.name = entity.Name;
-                        //    role.description = entity.Description;
-                        //    role.is_delete = entity.IsDelete;
-                        //    role.updated_by = "Freeska";
-                        //    role.updated_date = DateTime.Now;
-                        //    db.SaveChanges();
-                        //}
+                        if (mAccess != null)
+                        {
+                            mAccess.m_menu_id = entity.MMenuId;
+                            mAccess.m_role_id = entity.MRoleId;
+                            mAccess.is_delete = entity.IsDelete;
+                            mAccess.created_by = "csk";
+                            mAccess.created_date = DateTime.Now;
+                            db.SaveChanges();
+                        }
                     }
                     else
                     {
                         m_menu_access mAccess = new m_menu_access();
                         mAccess.m_menu_id = entity.MMenuId;
                         mAccess.m_role_id = entity.MRoleId;
-                        mAccess.is_delete = entity.IsDelete;
-                        mAccess.created_by = "Admin";
+                        mAccess.is_delete = false;
+                        mAccess.created_by = "csk";
                         mAccess.created_date = DateTime.Now;
 
                         db.m_menu_access.Add(mAccess);
@@ -52,5 +52,7 @@ namespace Marcom.Repository
             }
             return result;
         }
+
+
     }
 }
