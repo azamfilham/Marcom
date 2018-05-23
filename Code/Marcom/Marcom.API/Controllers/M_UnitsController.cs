@@ -6,11 +6,14 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace Marcom.API.Controllers
 {
+    [EnableCorsAttribute("*", "*", "*")]
     public class M_UnitsController : ApiController
     {
+        
         // GET: api/M_Units
         public IEnumerable<M_UnitViewModel> Get()
         {
@@ -18,24 +21,27 @@ namespace Marcom.API.Controllers
         }
 
         // GET: api/M_Units/5
-        public string Get(int id)
+        public M_UnitViewModel Get(int id)
         {
-            return "value";
+            return M_UnitRepo.GetById(id);
         }
 
         // POST: api/M_Units
-        public void Post([FromBody]string value)
+        public Responses Post([FromBody]M_UnitViewModel entity) //bagian Add
         {
+            return M_UnitRepo.update(entity);
         }
 
         // PUT: api/M_Units/5
-        public void Put(int id, [FromBody]string value)
+        public Responses Put(int id, [FromBody]M_UnitViewModel entity) //Bagian Edit(Update)
         {
+            return M_UnitRepo.update(entity);
         }
 
         // DELETE: api/M_Units/5
-        public void Delete(int id)
+        public Responses Delete(int id) //Bagian Delete
         {
+            return M_UnitRepo.Delete(id);
         }
     }
 }

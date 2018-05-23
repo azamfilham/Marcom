@@ -87,7 +87,7 @@ namespace Marcom.Repository
                     {
                         m_souvenir souvenir = new m_souvenir();
                         souvenir.id = entity.Id;
-                        souvenir.code = entity.Code;
+                        souvenir.code = GetNewCode();
                         souvenir.name = entity.Name;
                         souvenir.description = entity.Description;
                         souvenir.m_unit_id = entity.mUnitId;
@@ -128,6 +128,47 @@ namespace Marcom.Repository
                 result.Success = false;
             }
             return result;
+        }
+
+        public static string GetNewCode()
+        {
+
+            int newIncrement = 1;
+            string newCode = string.Format("SV");
+            using (var db = new MarcomContext())
+            {
+                var result = (from m in db.m_souvenir
+                              where m.code.Contains(newCode)
+                              select new { code = m.code })
+                              .OrderByDescending(o => o.code)
+                              .FirstOrDefault();
+                if (result != null)
+                {
+                    string[] oldCode = SplitCode(result.code);
+                    newIncrement = int.Parse(oldCode[0]) + 1;
+                }
+
+            }
+            newCode += newIncrement.ToString("D4");
+            return newCode;
+        }
+
+        public static string[] SplitCode(string data)
+        {
+            string numbers = "";
+            string alpha = "";
+            foreach (char c in data)
+            {
+                if (Char.IsDigit(c))
+                {
+                    numbers = numbers + c;
+                }
+                else if (Char.IsLetter(c))
+                {
+                    alpha = alpha + c;
+                }
+            }
+            return new string[] { numbers, alpha };
         }
     }
 }

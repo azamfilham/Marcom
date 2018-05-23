@@ -1,7 +1,366 @@
-﻿
-@{
-    ViewBag.Title = "Index";
+﻿@{
+    ViewBag.Title = "Master Unit";
 }
 
-<h2>Index</h2>
+<style>
+  table #item-list {
+        counter-reset: rowNumber;
+    }
 
+        table #item-list tr {
+            counter-increment: rowNumber;
+        }
+
+            table #item-list td:first-child::before {
+                content: counter(rowNumber);
+                min-width: 1em;
+                margin-right: 0.5em;
+            }
+
+    .modal {
+    }
+
+        .modal .modal-dialog {
+        }
+
+            .modal .modal-dialog .modal-content {
+                border: solid 1px #3c8dbc;
+                border-radius: 10px 10px 10px 10px;
+            }
+
+                .modal .modal-dialog .modal-content .modal-header {
+                    border: solid 1px #3c8dbc;
+                    background-color: #3c8dbc;
+                    border-radius: 10px 10px 0 0;
+                }
+</style>
+
+<div class="box">
+
+    <div class="box-body">
+        <div class="row">
+
+            <div class="col-lg-12">
+                <button type="button" id="btn-Create" class="btn btn-md btn-success pull-right">
+                    Add
+                </button>
+
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-lg-12">
+                <table class="table table-bordered table-striped" id="data-list">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Unit Code</th>
+                            <th>Unit Name</th>
+                            <th>Created Date</th>
+                            <th>Create By</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="item-list"></tbody>
+
+
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog" id="modal-Form">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title"> Add  </h4>
+
+
+            </div>
+
+            <div class="modal-body">
+                <p>One fine body&hellip;</p>
+            </div>
+
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" tabindex="-1" role="dialog" id="modal-Form2">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title"> Add  </h4>
+
+
+            </div>
+
+            <div class="modal-body">
+                <p>One fine body&hellip;</p>
+            </div>
+
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+
+@section Scripts
+{
+    <script type="text/javascript">
+
+        function ShowList() {
+            $.ajax({
+                url: "http://localhost:50876/api/M_Units",
+                type: 'get',
+                data: 'json',
+                success: function (result) {
+                    var table = "<table class='table''>";
+                    table += "<tbody>";
+                    $.each(result, function (i, item) {
+      
+                        var tr = "<tr><td>  </td><td>"
+                        + item.Code + "</td><td>"
+                        + item.Name + "</td><td>"
+                        + item.CreatedDate + "</td><td>"
+                        + item.CreatedBy + "</td><td><button type='button' class='btn btn-sm  btn-View' data-id='"
+                        + item.Id + "' onclick ='LihatUnit(this)' ><span class='glyphicon glyphicon-search'></span></button><button type='button' class='btn btn-sm btn-warning btn-Edit' data-id='"
+                        + item.Id + "' onclick ='SelectUnit(this)'><span class='glyphicon glyphicon-edit'></span></button><button type='button' class='btn btn-sm btn-danger btn-Delete' data-id='"
+                        + item.Id + "' onclick ='DeleteUnit(this)' ><span class='glyphicon glyphicon-trash'></span></button></td></tr>";
+                        table += tr;
+                    })
+                    table += "</tbody>";
+                    table += "</table>";
+                    $("#item-list").html(table);
+                    $("#data-list").DataTable();
+                },
+                error: function (err) {
+                    alert(err);
+                }
+            })
+        }
+
+
+        $("#btn-Create").click(function () {
+            var form = "<form method='post'>";
+            form += "<table border='0' cellspacing='7'>"
+            form += "<tr><td class='control-label col-md-4'>" + 'Role Code' + "</td><td><input type='text' name='s_code' id='s_code' class='form-control'></td></tr>"
+            form += "<tr><td class='control-label col-md-4'>" + 'Role Name' + "</td><td><input type='text' name='s_name' id='s_name' class='form-control'></td></tr>"
+            form += "<tr><td class='control-label col-md-4'>" + 'Description' + "</td><td><input type='text' name='s_description' id='s_description' class='form-control'></td></tr>"
+            form += "</table>";
+            form += "<br>"
+            form += "<button type='button' class='btn btn-sm btn-success btn-Save' onclick='AddUnit()'>Save</button><button type='button' class='btn btn-sm btn-default btn-Delete' data-dismiss='modal'>Cancel</button>"
+            form += "</form>";
+            $(".modal-body").html(form);
+            $(".modal-title").html("Add Unit");
+            $("#modal-Form").modal("show");
+        })
+
+        function AddUnit() {
+            var code = $("#s_code").val();
+            var name = $("#s_name").val();
+            var description = $("#s_description").val();
+
+            var data = { Code: code, Name: name, Description: description };
+            //alert(JSON.stringify(data));
+            $.ajax({
+                url: "http://localhost:50876/api/M_Units",
+                type: 'post',
+                contentType: 'application/json',
+                dataType: 'json',
+                data: JSON.stringify(data),
+                success: function (result) {
+                    //alert('coba');
+                    if (result.Success) {
+                        alert("Success")
+                        $("#modal-Form").modal("hide");
+                        ShowList();
+                    }
+                    else {
+                        alert("error : " + result.Message);
+                    }
+                },
+                error: function (err) {
+                    alert(err);
+                }
+            })
+        }
+
+        //tampilan edit
+        function SelectUnit(obj) {
+            var id = $(obj).attr("data-id");
+            $.ajax({
+                url: "http://localhost:50876/api/M_Units/" + id,
+                type: 'GET',
+                contentType: "JSON",
+                success: function (result) {
+                    var tr = GetItem(result);
+                    $(".modal-body").html(tr);
+                    $(".modal-title").html("Edit Unit");
+                    $("#modal-Form").modal("show");
+                },
+                error: function (err) {
+                    alert(err)
+                }
+            })
+        }
+
+        //get by id
+        function GetItem(data) {
+            var form = "<form>";
+            form += "<table>"
+            form += "<tr><td class='control-label col-md-4'>" + 'Role Code' + "</td><td><input data-val='true' id='dataId' name='dataId' type='hidden' value='" + data.Id
+             + "'><input class='form-control text-box single-line' id='dataCode' name='dataCode' readonly='readonly' type='text' value='"
+             + data.Code + "'></td><td>"
+            form += "<tr><td class='control-label col-md-4'>" + 'Role Name' + "</td><td><input class='form-control text-box single-line' type='text' id='dataName' name='dataName' value='" + data.Name + "'></td><td>"
+            form += "<tr><td class='control-label col-md-4'>" + 'Description' + "</td><td><input class='form-control text-box single-line' type='text' id='dataDescription' name='dataDescription' value='" + data.Description + "'></td></tr>"
+            form += "</table>";
+            form += "<br>"
+            form += "<button type='button' class='btn btn-sm btn-success' onclick='UpdateUnit(this)'>Update</button><button type='button' class='btn btn-sm btn-default btn-Delete' data-dismiss='modal'>Cancel</button>"
+            form += "</form>";
+
+            return form;
+        }
+
+        //post edit
+        function UpdateUnit(obj) {
+            var id = $("#dataId").val();
+            var code = $("#dataCode").val();
+            var name = $("#dataName").val();
+            var description = $("#dataDescription").val();
+
+            var data = { Id : id, Code: code, Name: name, Description: description };
+            //alert(JSON.stringify(data));
+
+            $.ajax({
+                url: "http://localhost:50876/api/M_Units/" + id,
+                type: 'put',
+                contentType: 'application/json',
+                dataType: 'json',
+                data: JSON.stringify(data),
+                success: function (result) {
+                    if (result.Success) {
+                        alert("Success");
+                        $("#modal-Form").modal("hide");
+                        ShowList();
+                    }
+                    else {
+                        alert("error : " + result.Message);
+                    }
+                },
+                error: function (err) {
+                    alert(err);
+                }
+            })
+        }
+
+        //delete
+        function DeleteUnit(obj) {
+            var id = $(obj).attr("data-id");
+            $.ajax({
+                url: "http://localhost:50876/api/M_Units/" + id,
+                type: 'GET',
+                contentType: "JSON",
+                success: function (result) {
+                    var tr = DeleteItem(result);
+                    $(".modal-body").html(tr);
+                    $(".modal-title").html("Delete Employee");
+                    $("#modal-Form2").modal("show");
+                },
+                error: function (err) {
+                    alert(err)
+                }
+            })
+        }
+
+        //tampilan Delete (dipanggil di fungsi Delete)
+        function DeleteItem(data) {
+            var form = "<h3>Delete Data?</h3>"
+            form += "<td><input data-val='true' id='eId' type='hidden' value='" + data.Id + "'/>"
+            form += "<br>"
+            form += "<button type='button' class='btn btn-sm btn-success btn-save' onclick='ConfirmDeleteEmployee(this)'>Delete</button>"
+            form += "<button type='button' class='btn btn-sm btn-default btn-cancel' data-dismiss='modal'>Cancel</button>"
+            form += "</form>";
+            $(".modal-body").html(form);
+            $("#modal-Form2").modal("show");
+        }
+
+      
+        //post delete (update)
+        function ConfirmDeleteEmployee(obj) {
+            var id = $("#eId").val();
+            $.ajax({
+                url: "http://localhost:50876/api/M_Units/" + id,
+                type: 'DELETE',
+                contentType: 'application/json',
+                dataType: 'json',
+                data: { Id: id },
+                success: function (result) {
+                    if (result.Success) {
+                        alert("Success");
+                        $("#modal-Form2").modal("hide");
+                        ShowList();
+                    }
+                    else {
+                        alert("error : " + result.Message);
+                    }
+                },
+                error: function (err) {
+                    alert(err);
+                }
+            })
+        }
+
+
+        //Form Detail
+        function GetDetails(data) {
+            var form = "<form>";
+            form += "<table>"
+            form += "<tr><td>" + 'Role Code' + "</td><td><input data-val='true' id='dataId' name='dataId' type='hidden' value='"
+                + data.Id + "'><input class='form-control text-box single-line' id='dataCode' name='dataCode' readonly='readonly' type='text' value='"
+                + data.Code + "'></td><td>"
+            form += "<tr><td>" + 'Role name' + "</td><td><input class='form-control text-box single-line' type='text' id='dataName' name='dataName' readonly='readonly' value='" + data.Name + "'></td><td>" 
+            form += "<tr><td>" + 'Description' + "</td><td><input class='form-control text-box single-line' type='text' id='dataDescription' name='dataDescription' readonly='readonly' value='" + data.Description + "'></td></tr>"
+            form += "</table>";
+            form += "<br>"
+            form += "<button type='button' class='btn btn-sm btn-warning btn-right' data-dismiss='modal'>Close</button>"
+            form += "</form>";
+
+            return form;
+        }
+        //detail
+        function LihatUnit(obj) {
+            var data = $(obj).attr("data-id");
+            $.ajax({
+                url: "http://localhost:50876/api/M_Units/" + data,
+                type: 'GET',
+                contentType: "JSON",
+                success: function (result) {
+                    var tr = GetDetails(result);
+                    $(".modal-body").html(tr);
+                    $(".modal-title").html("View Unit");
+                    $("#modal-Form").modal("show");
+                },
+                error: function (err) {
+                    alert(err)
+                }
+            })
+        }
+
+        
+
+        //load data table
+        $(document).ready(function () {
+
+            ShowList(); // refresh, memanggil #table-list
+
+        })
+
+
+    </script>
+}
