@@ -33,6 +33,30 @@
                     background-color: #3c8dbc;
                     border-radius: 10px 10px 0 0;
                 }
+                /* The alert message box */
+.alert {
+    padding: 20px;
+    background-color: #f44336; /* Red */
+    color: white;
+    margin-bottom: 15px;
+}
+
+/* The close button */
+.closebtn {
+    margin-left: 15px;
+    color: white;
+    font-weight: bold;
+    float: right;
+    font-size: 22px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+/* When moving the mouse over the close button */
+.closebtn:hover {
+    color: black;
+}
 </style>
 
 <div class="box">
@@ -64,6 +88,9 @@
 
                     <tbody id="item-list"></tbody>
 
+                    <tfoot id="item-alert">
+
+                    </tfoot>
 
                 </table>
             </div>
@@ -199,8 +226,8 @@
                 success: function (result) {
                     $(".modal-body").html(result);
                     $(".modal-title").html("Add Unit");
-                    $("#modal-Form").modal("show");
-                    ShowList();
+                    $("#modal-Form").modal("show");        
+                    ShowList();             
                 }
             })
         })
@@ -304,7 +331,7 @@
                 success: function (result) {
                     var tr = DeleteItem(result);
                     $(".modal-body").html(tr);
-                    $(".modal-title").html("Delete Employee");
+                    $(".modal-title").html("Delete Unit");
                     $("#modal-Form2").modal("show");
                 },
                 error: function (err) {
@@ -315,7 +342,7 @@
 
         //tampilan Delete (dipanggil di fungsi Delete)
         function DeleteItem(data) {
-            var form = "<h3>Delete Data?</h3>"
+            var form = "<h1>Delete Data?</h1>";
             form += "<td><input data-val='true' id='eId' type='hidden' value='" + data.Id + "'/>"
             form += "<br>"
             form += "<button type='button' class='btn btn-sm btn-success btn-save' onclick='ConfirmDeleteEmployee(this)'>Delete</button>"

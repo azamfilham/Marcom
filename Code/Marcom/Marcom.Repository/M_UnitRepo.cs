@@ -125,13 +125,11 @@ namespace Marcom.Repository
         }
         public static string GetNewCode()
         {
-
-
             int newIncrement = 1;
-            string newCode = string.Format("RO");
+            string newCode = string.Format("UN");
             using (var db = new MarcomContext())
             {
-                var result = (from r in db.m_role
+                var result = (from r in db.m_unit
                               where r.code.Contains(newCode)
                               select new { code = r.code })
                               .OrderByDescending(o => o.code)

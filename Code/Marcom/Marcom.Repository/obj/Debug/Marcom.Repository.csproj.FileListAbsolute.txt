@@ -12,3 +12,17 @@ D:\Bootcamp\MinPro 147\Marcom\Code\Marcom\Marcom.Repository\bin\Debug\EntityFram
 D:\Bootcamp\MinPro 147\Marcom\Code\Marcom\Marcom.Repository\obj\Debug\Marcom.Repository.csprojResolveAssemblyReference.cache
 D:\Bootcamp\MinPro 147\Marcom\Code\Marcom\Marcom.Repository\obj\Debug\Marcom.Repository.dll
 D:\Bootcamp\MinPro 147\Marcom\Code\Marcom\Marcom.Repository\obj\Debug\Marcom.Repository.pdb
+E:\Project BootCamp\Mini Project\Marcom-master2\Marcom\Code\Marcom\Marcom.Repository\bin\Debug\Marcom.Repository.dll.config
+E:\Project BootCamp\Mini Project\Marcom-master2\Marcom\Code\Marcom\Marcom.Repository\bin\Debug\Marcom.Repository.dll
+E:\Project BootCamp\Mini Project\Marcom-master2\Marcom\Code\Marcom\Marcom.Repository\bin\Debug\Marcom.Repository.pdb
+E:\Project BootCamp\Mini Project\Marcom-master2\Marcom\Code\Marcom\Marcom.Repository\bin\Debug\EntityFramework.dll
+E:\Project BootCamp\Mini Project\Marcom-master2\Marcom\Code\Marcom\Marcom.Repository\bin\Debug\EntityFramework.SqlServer.dll
+E:\Project BootCamp\Mini Project\Marcom-master2\Marcom\Code\Marcom\Marcom.Repository\bin\Debug\Marcom.DataModel.dll
+E:\Project BootCamp\Mini Project\Marcom-master2\Marcom\Code\Marcom\Marcom.Repository\bin\Debug\Marcom.ViewModel.dll
+E:\Project BootCamp\Mini Project\Marcom-master2\Marcom\Code\Marcom\Marcom.Repository\bin\Debug\Marcom.DataModel.pdb
+E:\Project BootCamp\Mini Project\Marcom-master2\Marcom\Code\Marcom\Marcom.Repository\bin\Debug\Marcom.ViewModel.pdb
+E:\Project BootCamp\Mini Project\Marcom-master2\Marcom\Code\Marcom\Marcom.Repository\bin\Debug\EntityFramework.xml
+E:\Project BootCamp\Mini Project\Marcom-master2\Marcom\Code\Marcom\Marcom.Repository\bin\Debug\EntityFramework.SqlServer.xml
+E:\Project BootCamp\Mini Project\Marcom-master2\Marcom\Code\Marcom\Marcom.Repository\obj\Debug\Marcom.Repository.csprojResolveAssemblyReference.cache
+E:\Project BootCamp\Mini Project\Marcom-master2\Marcom\Code\Marcom\Marcom.Repository\obj\Debug\Marcom.Repository.dll
+E:\Project BootCamp\Mini Project\Marcom-master2\Marcom\Code\Marcom\Marcom.Repository\obj\Debug\Marcom.Repository.pdb

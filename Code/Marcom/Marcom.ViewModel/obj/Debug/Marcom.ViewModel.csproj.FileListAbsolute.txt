@@ -3,3 +3,8 @@ D:\Bootcamp\MinPro 147\Marcom\Code\Marcom\Marcom.ViewModel\bin\Debug\Marcom.View
 D:\Bootcamp\MinPro 147\Marcom\Code\Marcom\Marcom.ViewModel\obj\Debug\Marcom.ViewModel.csprojResolveAssemblyReference.cache
 D:\Bootcamp\MinPro 147\Marcom\Code\Marcom\Marcom.ViewModel\obj\Debug\Marcom.ViewModel.dll
 D:\Bootcamp\MinPro 147\Marcom\Code\Marcom\Marcom.ViewModel\obj\Debug\Marcom.ViewModel.pdb
+E:\Project BootCamp\Mini Project\Marcom-master2\Marcom\Code\Marcom\Marcom.ViewModel\bin\Debug\Marcom.ViewModel.dll
+E:\Project BootCamp\Mini Project\Marcom-master2\Marcom\Code\Marcom\Marcom.ViewModel\bin\Debug\Marcom.ViewModel.pdb
+E:\Project BootCamp\Mini Project\Marcom-master2\Marcom\Code\Marcom\Marcom.ViewModel\obj\Debug\Marcom.ViewModel.csprojResolveAssemblyReference.cache
+E:\Project BootCamp\Mini Project\Marcom-master2\Marcom\Code\Marcom\Marcom.ViewModel\obj\Debug\Marcom.ViewModel.dll
+E:\Project BootCamp\Mini Project\Marcom-master2\Marcom\Code\Marcom\Marcom.ViewModel\obj\Debug\Marcom.ViewModel.pdb

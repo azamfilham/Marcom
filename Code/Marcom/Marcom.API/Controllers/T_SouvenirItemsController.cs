@@ -1,24 +1,28 @@
-﻿using System;
+﻿using Marcom.Repository;
+using Marcom.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace Marcom.API.Controllers
 {
+    [EnableCorsAttribute("*", "*", "*")]
     public class T_SouvenirItemsController : ApiController
     {
         // GET: api/T_SouvenirItems
-        public IEnumerable<string> Get()
+        public IEnumerable<T_SouvinerItemViewModel> Get()
         {
-            return new string[] { "value1", "value2" };
+            return T_SouvinerItemRepo.Get();
         }
 
         // GET: api/T_SouvenirItems/5
-        public string Get(int id)
+        public T_SouvinerItemViewModel Get(int id)
         {
-            return "value";
+            return T_SouvinerItemRepo.GetById(id);
         }
 
         // POST: api/T_SouvenirItems
