@@ -7,3 +7,6 @@ web.config
 .vs/
 app.config
 /D. Development/A. Code/Mazars/packages
+/Code/Marcom/.vs
+/Code/Marcom/.vs/Marcom/v14/*.suo
+/Code/Marcom/.vs/config/applicationhost.config
