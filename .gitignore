@@ -4,5 +4,6 @@ obj/
 web.config
 *.suo
 *.user
+.vs/
 app.config
 /D. Development/A. Code/Mazars/packages
