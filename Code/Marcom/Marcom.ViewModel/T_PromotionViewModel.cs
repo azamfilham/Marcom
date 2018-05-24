@@ -38,7 +38,7 @@ namespace Marcom.ViewModel
 
         public int? RequestBy { get; set; }
 
-        [Display(Name = "Request Date")]
+        [Display(Name = "Request Date"), DisplayFormat(DataFormatString = "{0:dd MMM yyyy}")]
         public DateTime? RequestDate { get; set; }
 
         public int? ApprovedBy { get; set; }
@@ -98,7 +98,7 @@ namespace Marcom.ViewModel
         [Display(Name = "Created By")]
         public string CreatedBy { get; set; }
 
-        [Display(Name = "Created Date")]
+        [Display(Name = "Created Date"), DisplayFormat(DataFormatString = "{0:dd MMM yyyy}")]
         public DateTime CreatedDate { get; set; }
 
         public string UpdatedBy { get; set; }
