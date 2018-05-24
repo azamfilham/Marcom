@@ -18,7 +18,7 @@ namespace Marcom.ViewModel
         public string Password { get; set; }
 
         [Display(Name = "Re-Type Password")]
-        [Compare("Password", ErrorMessage = "Password Harus Sama!!!"), Required]
+        [Compare("Password", ErrorMessage = "Password Harus Sama!!!")]
         public string ConfirmPassword { get; set; }
 
         [Display(Name = "Role Name")]

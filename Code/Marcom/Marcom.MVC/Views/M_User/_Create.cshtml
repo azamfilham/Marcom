@@ -33,7 +33,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Username, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Username, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.Username, new { htmlAttributes = new { @class = "form-control"} })
                 @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -41,7 +41,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", @type = "password" } })
+                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", @type = "password"} })
                 @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -70,6 +70,29 @@
         SetEmployeeId(0);
         SetRoleId(0);
     })
+
+    //$("#password").keyup(function(e){
+    //    var str = $.trim( $(this).val() );
+    //    if (str != "") {
+    //        var regx = /^[A-Za-z0-9]+$/;
+    //        if (!regx.test(str)) {
+    //            $("#password").html("Alphanumeric only allowed !");
+    //        }
+    //    }
+    //    else {
+    //    }
+    //})
+
+    function password(Password) {
+        var pass = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/;
+        var password = document.getElementById("password");
+        if (password.value.match(pass)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 
     function SetRoleId(MRoleId) {
         $.ajax({
@@ -114,12 +137,13 @@
         var mEmployeeId = document.getElementById('MEmployeeId');
         var username = document.getElementById('Username').value;
         var password = document.getElementById('Password').value;
+        var retypePass = document.getElementById('ConfirmPassword').value;
         //alert(mEmployeeId);
         //alert(tes.options[tes.selectedIndex].value);
         var mmRoleId = mRoleId.options[mRoleId.selectedIndex].value;
         var mmEmployeeId = mEmployeeId.options[mEmployeeId.selectedIndex].value;
         
-        var data = { MRoleId: mmRoleId, MEmployeeId: mmEmployeeId, Username: username, Password: password };
+        var data = { MRoleId: mmRoleId, MEmployeeId: mmEmployeeId, Username: username, Password: password, ConfirmPassword: retypePass };
         //alert(JSON.stringify(data));
 
         $.ajax({
@@ -127,10 +151,10 @@
             type: 'post',
             contentType: 'application/json',
             dataType: 'json',
-            data: JSON.stringify(data),
+            data: JSON.stringify(data), 
             success: function (result) {
                 if (result.Success) {
-                    alert("Success");
+                     alert("Success");
                     $("#modal-Form").modal("hide");
                     ShowList();
                 }

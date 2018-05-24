@@ -74,48 +74,6 @@ namespace Marcom.Repository
             }
             return result;
         }
-        
-        //public static List<M_EmployeeViewModel> GetByEmployId(int emId)
-        //{
-        //    List<M_EmployeeViewModel> result = new List<M_EmployeeViewModel>();
-        //    using (var db = new MarcomContext())
-        //    {
-        //        {
-        //            result = (from e in db.m_employee
-        //                      join u in db.m_user on
-        //                      e.id equals u.m_employee_id 
-        //                      into temp from x in temp.DefaultIfEmpty() //e.id  equals  u.m_employee_id //u.is_delete == 0
-        //                      where x.m_employee_id == null
-        //                      select new M_EmployeeViewModel
-        //                      {
-        //                          Id = e.id,
-        //                          FirstName = e.first_name,
-        //                          LastName = e.last_name,                                  
-        //                          CreatedBy = e.created_by,
-        //                          CreatedDate = e.created_date,
-        //                          IsDelete = false
-        //                      }).ToList(); 
-        //        }
-        //    }
-        //    return result;
-        //}
-
-        //public static bool UserExist(string user)
-        //{
-        //    bool result = true;
-        //    using (var db = new MarcomContext())
-        //    {
-        //        m_user us = db.m_user.Where(u => u.username == user).FirstOrDefault();
-        //        if (us == null)
-        //        {
-        //            return result = false;
-        //        }
-        //        else
-        //        {
-        //            return result = true;
-        //        }
-        //    }
-        //}
 
         public static Responses Update(M_UserViewModel entity)
         {
@@ -145,7 +103,7 @@ namespace Marcom.Repository
                         mUser.username = entity.Username;
                         mUser.password = entity.Password;
                         mUser.m_employee_id = entity.MEmployeeId;
-                        mUser.m_role_id = entity.MRoleId;
+                        mUser.m_role_id = entity.MRoleId;                        
                         mUser.created_by = "Admin";
                         mUser.created_date = DateTime.Now;
                         mUser.is_delete = false;

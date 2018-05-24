@@ -105,7 +105,7 @@ namespace Marcom.Repository
                             ev.status = entity.Status;
                             ev.reject_reason = entity.RejectReason;
                             ev.is_delete = entity.IsDelete;
-                            ev.updated_by = "Freeska";
+                            ev.updated_by = "Admin";
                             ev.updated_date = DateTime.Now;
                             db.SaveChanges();
                         }
@@ -129,7 +129,7 @@ namespace Marcom.Repository
                         ev.status = entity.Status;
                         ev.reject_reason = entity.RejectReason;
                         ev.is_delete = entity.IsDelete;
-                        ev.created_by = "Freeska";
+                        ev.created_by = "Admin";
                         ev.created_date = DateTime.Now;
                         db.t_event.Add(ev);
                         db.SaveChanges();
