@@ -28,19 +28,19 @@
         counter-reset: rowNumber;
     }
 
-    table #modal-Form td{
-        width:50%;
+    table #modal-Form td {
+        width: 50%;
     }
 
-        table #item-list tr {
-            counter-increment: rowNumber;
-        }
+    table #item-list tr {
+        counter-increment: rowNumber;
+    }
 
-        table #item-list td:first-child::before {
-            content: counter(rowNumber);
-            min-width: 1em;
-            margin-right: 0.5em;
-        }
+    table #item-list td:first-child::before {
+        content: counter(rowNumber);
+        min-width: 1em;
+        margin-right: 0.5em;
+    }
 </style>
 
 <div class="box">
@@ -99,9 +99,9 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">List Item</h4>
+                <h4 class="modal-title2">List Item</h4>
             </div>
-            <div class="modal-body">
+            <div class="modal-body2">
                 <p>One fine body&hellip;</p>
             </div>
         </div><!-- /.modal-content -->
@@ -128,7 +128,10 @@
                     table += "<tbody>";
                     $.each(result, function (i, item) {
 
-                        var tr = "<tr><td></td><td>" + item.Code + "</td><td>" + item.Name + "</td><td>" + item.CreatedDate + "</td><td>" + item.CreatedBy + "</td><td><button type='button' class='btn btn-sm btn-View' data-id='" + item.Id + "'onclick='ViewCompany(this)'><span class='glyphicon glyphicon-search'></span></button><button type='button' class='btn btn-sm btn-Edit' data-id='" + item.Id + "' onclick='EditCompany(this)'><span class='glyphicon glyphicon-pencil'></span></button><button type='button' class='btn btn-sm btn-Delete' data-id='" + item.Id + "'onclick='DeleteCompany(this)' ><span class='glyphicon glyphicon-trash'></span></button></td></tr>";
+                        var tr = "<tr><td></td><td>" + item.Code + "</td><td>" + item.Name + "</td><td>" + item.CreatedDate + "</td><td>" + item.CreatedBy + "</td>"
+                        tr += "<td><button type='button' class='btn btn-sm btn-View' data-id='" + item.Id + "'data-code='" + item.Code + "' data-name='" + item.Name + "'onclick='ViewCompany(this)'><span class='glyphicon glyphicon-search'></span></button>"
+                        tr += "<button type='button' class='btn btn-sm btn-Edit' data-id='" + item.Id + "' data-code='" + item.Code + "' data-name='" + item.Name + "' onclick='EditCompany(this)'><span class='glyphicon glyphicon-pencil'></span></button>"
+                        tr += "<button type='button' class='btn btn-sm btn-Delete' data-id='" + item.Id + "'onclick='DeleteCompany(this)' ><span class='glyphicon glyphicon-trash'></span></button></td></tr>";
                         table += tr;
 
                     })
@@ -144,16 +147,18 @@
             })
         }
 
-        function myFunction() {
-            var inpObj = document.getElementById("i");
-            if (!inpObj.checkValidity()) {
-                document.getElementById("demo").innerHTML = inpObj.validationMessage;
-            } else {
-                document.getElementById("demo").innerHTML = "Input OK";
-            }
-        }
+        //function myFunction() {
+        //    var inpObj = document.getElementById("i");
+        //    if (!inpObj.checkValidity()) {
+        //        document.getElementById("demo").innerHTML = inpObj.validationMessage;
+        //    } else {
+        //        document.getElementById("demo").innerHTML = "Input OK";
+        //    }
+        //}
+
+
         //Tampilan Add
-        $("#btn-Create").click(function () {
+        /*$("#btn-Create").click(function () {
             var form = "<form method='post'>";
             form += "<center><table>"
             form += "<tr><td class='control-label col-md-2'>" + '*Company Code' + "</td><td><input type='text' name='c_code' readonly='readonly' id='c_code'class='form-control col-md-6' placeholder='CPXXXX'></td><td class='control-label col-md-2'>" + '*Company Name' + "</td><td><input type='text' name='c_name' id='c_name'class='form-control col-md-6' placeholder='Type Company Name'></td></tr>"
@@ -248,7 +253,7 @@
             $("#modal-Form2").modal("show");
         }
 
-        //post edit
+        //fungsi edit
         function UpdateCompany(obj) {
             var id = $("#dataId").val();
             var code = $("#c_code").val();
@@ -370,7 +375,80 @@
                     alert(err);
                 }
             })
+        }*/
+
+
+        // pake partial view
+        // create
+        $("#btn-Create").click(function () {
+            $.ajax({
+                url: '@Url.Action("Create", "M_Company")',
+                type: 'get',
+                success: function (result) {
+                    $(".modal-body").html(result);
+                    $(".modal-title").html("Add Company");
+                    $("#modal-Form").modal("show");
+                },
+                error: function (err) {
+                    alert(err);
+                }
+            })
+        })
+
+        //edit
+        function EditCompany(obj) {
+            var id = $(obj).attr("data-id");
+            var code = $(obj).attr("data-code");
+            var name = $(obj).attr("data-name");
+            $.ajax({
+                url: '@Url.Action("Edit", "M_Company")',
+                type: 'get',
+                data: { Id: id },
+                success: function (result) {
+                    $(".modal-body").html(result);
+                    $(".modal-title").html("Edit Company - " + name + " (" + code + ")");
+                    $("#modal-Form").modal("show");
+                },
+                error: function (err) {
+                    alert(err);
+                }
+            })
         }
 
+        //view
+        function ViewCompany(obj) {
+            var id = $(obj).attr("data-id");
+            var code = $(obj).attr("data-code");
+            var name = $(obj).attr("data-name");
+            $.ajax({
+                url: '@Url.Action("View", "M_Company")',
+                type: 'get',
+                data: { Id: id },
+                success: function (result) {
+                    $(".modal-body").html(result);
+                    $(".modal-title").html("View Company - " + name + " (" + code + ")");
+                    $("#modal-Form").modal("show");
+                },
+                error: function (err) {
+                    alert(err);
+                }
+            })
+        }
+        function DeleteCompany(obj) {
+            var id = $(obj).attr("data-id");
+            $.ajax({
+                url: '@Url.Action("Delete", "M_Company")',
+                type: 'get',
+                data: { Id: id },
+                success: function (result) {
+                    $(".modal-body2").html(result);
+                    $(".modal-title2").html("Delete Company");
+                    $("#modal-Form2").modal("show");
+                },
+                error: function (err) {
+                    alert(err);
+                }
+            })
+        }
     </script>
 }
