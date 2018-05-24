@@ -1,0 +1,102 @@
+﻿@model Marcom.ViewModel.M_UserViewModel
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.MRoleId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <select class="form-control valid" data-val="true" id="MRoleId" name="MRoleId" disabled>
+                    <option value="">Select Role</option>
+                </select>
+                @Html.ValidationMessageFor(model => model.MRoleId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.MEmployeeId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <select class="form-control valid" data-val="true" id="MEmployeeId" name="MEmployeeId" disabled>
+                    <option value="">Select Employee</option>
+                </select>
+                @Html.ValidationMessageFor(model => model.MEmployeeId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Username, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Username, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", @type = "password", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="button" value="Cancel" class="btn btn-warning" data-dismiss="modal" />
+            </div>
+        </div>
+    </div>
+}
+
+
+
+@Scripts.Render("~/bundles/jqueryval")
+
+<script>
+    $(document).ready(function () {
+        SetEmployeeId(@Model.MEmployeeId);
+        SetRoleId(@Model.MRoleId);
+    })
+
+    function SetRoleId(MRoleId) {
+        $.ajax({
+            url: 'http://localhost:50876/api/M_Roles',
+            type: 'GET',
+            success: function (result) {
+                $('#MRoleId').html('<option value="0">Select Role</option>');
+                $.each(result, function (i, item) {
+                    var option = '<option value="' + item.Id + '">' + item.Name + '</option>';
+                    $('#MRoleId').append(option);
+                })
+                $('#MRoleId').val(MRoleId)
+            },
+            error: function (err) {
+                alert(err);
+            }
+        })
+    }
+
+    //dropdown list employee
+    function SetEmployeeId(MEmployeeId) {
+        $.ajax({
+            url: 'http://localhost:50876/api/M_Employees',
+            type: 'GET',
+            success: function (result) {
+                $('#MEmployeeId').html('<option value="0">Select Employee</option>');
+                $.each(result, function (i, item) {
+                    var option = '<option value="' + item.Id + '">' + item.FullName + '</option>';
+                    $('#MEmployeeId').append(option);
+                })
+                $('#MEmployeeId').val(MEmployeeId)
+            },
+            error: function (err) {
+                alert(err);
+            }
+        })
+    }
+
+</script>

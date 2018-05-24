@@ -75,12 +75,11 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">List Item</h4>
+                <h4 class="modal-title"></h4>
 
             </div>
 
             <div class="modal-body">
-                <p>One fine body&hellip;</p>
             </div>
 
         </div><!-- /.modal-content -->
@@ -94,10 +93,9 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
-                <h4 class="modal-title"></h4>
+                <h4 class="modal-title2"></h4>
             </div>
-            <div class="modal-body">
-                <p>One fine body&hellip;</p>
+            <div class="modal-body2">
             </div>
 
         </div><!-- /.modal-content -->
@@ -130,7 +128,7 @@
                     table += "<tbody>";
                     $.each(result, function (i, item) {
 
-                        var tr = "<tr><td>" + item.Code + "</td><td>" + item.Name + "</td><td>" + item.CreatedBy + "</td><td>" + item.CreatedDate + "</td><td><button type='button' class='btn btn-sm btn-success btn-View' data-id='" + item.Id + "' onclick='ViewRole(this)' ><span class='glyphicon glyphicon-search'></span></button><button type='button' class='btn btn-sm btn-success btn-Edit' data-id='" + item.Id + "' onclick='EditRole(this)' ><span class='glyphicon glyphicon-pencil'></span></button><button type='button' class='btn btn-sm btn-success btn-Delete' data-id='" + item.Id + "' onclick='DeleteRole(this)' ><span class='glyphicon glyphicon-trash'></span></button></td></tr>";
+                        var tr = "<tr><td>" + item.Code + "</td><td>" + item.Name + "</td><td>" + item.CreatedBy + "</td><td>" + item.CreatedDate + "</td><td><button type='button' class='btn btn-sm btn-success btn-View' data-code='" + item.Code + "' data-name='" + item.Name + "'data-id='" + item.Id + "' onclick='ViewRole(this)' ><span class='glyphicon glyphicon-search'></span></button><button type='button' class='btn btn-sm btn-success btn-Edit' data-code='" + item.Code + "' data-name='" + item.Name + "'data-id='" + item.Id + "' onclick='EditRole(this)' ><span class='glyphicon glyphicon-pencil'></span></button><button type='button' class='btn btn-sm btn-success btn-Delete' data-code='" + item.Code + "' data-name='" + item.Name + "' data-id='" + item.Id + "' onclick='DeleteRole(this)' ><span class='glyphicon glyphicon-trash'></span></button></td></tr>";
                         table += tr;
 
                     })
@@ -146,7 +144,7 @@
             })
         }
 
-        @*$("#btn-Create").click(function () {
+        $("#btn-Create").click(function () {
             $.ajax({
                 url: '@Url.Action("Create", "M_Role")',
                 type: 'get',
@@ -156,23 +154,23 @@
                     $("#modal-Form").modal("show");
                 }
             })
-        })*@
+        })
 
         //Get Create
-        $("#btn-Create").click(function () {
-            var form = "<form method='post' class='form-horizontal'>";
-            form += "<table class='table col-md-12'>"
-            form += "<tr><td class='control-label col-md-2'>" + 'Role Code' + "</td><td><input type='text' name='r_code' id='r_code' class='form-control col-md-6' readonly='readonly' placeholder='ROXXXX'></td></tr>"
-            form += "<tr><td class='control-label col-md-2'>" + 'Role name' + "</td><td><input type='text' name='r_name' id='r_name'class='form-control col-md-6' placeholder='Type Role Name'></td></tr>"
-            form += "<tr><td class='control-label col-md-2' >" + 'Description' + "</td><td><input type='text' name='r_description' id='r_description' class='form-control col-md-6' placeholder='Type Description'></td></tr>"
-            form += "</table>";
-            form += "<br>"
-            form += "<button type='button' class='btn btn-sm btn-success btn-Save' onclick='AddRole()'>Save</button><button type='button' class='btn btn-sm btn-default' data-dismiss='modal'>Cancel</button>"
-            form += "</form>";
-            $(".modal-body").html(form);
-            $(".modal-title").html("Add Role");
-            $("#modal-Form").modal("show");
-        })
+        //$("#btn-Create").click(function () {
+        //    var form = "<form method='post' class='form-horizontal'>";
+        //    form += "<table class='table col-md-12'>"
+        //    form += "<tr><td class='control-label col-md-2'>" + 'Role Code' + "</td><td><input type='text' name='r_code' id='r_code' class='form-control col-md-6' readonly='readonly' placeholder='ROXXXX' ></td></tr>"
+        //    form += "<tr><td class='control-label col-md-2'>" + 'Role name' + "</td><td><input type='text' name='r_name' id='r_name'class='form-control col-md-6' placeholder='Type Role Name' ></td></tr>"
+        //    form += "<tr><td class='control-label col-md-2' >" + 'Description' + "</td><td><input type='text' name='r_description' id='r_description' class='form-control col-md-6' placeholder='Type Description'></td></tr>"
+        //    form += "</table>";
+        //    form += "<br>"
+        //    form += "<button type='button' class='btn btn-sm btn-success btn-Save' onclick='AddRole()'>Save</button><button type='button' class='btn btn-sm btn-default' data-dismiss='modal'>Cancel</button>"
+        //    form += "</form>";
+        //    $(".modal-body").html(form);
+        //    $(".modal-title").html("Add Role");
+        //    $("#modal-Form").modal("show");
+        //})
         //Post create
         function AddRole() {
             var code = $("#r_code").val();
@@ -203,24 +201,40 @@
             })
         }
 
-        //fungsi View
         function ViewRole(obj) {
-            var id = $(obj).attr("data-id");
+            var rId = $(obj).attr("data-id");
+            var rCode = $(obj).attr("data-code");
+            var rName = $(obj).attr("data-name");
             $.ajax({
-                url: "http://localhost:50876/api/M_Roles/" + id,
-                type: 'GET',
-                contentType: "JSON",
+                url: '@Url.Action("View", "M_Role")',
+                type: 'get',
+                data: { Id: rId },
                 success: function (result) {
-                    var tr = ViewItem(result);
-                    $(".modal-body").html(tr);
-                    $(".modal-title").html("View Role");
+                    $(".modal-body").html(result);
+                    $(".modal-title").html("View Role - " + rName + " (" + rCode + ")" );
                     $("#modal-Form").modal("show");
-                },
-                error: function (err) {
-                    alert(err)
                 }
             })
         }
+
+        //fungsi View
+        //function ViewRole(obj) {
+        //    var id = $(obj).attr("data-id");
+        //    $.ajax({
+        //        url: "http://localhost:50876/api/M_Roles/" + id,
+        //        type: 'GET',
+        //        contentType: "JSON",
+        //        success: function (result) {
+        //            var tr = ViewItem(result);
+        //            $(".modal-body").html(tr);
+        //            $(".modal-title").html("View Role - " + rName + " (" + rCode + ")");
+        //            $("#modal-Form").modal("show");
+        //        },
+        //        error: function (err) {
+        //            alert(err)
+        //        }
+        //    })
+        //}
         //tampilan View (dipanggil di fungsi View)
         function ViewItem(data) {
             var form = "<form class='form-horizontal'>";
@@ -236,24 +250,40 @@
             $("#modal-Form").modal("show");
         }
 
-        //tampilan edit
         function EditRole(obj) {
-            var id = $(obj).attr("data-id");
+            var rId = $(obj).attr("data-id");
+            var rCode = $(obj).attr("data-code");
+            var rName = $(obj).attr("data-name");
             $.ajax({
-                url: "http://localhost:50876/api/M_Roles/" + id,
-                type: 'GET',
-                contentType: "JSON",
+                url: '@Url.Action("Edit", "M_Role")',
+                type: 'get',
+                data: { Id: rId },
                 success: function (result) {
-                    var tr = GetItem(result);
-                    $(".modal-body").html(tr);
-                    $(".modal-title").html("Edit Role");
+                    $(".modal-body").html(result);
+                    $(".modal-title").html("Edit Role - " + rName + " (" + rCode + ")" );
                     $("#modal-Form").modal("show");
-                },
-                error: function (err) {
-                    alert(err)
                 }
             })
         }
+
+        //tampilan edit
+        //function EditRole(obj) {
+        //    var id = $(obj).attr("data-id");
+        //    $.ajax({
+        //        url: "http://localhost:50876/api/M_Roles/" + id,
+        //        type: 'GET',
+        //        contentType: "JSON",
+        //        success: function (result) {
+        //            var tr = GetItem(result);
+        //            $(".modal-body").html(tr);
+        //            $(".modal-title").html("Edit Role - " + rName + " (" + rCode + ")");
+        //            $("#modal-Form").modal("show");
+        //        },
+        //        error: function (err) {
+        //            alert(err)
+        //        }
+        //    })
+        //}
         //get by id
         function GetItem(data) {
             var form = "<form>";
@@ -298,26 +328,42 @@
             })
         }
 
-        //delete
         function DeleteRole(obj) {
-            var id = $(obj).attr("data-id");
-            //alert($(obj).attr("data-id"));
+            var rId = $(obj).attr("data-id");
+            var rCode = $(obj).attr("data-code");
+            var rName = $(obj).attr("data-name");
             $.ajax({
-                url: "http://localhost:50876/api/M_Roles/" + id,
-                type: 'GET',
-                dataType: 'JSON',
+                url: '@Url.Action("Delete", "M_Role")',
+                type: 'get',
+                data: { Id: rId },
                 success: function (result) {
-
-                    var tr = DeleteItem(result);
-                    $(".modal-body").html(tr);
-                    $(".modal-title").html("Delete Role");
+                    $(".modal-body2").html(result);
+                    $(".modal-title2").html("Delete Role - " + rName + " (" + rCode + ")");
                     $("#modal-Form2").modal("show");
-                },
-                error: function (err) {
-                    alert(err);
                 }
             })
         }
+
+        //delete
+        //function DeleteRole(obj) {
+        //    var id = $(obj).attr("data-id");
+        //    //alert($(obj).attr("data-id"));
+        //    $.ajax({
+        //        url: "http://localhost:50876/api/M_Roles/" + id,
+        //        type: 'GET',
+        //        dataType: 'JSON',
+        //        success: function (result) {
+
+        //            var tr = DeleteItem(result);
+        //            $(".modal-body").html(tr);
+        //            $(".modal-title").html("Delete Role - " + rName + " (" + rCode + ")");
+        //            $("#modal-Form2").modal("show");
+        //        },
+        //        error: function (err) {
+        //            alert(err);
+        //        }
+        //    })
+        //}
         //tampilan Delete (dipanggil di fungsi Delete)
         function DeleteItem(data) {
             var form = "<h3>Delete Data?</h3>"

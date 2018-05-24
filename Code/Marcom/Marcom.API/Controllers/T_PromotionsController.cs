@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Marcom.Repository;
+using Marcom.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -10,24 +12,24 @@ namespace Marcom.API.Controllers
     public class T_PromotionsController : ApiController
     {
         // GET: api/T_Promotions
-        public IEnumerable<string> Get()
+        public IEnumerable<T_PromotionViewModel> Get()
         {
-            return new string[] { "value1", "value2" };
+            return T_PromotionRepo.Get();
         }
 
         // GET: api/T_Promotions/5
-        public string Get(int id)
+        public T_PromotionViewModel Get(int id)
         {
-            return "value";
+            return T_PromotionRepo.GetById(id);
         }
 
         // POST: api/T_Promotions
-        public void Post([FromBody]string value)
+        public void Post([FromBody]T_PromotionViewModel value)
         {
         }
 
         // PUT: api/T_Promotions/5
-        public void Put(int id, [FromBody]string value)
+        public void Put(int id, [FromBody]T_PromotionViewModel value)
         {
         }
 

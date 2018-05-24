@@ -170,67 +170,79 @@
             })
         }
 
-        // get CREATE
         $("#btn-Create").click(function () {
-            SetRoleId(0);
-            SetEmployeeId(0);
-            var form = "<form method='post'>";
-            form += "<table>"
-            form += "<tr><td>" + '*Role Name' + "</td><td><select id='u_roleId'><option value=''>Select Role</option></select></td><td>" + '*Username' + "</td><td><input type='text' name='u_Username' id='u_Username' placeholder='Type Username'></td></tr>"
-            form += "<tr><td>" + '*Employee Name' + "</td><td><select id='u_EmployeeId'><option value=''>Select Employee</option></select></td><td>" + '*Password' + "</td><td><input type='password' name='u_Password' id='u_Password' placeholder='Type Password'></td></tr>"
-            form += "</table>";
-            form += "<br>"
-            form += "<button type='button' class='btn btn-sm btn-success btn-Save' onclick='AddUser()'>Save</button><button type='button' class='btn btn-sm btn-default' data-dismiss='modal'>Cancel</button>"
-            form += "</form>";
-            $(".modal-body").html(form);
-            $(".modal-title").html("Add User");
-            $("#modal-Form").modal("show");
-        })
-
-        //post create
-        function AddUser() {
-            var m_role_id = $("#u_roleId").val();
-            var username = $("#u_Username").val();
-            var m_employee_id = $("#u_EmployeeId").val();
-            var password = $("#u_Password").val();
-
-            var data = { MRoleId: m_role_id, Username: username, MEmployeeId: m_employee_id, Password: password };
-
             $.ajax({
-                url: "http://localhost:50876/api/M_Users",
-                type: 'post',
-                contentType: 'application/json',
-                dataType: 'json',
-                data: JSON.stringify(data),
+                url: '@Url.Action("Create", "M_User")',
+                type: 'get',
                 success: function (result) {
-                    if (result.Success) {
-                        alert("Success");
-                        $("#modal-Form").modal("hide");
-                        ShowList();
-                    }
-                    else {
-                        alert("error : " + result.Message);
-                    }
-                },
-                error: function (err) {
-                    alert(err);
+                    $(".modal-body").html(result);
+                    $(".modal-title").html("Add User");
+                    $("#modal-Form").modal("show");
                 }
             })
-        }
+        })
+
+        // button CREATE
+        //$("#btn-Create").click(function () {
+        //    SetRoleId(0);
+        //    SetEmployeeId(0);
+        //    var form = "<form method='post'>";
+        //    form += "<table>"
+        //    form += "<tr><td>" + '*Role Name' + "</td><td><select id='u_roleId'><option value=''>Select Role</option></select></td><td>" + '*Username' + "</td><td><input type='text' name='u_Username' id='u_Username' placeholder='Type Username'></td></tr>"
+        //    form += "<tr><td>" + '*Employee Name' + "</td><td><select id='u_EmployeeId'><option value=''>Select Employee</option></select></td><td>" + '*Password' + "</td><td><input type='password' name='u_Password' id='u_Password' placeholder='Type Password'></td></tr>"
+        //    form += "</table>";
+        //    form += "<br>"
+        //    form += "<button type='button' class='btn btn-sm btn-success btn-Save' onclick='AddUser()'>Save</button><button type='button' class='btn btn-sm btn-default' data-dismiss='modal'>Cancel</button>"
+        //    form += "</form>";
+        //    $(".modal-body").html(form);
+        //    $(".modal-title").html("Add User");
+        //    $("#modal-Form").modal("show");
+        //})
+
+        //post create
+        //function AddUser() {
+        //    var m_role_id = $("#u_roleId").val();
+        //    var username = $("#u_Username").val();
+        //    var m_employee_id = $("#u_EmployeeId").val();
+        //    var password = $("#u_Password").val();
+
+        //    var data = { MRoleId: m_role_id, Username: username, MEmployeeId: m_employee_id, Password: password };
+
+        //    $.ajax({
+        //        url: "http://localhost:50876/api/M_Users",
+        //        type: 'post',
+        //        contentType: 'application/json',
+        //        dataType: 'json',
+        //        data: JSON.stringify(data),
+        //        success: function (result) {
+        //            if (result.Success) {
+        //                alert("Success");
+        //                $("#modal-Form").modal("hide");
+        //                ShowList();
+        //            }
+        //            else {
+        //                alert("error : " + result.Message);
+        //            }
+        //        },
+        //        error: function (err) {
+        //            alert(err);
+        //        }
+        //    })
+        //}
 
         /////////////////////////////
         //fungsi tombol edit
         function EditUser(obj) {
-            var id = $(obj).attr("data-id");
+            var idU = $(obj).attr("data-id");
             //alert(JSON.stringify(id));
             $.ajax({
-                url: "http://localhost:50876/api/M_Users/" + id,
+                url: '@Url.Action("Edit", "M_User")',//"http://localhost:50876/api/M_Users/" + id,
                 type: 'GET',
-                contentType: "JSON",
+                data: {id : idU },
                 success: function (result) {
-                    var tr = GetItem(result);
-                    $(".modal-body").html(tr);
-                    $(".modal-title").html("Edit User - " + result.FullName + " (" + result.Username + ")");
+                    //var tr = GetItem(result);
+                    $(".modal-body").html(result);
+                    $(".modal-title").html("Edit User"); // - " + result.FullName + " (" + result.Username + ")");
                     $("#modal-Form").modal("show");
                 },
                 error: function (err) {
@@ -239,64 +251,66 @@
             })
         }
 
-        //get by id
-        function GetItem(data) {
-            SetRoleId(data.MRoleId);
-            SetEmployeeId(data.MEmployeeId);
-            var form = "<form>";
-            form += "<table>"
-            form += "<tr><td>" + '*Role Name' + "</td><td><input data-val='true' id='dataId' name='dataId' type='hidden' value='" + data.Id + "'><select id='u_roleId'><option value=''>Select Role</option></select></td><td>" + '*Username' + "</td><td><input class='form-control text-box single-line' type='text' id='u_Username' name='u_UserName' value='" + data.Username + "'></td></tr>"
-            form += "<tr><td>" + '*Employee Name' + "</td><td><select id='u_EmployeeId'><option value=''>Select Employee</option></select></td><td>" + '*Password' + "</td><td><input class='form-control text-box single-line' type='password' id='u_Password' name='u_Password' value='" + data.Password + "'></td></tr>"
-            form += "</table>";
-            form += "<br>"
-            form += "<button type='button' class='btn btn-sm btn-success' onclick='UpdateUser(this)'>Update</button><button type='button' class='btn btn-sm btn-default' data-dismiss='modal'>Cancel</button>"
-            form += "</form>";
+        ////get by id
+        //function GetItem(data) {
+        //    SetRoleId(data.MRoleId);
+        //    SetEmployeeId(data.MEmployeeId);
+        //    var form = "<form>";
+        //    form += "<table>"
+        //    form += "<tr><td>" + '*Role Name' + "</td><td><input data-val='true' id='dataId' name='dataId' type='hidden' value='" + data.Id + "'><select id='u_roleId'><option value=''>Select Role</option></select></td><td>" + '*Username' + "</td><td><input class='form-control text-box single-line' type='text' id='u_Username' name='u_UserName' value='" + data.Username + "'></td></tr>"
+        //    form += "<tr><td>" + '*Employee Name' + "</td><td><select id='u_EmployeeId'><option value=''>Select Employee</option></select></td><td>" + '*Password' + "</td><td><input class='form-control text-box single-line' type='password' id='u_Password' name='u_Password' value='" + data.Password + "'></td></tr>"
+        //    form += "</table>";
+        //    form += "<br>"
+        //    form += "<button type='button' class='btn btn-sm btn-success' onclick='UpdateUser(this)'>Update</button><button type='button' class='btn btn-sm btn-default' data-dismiss='modal'>Cancel</button>"
+        //    form += "</form>";
 
-            return form;
-        }
-        //post edit
-        function UpdateUser(obj) {
-            var id = $("#dataId").val();
-            var m_role_id = $("#u_roleId").val();
-            var username = $("#u_Username").val();
-            var m_employee_id = $("#u_EmployeeId").val();
-            var password = $("#u_Password").val();
+        //    return form;
+        //}
+        ////post edit
+        //function UpdateUser(obj) {
+        //    var id = $("#dataId").val();
+        //    var m_role_id = $("#u_roleId").val();
+        //    var username = $("#u_Username").val();
+        //    var m_employee_id = $("#u_EmployeeId").val();
+        //    var password = $("#u_Password").val();
 
-            var data = { Id: id, MRoleId: m_role_id, Username: username, MEmployeeId: m_employee_id, Password: password };
-            $.ajax({
-                url: "http://localhost:50876/api/M_Users/" + id,
-                type: 'put',
-                contentType: 'application/json',
-                dataType: 'json',
-                data: JSON.stringify(data),
-                success: function (result) {
-                    if (result.Success) {
-                        alert("Success");
-                        $("#modal-Form").modal("hide");
-                        ShowList();
-                    }
-                    else {
-                        alert("error : " + result.Message);
-                    }
-                },
-                error: function (err) {
-                    alert(err);
-                }
-            })
-        }
+        //    var data = { Id: id, MRoleId: m_role_id, Username: username, MEmployeeId: m_employee_id, Password: password };
+        //    $.ajax({
+        //        url: "http://localhost:50876/api/M_Users/" + id,
+        //        type: 'put',
+        //        contentType: 'application/json',
+        //        dataType: 'json',
+        //        data: JSON.stringify(data),
+        //        success: function (result) {
+        //            if (result.Success) {
+        //                alert("Success");
+        //                $("#modal-Form").modal("hide");
+        //                ShowList();
+        //            }
+        //            else {
+        //                alert("error : " + result.Message);
+        //            }
+        //        },
+        //        error: function (err) {
+        //            alert(err);
+        //        }
+        //    })
+        //}
 
         //view details
         function ViewUser(obj) {
             var id = $(obj).attr("data-id");
             //alert(JSON.stringify(id));
             $.ajax({
-                url: "http://localhost:50876/api/M_Users/" + id,
+                url: '@Url.Action("View", "M_User")',//"http://localhost:50876/api/M_Users/" + id,
                 type: 'GET',
-                contentType: "JSON",
+                data: {id: id},
+                //contentType: "JSON",
                 success: function (result) {
-                    var tr = GetData(result);
-                    $(".modal-body").html(tr);
-                    $(".modal-title").html("View User - " + result.FullName + " (" + result.Username + ")");
+                    //var tr = GetData(result);
+                    //$(".modal-body").html(tr);
+                    $(".modal-body").html(result);
+                    $(".modal-title").html("View User")// - " + result.FullName + " (" + result.Username + ")");
                     $("#modal-Form").modal("show");
                 },
                 error: function (err) {

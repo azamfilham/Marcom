@@ -26,7 +26,16 @@ namespace Marcom.API.Controllers
         // POST: api/M_Users
         public Responses Post([FromBody]M_UserViewModel entity)
         {
-            return M_UserRepo.Update(entity);
+            Responses result = new Responses();
+            if (ModelState.IsValid)
+            {
+                result = M_UserRepo.Update(entity);
+            }
+            else
+            {
+                result.Success = false;
+            }
+            return result;
         }
 
         // PUT: api/M_Users/5

@@ -27,8 +27,8 @@ namespace Marcom.Repository
                           {
                               Id = u.id,
                               Username = u.username,
-                              Password = u.password,   
-                              MRoleId = u.m_role_id,                           
+                              Password = u.password,
+                              MRoleId = u.m_role_id,
                               RoleName = r.name,
                               MEmployeeId = e.id,
                               FirstName = e.first_name,
@@ -48,7 +48,7 @@ namespace Marcom.Repository
             M_UserViewModel result = new M_UserViewModel();
             using (var db = new MarcomContext())
             {
-                result = (from u in db.m_user                          
+                result = (from u in db.m_user
                           join r in db.m_role on
                           u.m_role_id equals r.id
                           join e in db.m_employee on
@@ -74,23 +74,6 @@ namespace Marcom.Repository
             }
             return result;
         }
-
-        //public static bool UserExist(string user)
-        //{
-        //    bool result = true;
-        //    using (var db = new MarcomContext())
-        //    {
-        //        m_user us = db.m_user.Where(u => u.username == user).FirstOrDefault();
-        //        if (us == null)
-        //        {
-        //            return result = false;
-        //        }
-        //        else
-        //        {
-        //            return result = true;
-        //        }
-        //    }
-        //}
 
         public static Responses Update(M_UserViewModel entity)
         {
@@ -120,7 +103,7 @@ namespace Marcom.Repository
                         mUser.username = entity.Username;
                         mUser.password = entity.Password;
                         mUser.m_employee_id = entity.MEmployeeId;
-                        mUser.m_role_id = entity.MRoleId;           
+                        mUser.m_role_id = entity.MRoleId;                        
                         mUser.created_by = "Admin";
                         mUser.created_date = DateTime.Now;
                         mUser.is_delete = false;
