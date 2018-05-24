@@ -16,12 +16,18 @@ namespace Marcom.ViewModel
 
         [Display(Name = "Password"), Required]
         public string Password { get; set; }
-                
+
+        [Display(Name = "Re-Type Password")]
+        [Compare("Password", ErrorMessage = "Password Harus Sama!!!"), Required]
+        public string ConfirmPassword { get; set; }
+
+        [Display(Name = "Role Name")]
         public int MRoleId { get; set; }
 
-        [Display(Name = "Role"), Required]
+        [Display(Name = "Role")]
         public string RoleName { get; set; }
                 
+        [Display(Name = "Employee Name")]
         public int MEmployeeId { get; set; }
 
         [Display(Name = "Employee")]
@@ -30,7 +36,7 @@ namespace Marcom.ViewModel
         [Display(Name = "Employee")]
         public string LastName { get; set; }
 
-        [Display(Name = "Employee Name"), Required]
+        [Display(Name = "Employee Name")]
         public string FullName
         {
             get
@@ -41,7 +47,7 @@ namespace Marcom.ViewModel
 
         public int MCompanyId { get; set; }
 
-        [Display(Name = "Company"), Required]
+        [Display(Name = "Company")]
         public string CompanyName { get; set; }
 
         public bool IsDelete { get; set; }

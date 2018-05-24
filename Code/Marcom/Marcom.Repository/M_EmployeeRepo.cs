@@ -100,6 +100,30 @@ namespace Marcom.Repository
             return result;
         }
 
+        public static List<M_EmployeeViewModel> GetByEmployId()
+        {
+            List<M_EmployeeViewModel> result = new List<M_EmployeeViewModel>();
+            using (var db = new MarcomContext())
+            {
+                {
+                    result = (from e in db.m_employee
+                              join u in db.m_user on
+                              e.id equals u.m_employee_id
+                              into temp from x in temp.DefaultIfEmpty() //e.id  equals  u.m_employee_id //u.is_delete == 0
+                              where temp.Count() == 0
+                              select new M_EmployeeViewModel
+                              {
+                                  Id = e.id,
+                                   //= (x.m_employee_id == null? "null" : x.m_employee_id),
+                                  FirstName = e.first_name,
+                                  LastName = e.last_name,
+                                  IsDelete = false
+                              }).ToList();
+                }
+            }
+            return result;
+        }
+
         public static Responses Update(M_EmployeeViewModel entity)
         {
             Responses result = new Responses();

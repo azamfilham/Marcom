@@ -27,8 +27,8 @@ namespace Marcom.Repository
                           {
                               Id = u.id,
                               Username = u.username,
-                              Password = u.password,   
-                              MRoleId = u.m_role_id,                           
+                              Password = u.password,
+                              MRoleId = u.m_role_id,
                               RoleName = r.name,
                               MEmployeeId = e.id,
                               FirstName = e.first_name,
@@ -48,7 +48,7 @@ namespace Marcom.Repository
             M_UserViewModel result = new M_UserViewModel();
             using (var db = new MarcomContext())
             {
-                result = (from u in db.m_user                          
+                result = (from u in db.m_user
                           join r in db.m_role on
                           u.m_role_id equals r.id
                           join e in db.m_employee on
@@ -74,6 +74,31 @@ namespace Marcom.Repository
             }
             return result;
         }
+        
+        //public static List<M_EmployeeViewModel> GetByEmployId(int emId)
+        //{
+        //    List<M_EmployeeViewModel> result = new List<M_EmployeeViewModel>();
+        //    using (var db = new MarcomContext())
+        //    {
+        //        {
+        //            result = (from e in db.m_employee
+        //                      join u in db.m_user on
+        //                      e.id equals u.m_employee_id 
+        //                      into temp from x in temp.DefaultIfEmpty() //e.id  equals  u.m_employee_id //u.is_delete == 0
+        //                      where x.m_employee_id == null
+        //                      select new M_EmployeeViewModel
+        //                      {
+        //                          Id = e.id,
+        //                          FirstName = e.first_name,
+        //                          LastName = e.last_name,                                  
+        //                          CreatedBy = e.created_by,
+        //                          CreatedDate = e.created_date,
+        //                          IsDelete = false
+        //                      }).ToList(); 
+        //        }
+        //    }
+        //    return result;
+        //}
 
         //public static bool UserExist(string user)
         //{
@@ -120,7 +145,7 @@ namespace Marcom.Repository
                         mUser.username = entity.Username;
                         mUser.password = entity.Password;
                         mUser.m_employee_id = entity.MEmployeeId;
-                        mUser.m_role_id = entity.MRoleId;           
+                        mUser.m_role_id = entity.MRoleId;
                         mUser.created_by = "Admin";
                         mUser.created_date = DateTime.Now;
                         mUser.is_delete = false;
