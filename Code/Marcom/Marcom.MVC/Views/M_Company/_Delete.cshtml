@@ -1,0 +1,38 @@
+﻿@model Marcom.ViewModel.M_CompanyViewModel
+
+<center>
+    <h3>Delete Data ?</h3>
+    <div class="form-group">
+        <input type="button" value="Delete" id="btn-delete" class="btn btn-lg btn-danger"/>
+        <input type="button" value="Cancel" class="btn btn-lg" data-dismiss="modal" />
+    </div>
+</center>
+
+@Scripts.Render("~/bundles/jqueryval")
+
+<script type="text/javascript">
+    $("#btn-delete").click(function () {
+
+        var id = @Model.Id;
+        //alert(id);
+        $.ajax({
+            url: "http://localhost:50876/api/M_Companies/" + id,
+            type: 'delete',
+            contentType: 'application/json',
+            dataType: 'json',            
+            success: function (result) {
+                if (result.Success) {
+                    alert("Success");
+                    $("#modal-Form2").modal("hide");
+                    ShowList();
+                }
+                else {
+                    alert("error : " + result.Message);
+                }
+            },
+            error: function (err) {
+                alert(err);
+            }
+        })
+    })
+</script>
