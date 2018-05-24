@@ -10,12 +10,38 @@ namespace Marcom.Repository
 {
     public class T_EventRepo
     {
+        public static string GetNewCode()
+        {
+            int newIncrement = 1;
+            string newCode = string.Format("TRWOEV{0}{1}{2}.", DateTime.Now.Day.ToString("D2"), DateTime.Now.Month.ToString("D2"), DateTime.Now.ToString("yy") );
+            using (var db = new MarcomContext())
+            {
+                var result = (from ev in db.t_event
+                              where ev.code.Contains(newCode)
+                              select new { code = ev.code })
+                              .OrderByDescending(o => o.code)
+                              .FirstOrDefault();
+                if (result != null)
+                {
+                    string[] oldCode = result.code.Split('.');
+                    newIncrement = int.Parse(oldCode[3]) + 1;
+                }
+
+            }
+            newCode += newIncrement.ToString("D2");
+            string code = newCode.Replace(".", "");
+            return code;
+        }
+
         public static List<T_EventViewModel> Get()
         {
             List<T_EventViewModel> result = new List<T_EventViewModel>();
             using (var db = new MarcomContext())
             {
                 result = (from e in db.t_event
+                          join em in db.m_employee on
+                          e.request_by equals em.id
+                          where e.is_delete == false
                           select new T_EventViewModel
                           {
                               Id = e.id,
@@ -25,7 +51,11 @@ namespace Marcom.Repository
                               EndDate = e.end_date,
                               Place = e.place,
                               Budget = e.budget,
+
                               RequestBy = e.request_by,
+                              FirstName = em.first_name,
+                              LastName = em.last_name,
+                              
                               RequestDate = e.request_date,
                               ApprovedBy = e.approved_by,
                               ApprovedDate = e.approved_date,
@@ -49,6 +79,8 @@ namespace Marcom.Repository
             using (var db = new MarcomContext())
             {
                 result = (from e in db.t_event
+                          join em in db.m_employee on
+                          e.request_by equals em.id
                           where e.id == id
                           select new T_EventViewModel
                           {
@@ -59,7 +91,11 @@ namespace Marcom.Repository
                               EndDate = e.end_date,
                               Place = e.place,
                               Budget = e.budget,
+
                               RequestBy = e.request_by,
+                              FirstName = em.first_name,
+                              LastName = em.last_name,
+
                               RequestDate = e.request_date,
                               ApprovedBy = e.approved_by,
                               ApprovedDate = e.approved_date,
@@ -89,6 +125,7 @@ namespace Marcom.Repository
                         t_event ev = db.t_event.Where(o => o.id == entity.Id).FirstOrDefault();
                         if (ev != null)
                         {
+                            ev.id = entity.Id;
                             ev.code = entity.Code;
                             ev.event_name = entity.EventName;
                             ev.start_date = entity.StartDate;
@@ -113,14 +150,15 @@ namespace Marcom.Repository
                     else
                     {
                         t_event ev = new t_event();
-                        ev.code = entity.Code;
+                        ev.id = entity.Id;
+                        ev.code = GetNewCode();
                         ev.event_name = entity.EventName;
                         ev.start_date = entity.StartDate;
                         ev.end_date = entity.EndDate;
                         ev.place = entity.Place;
                         ev.budget = entity.Budget;
                         ev.request_by = entity.RequestBy;
-                        ev.request_date = entity.RequestDate;
+                        ev.request_date = DateTime.Now;
                         ev.approved_by = entity.ApprovedBy;
                         ev.approved_date = entity.ApprovedDate;
                         ev.assign_to = entity.AssignTo;

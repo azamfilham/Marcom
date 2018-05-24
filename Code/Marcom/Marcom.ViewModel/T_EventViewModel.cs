@@ -31,6 +31,19 @@ namespace Marcom.ViewModel
         [Display(Name = "Request By")]
         public int RequestBy { get; set; }
 
+        public string FirstName { get; set; }
+
+        public string LastName { get; set; }
+
+        [Display(Name = "Request By")]
+        public string FullName
+        {
+            get
+            {
+                return FirstName + (string.IsNullOrEmpty(LastName) ? "" : " " + LastName);
+            }
+        }
+
         [Display(Name = "Request Date")]
         public DateTime RequestDate { get; set; }
 
@@ -44,7 +57,33 @@ namespace Marcom.ViewModel
 
         public string Note { get; set; }
 
+        [Display(Name = "Status")]
         public int? Status { get; set; }
+
+        [Display(Name = "Status")]
+        public string StatusName
+        {
+            get
+            {
+                if (Status == 1)
+                {
+                    return "Submitted";
+                }
+                else if (Status == 2)
+                {
+                    return "In Progress";
+                }
+                else if (Status == 3)
+                {
+                    return "Done";
+                }
+                else
+                {
+                    return "Rejected";
+                }
+            }
+
+        }
 
         public string RejectReason { get; set; }
 
