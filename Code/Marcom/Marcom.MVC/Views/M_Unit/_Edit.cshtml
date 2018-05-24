@@ -55,6 +55,9 @@
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" id="btn-save" class="btn btn-default btn-info pull-right" value="Update" />
+                <button type="button" id="btn-cancel" class="btn btn-default btn-success pull-right">
+                    Cancel
+                </button>
             </div>
         </div>
     </div>
@@ -65,7 +68,7 @@
 <script>
 
       
-    $("#edit-form").click(function () {
+    $("#edit-form").submit(function () {
 
         var code = document.getElementById('Code').value;
         var name = document.getElementById('Name').value;

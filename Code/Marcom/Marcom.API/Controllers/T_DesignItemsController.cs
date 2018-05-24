@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Marcom.Repository;
+using Marcom.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -10,30 +12,34 @@ namespace Marcom.API.Controllers
     public class T_DesignItemsController : ApiController
     {
         // GET: api/T_DesignItems
-        public IEnumerable<string> Get()
+        public IEnumerable<T_DesignItemViewModel> Get()
         {
-            return new string[] { "value1", "value2" };
+            return T_DesignItemRepo.Get();
         }
 
         // GET: api/T_DesignItems/5
-        public string Get(int id)
+        public T_DesignItemViewModel Get(int id)
         {
-            return "value";
+            return T_DesignItemRepo.GetById(id);
         }
 
         // POST: api/T_DesignItems
-        public void Post([FromBody]string value)
+        public Responses Post([FromBody]T_DesignItemViewModel entity)
         {
+            return T_DesignItemRepo.Update(entity);
         }
 
         // PUT: api/T_DesignItems/5
-        public void Put(int id, [FromBody]string value)
+        public Responses Put(int id, [FromBody]T_DesignItemViewModel entity)
         {
+            entity.Id = id;
+            return T_DesignItemRepo.Update(entity);
         }
 
         // DELETE: api/T_DesignItems/5
-        public void Delete(int id)
+        public Responses Delete(int id)
         {
+            return T_DesignItemRepo.Delete(id);
         }
     }
 }

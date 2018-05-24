@@ -1,7 +1,9 @@
 ﻿@model Marcom.ViewModel.M_ProductViewModel
 
-
-@using (Html.BeginForm())
+@{
+    Layout = "";
+}
+@using (Html.BeginForm("", "M_Product", FormMethod.Post, new { id = "edit-form", name = "edit-form" }))
 {
     @Html.AntiForgeryToken()
     
@@ -36,13 +38,11 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                
+                <input type="submit" id="btn-save" class="btn btn-default btn-info pull-right" value="Update" />
                 <button type="button" id="btn-cancel" class="btn btn-default btn-success pull-right">
                     Cancel
                 </button>
-                <button type="button" id="btn-save" class="btn btn-default btn-info pull-right">
-                    Update
-                </button>
+               
                 
             </div>
         </div>
@@ -56,7 +56,7 @@
         $("#modal-Form").modal("hide");
     })
 
-    $("#btn-save").click(function () {
+    $("#edit-form").submit(function () {
 
         var productCode = document.getElementById('Code').value;
         var productName = document.getElementById('Name').value;
