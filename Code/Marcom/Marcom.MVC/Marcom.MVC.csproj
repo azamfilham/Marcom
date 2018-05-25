@@ -209,7 +209,6 @@
     <Content Include="Web - Copy.Release.config">
       <DependentUpon>Web - Copy.config</DependentUpon>
     </Content>
-
     <Content Include="Views\M_Unit\_Create.cshtml" />
     <Content Include="Views\M_Unit\_List.cshtml" />
     <Content Include="Views\M_Unit\_Edit.cshtml" />
@@ -258,6 +257,9 @@
     <Content Include="Views\T_SouvenirItem\Index.cshtml" />
     <Content Include="Views\T_SouvenirItem\_Create.cshtml" />
     <Content Include="Views\T_Event\Index.cshtml" />
+    <Content Include="Views\T_Event\_Create.cshtml" />
+    <Content Include="Views\T_Event\_View.cshtml" />
+    <Content Include="Views\T_Event\_Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="AdminLTE\" />
@@ -269,7 +271,6 @@
     <Folder Include="Views\T_PromotionItemFile\" />
     <Folder Include="Views\T_PromotionItem\" />
     <Folder Include="Views\T_Promotion\" />
-    <Folder Include="Views\T_SouvenirItem\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

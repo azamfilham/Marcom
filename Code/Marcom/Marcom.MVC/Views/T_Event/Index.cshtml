@@ -119,7 +119,7 @@
                     var table = "<table class='table'>";
                     table += "<tbody>";
                     $.each(result, function (i, item) {
-                        var tr = "<tr><td></td><td>" + item.Code + "</td><td>" + item.FullName + "</td><td>" + item.RequestDate + "</td><td>" + item.StatusName + "</td><td>" + item.CreatedDate + "</td><td>" + item.CreatedBy + "</td><td><button type='button' class='btn btn-sm btn-info btn-View' data-id='" + item.Id + "'onclick ='ViewUser(this)' ><span class='glyphicon glyphicon-search'></span></button><button type='button' class='btn btn-sm btn-warning btn-Edit' data-id='" + item.Id + "' onclick='EditUser(this)' ><span class='glyphicon glyphicon-pencil'></span></button></td></tr>";
+                        var tr = "<tr><td></td><td>" + item.Code + "</td><td>" + item.FullName + "</td><td>" + item.RequestDate + "</td><td>" + item.StatusName + "</td><td>" + item.CreatedDate + "</td><td>" + item.CreatedBy + "</td><td><button type='button' class='btn btn-sm btn-info btn-View' data-id='" + item.Id + "'onclick ='ViewEvent(this)' ><span class='glyphicon glyphicon-search'></span></button><button type='button' class='btn btn-sm btn-warning btn-Edit' data-id='" + item.Id + "' onclick='EditEvent(this)' ><span class='glyphicon glyphicon-pencil'></span></button></td></tr>";
                         table += tr;
 
                     })
@@ -136,13 +136,41 @@
 
         $("#btn-Add").click(function () {
             $.ajax({
-                url: '@Url.Action("Create", "T_Design")',
+                url: '@Url.Action("Create", "T_Event")',
                 type: 'get',
                 success: function (result) {
                     $("#boxview").html(result);
                 }
             })
         })
+
+        function EditEvent(obj) {
+            var idS = $(obj).attr("data-id");
+
+            $.ajax({
+                url: '@Url.Action("Edit", "T_Event")',
+                type: 'get',
+                data: { id: idS },
+                success: function (result) {
+                    $("#boxview").html(result);
+                }
+            })
+        }
+
+        function ViewEvent(obj) {
+            var idS = $(obj).attr("data-id");
+
+            $.ajax({
+                url: '@Url.Action("View", "T_Event")',
+                type: 'get',
+                data: { id: idS },
+                success: function (result) {
+                    $(".modal-body").html(result);
+                    $(".modal-title").html("View Event");
+                    $("#modal-Form").modal("show");
+                }
+            })
+        }
 
     </script>
 }
