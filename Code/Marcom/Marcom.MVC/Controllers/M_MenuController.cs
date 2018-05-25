@@ -27,24 +27,7 @@ namespace Marcom.MVC.Controllers
             return View("_Create");
         }
 
-        ////POST CREATE
-        //[HttpPost]
-        //public ActionResult Create(M_MenuViewModel model)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        Responses responses = (M_MenuRepo.Update(model));
-        //        if (responses.Success)
-        //        {
-        //            return Json(new { succes = true }, JsonRequestBehavior.AllowGet);
-        //        }
-        //        else
-        //        {
-        //            return Json(new { succes = false, message = "Error msg" }, JsonRequestBehavior.AllowGet);
-        //        }
-        //    }
-        //    return Json(new { succes = false, message = "Invalid" }, JsonRequestBehavior.AllowGet);
-        //}
+     
 
         //GET EDIT
         public ActionResult Edit(int id)
@@ -52,23 +35,6 @@ namespace Marcom.MVC.Controllers
             return View("_Edit", M_MenuRepo.GetById(id));
         }
 
-        //POST EDIT
-        [HttpPost]
-        public ActionResult Edit(M_MenuViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                Responses responses = (M_MenuRepo.Update(model));
-                if (responses.Success)
-                {
-                    return Json(new { succes = true }, JsonRequestBehavior.AllowGet);
-                }
-                else
-                {
-                    return Json(new { succes = false, message = "Error msg" }, JsonRequestBehavior.AllowGet);
-                }
-            }
-            return Json(new { succes = false, message = "Invalid" }, JsonRequestBehavior.AllowGet);
-        }
+  
     }
 }
