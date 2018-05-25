@@ -34,6 +34,7 @@ namespace Marcom.Repository
             string code = newCode.Replace(".", "");
             return code;
         }
+		
 
         public static List<T_DesignViewModel> Get()
         {

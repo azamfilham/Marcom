@@ -11,7 +11,6 @@ namespace Marcom.API.Controllers
 {
     public class T_DesignsController : ApiController
     {
-		
         // GET: api/T_Designs
         public IEnumerable<T_DesignViewModel> Get()
         {
