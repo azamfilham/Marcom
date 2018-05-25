@@ -36,7 +36,7 @@ namespace Marcom.Repository
             using (var db = new MarcomContext())
             {
                 result = (from m in db.m_menu
-                          where m.id == id
+                          where m.id == id 
                           select new M_MenuViewModel
                           {
                               Id = m.id,
@@ -171,7 +171,7 @@ namespace Marcom.Repository
             using (var db = new MarcomContext())
             {
                 result = (from m in db.m_menu
-                         where m.parent_id != PId
+                         where m.id != PId && m.is_delete == false
                           select new M_MenuViewModel
                           {
                               Id = m.id,
