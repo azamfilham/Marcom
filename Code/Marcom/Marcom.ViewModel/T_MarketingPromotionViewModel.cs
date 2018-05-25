@@ -8,10 +8,10 @@ namespace Marcom.ViewModel
 {
     public class T_MarketingPromotionViewModel
     {
-        public T_PromotionViewModel PromotionDetail { get; set; }
-        public T_PromotionItemViewModel PromotionItemDetail { get; set; }
-        public T_PromotionItemFileViewModel PromotionItemFileDetail { get; set; }
-        public T_DesignViewModel DesignDetail { get; set; }
-        public T_DesignItemViewModel DesignItemDetail { get; set; }
+        public T_PromotionViewModel Promotion { get; set; }
+        public T_PromotionItemViewModel PromotionItem { get; set; }
+        public T_PromotionItemFileViewModel PromotionItemFile { get; set; }
+        public T_DesignViewModel Design { get; set; }
+        public T_DesignItemViewModel DesignItem { get; set; }
     }
 }
