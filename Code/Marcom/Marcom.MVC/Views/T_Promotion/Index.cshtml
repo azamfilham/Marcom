@@ -166,19 +166,5 @@
             })
         }
 
-        $("#btn-Add").click(function () {
-            $.ajax({
-                url: '@Url.Action("Create", "T_Promotion")',
-                type: 'get',
-                success: function (result) {
-                    $(".modal-body").html(result);
-                    $(".modal-title").html("Add Marketing Promotion");
-                    $("#modal-Form").modal("show");
-                }
-            })
-        })
-
-
-
     </script>
 }
