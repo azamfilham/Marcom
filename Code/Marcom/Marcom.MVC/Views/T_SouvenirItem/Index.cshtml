@@ -65,10 +65,9 @@
                 <table class="table table-bordered table-striped" id="data-list">
                     <thead>
                         <tr>
-                            <th>No</th>
                             <th>Transaction Code</th>
-                            <th>Received By</th>
-                            <th>Received Date</th>
+                            <th>Request By</th>
+                            <th>Request Date</th>
                             <th>Due Date</th>
                             <th>Create Date</th>
                             <th>Create By</th>
@@ -222,9 +221,10 @@
                     table += "<tbody>";
                     $.each(result, function (i, item) {
 
-                        var tr = "<tr><td>" + item.Code + "</td><td>"
-                            + item.EmployeeName + "</td><td>"
-                            + item.ReceivedDate + "</td><td>"
+                        var tr = "<tr><td>" + item.TransactionCode + "</td><td>"
+                            + item.RequestBy + "</td><td>"
+                            + item.RequestDate + "</td><td>"
+                            + item.DueDate + "</td><td>"
                             + item.CreatedDate + "</td><td>"
                             + item.CreatedBy + "</td><td align='center'><button type='button' class='btn btn-sm btn-success btn-View' data-id='"
                             + item.Id + "' onclick='ViewRole(this)' ><span class='glyphicon glyphicon-search'></span></button><button type='button' class='btn btn-sm btn-success btn-Edit' data-id='"
@@ -262,12 +262,10 @@
             })
         })
 
-
-
-
         $("#btn-cancel").click(function () {
             $("#modal-Souvenir").modal("hide");
         })
+
 
         function EditItem(obj) {
             var idS = $(obj).attr("data-id");
@@ -278,12 +276,13 @@
                 data: { id: idS },
                 success: function (result) {
                     $(".modal-body").html(result);
-                    $(".modal-title").html("Edit Souvenir Stock");
+                    $(".modal-title").html("Edit Souvenir Item Stock");
                     $("#modal-Form").modal("show");
                 }
             })
         }
 
+        //Form Detail
         function ViewRole(obj) {
             var idS = $(obj).attr("data-id");
 
@@ -293,30 +292,30 @@
                 data: { id: idS },
                 success: function (result) {
                     $(".modal-body").html(result);
-                    $(".modal-title").html("View Souvenir Stock");
+                    $(".modal-title").html("View Souvenir Item Stock");
                     $("#modal-Form").modal("show");
                 }
             })
         }
 
 
-        function SetEmployeeId(u_EmployeeId) {
-            $.ajax({
-                url: 'http://localhost:50876/api/M_Employees',
-                type: 'GET',
-                success: function (result) {
-                    $('#u_EmployeeId').html('<option value="0">Select Employee</option>');
-                    $.each(result, function (i, item) {
-                        var option = '<option value="' + item.Id + '">' + item.EmployeeName + '</option>';
-                        $('#u_EmployeeId').append(option);
-                    })
-                    $('#u_EmployeeId').val(u_EmployeeId)
-                },
-                error: function (err) {
-                    alert(err);
-                }
-            })
-        }
+        //function SetEmployeeId(u_EmployeeId) {
+        //    $.ajax({
+        //        url: 'http://localhost:50876/api/M_Employees',
+        //        type: 'GET',
+        //        success: function (result) {
+        //            $('#u_EmployeeId').html('<option value="0">Select Employee</option>');
+        //            $.each(result, function (i, item) {
+        //                var option = '<option value="' + item.Id + '">' + item.EmployeeName + '</option>';
+        //                $('#u_EmployeeId').append(option);
+        //            })
+        //            $('#u_EmployeeId').val(u_EmployeeId)
+        //        },
+        //        error: function (err) {
+        //            alert(err);
+        //        }
+        //    })
+        //}
 
         $("#btn-saveSouvenir").click(function () {
 

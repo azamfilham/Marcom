@@ -23,7 +23,7 @@ namespace Marcom.ViewModel
         [Display(Name = "Request Date")]
         public DateTime? RequestDate { get; set; }
 
-        [Display(Name = "Even Code")]
+        [Display(Name = "Event Code")]
         public string EvenCode { get; set; }
 
 
