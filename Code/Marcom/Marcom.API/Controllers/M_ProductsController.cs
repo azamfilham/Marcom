@@ -29,14 +29,32 @@ namespace Marcom.API.Controllers
         public Responses Post([FromBody]M_ProductViewModel entities)
         {
             entities.Code = M_ProductRepo.GetNewCode();
-            return M_ProductRepo.update(entities);
+            Responses result = new Responses();
+            if (ModelState.IsValid)
+            {
+                result = M_ProductRepo.update(entities);
+            }
+            else
+            {
+                result.Success = false;
+            }
+            return result;
         }
 
         // PUT: api/M_Products/5
         public Responses Put(int id, [FromBody]M_ProductViewModel entity)
         {
             entity.Id = id;
-            return M_ProductRepo.update(entity);
+            Responses result = new Responses();
+            if (ModelState.IsValid)
+            {
+                result = M_ProductRepo.update(entity);
+            }
+            else
+            {
+                result.Success = false;
+            }
+            return result;
         }
 
         // DELETE: api/M_Products/5

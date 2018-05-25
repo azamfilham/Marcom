@@ -1,0 +1,148 @@
+﻿@model Marcom.ViewModel.T_EventViewModel
+
+@{
+    ViewBag.Title = "List Event Request";
+}
+
+
+<style>
+    table #item-list {
+        counter-reset: rowNumber;
+    }
+
+        table #item-list tr {
+            counter-increment: rowNumber;
+        }
+
+        table #item-list td:first-child::before {
+            content: counter(rowNumber);
+            min-width: 1em;
+            margin-right: 0.5em;
+        }
+
+    .modal {
+    }
+
+        .modal .modal-dialog {
+        }
+
+            .modal .modal-dialog .modal-content {
+                border: solid 1px #3c8dbc;
+                border-radius: 10px 10px 10px 10px;
+            }
+
+                .modal .modal-dialog .modal-content .modal-header {
+                    border: solid 1px #3c8dbc;
+                    background-color: #3c8dbc;
+                    border-radius: 10px 10px 0 0;
+                }
+</style>
+
+
+<div class="box">
+    <div class="box-header">
+
+    </div>
+    <div class="box-body" id="boxview">
+        <div class="row">
+
+            <div class="col-lg-12">
+                <button type="button" id="btn-Add" class="btn btn-lg btn-success pull-right">
+                    Add
+                </button>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-lg-12">
+                <table class="table table-bordered table-striped" id="data-list">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Transaction Code</th>
+                            <th>Request By</th>
+                            <th>Request Date</th>
+                            <th>Status</th>
+                            <th>Create Date</th>
+                            <th>Create By</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="item-list"></tbody>
+
+                    <tfoot>
+
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog" id="modal-Form">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title"></h4>
+
+            </div>
+
+            <div class="modal-body">
+                <p>One fine body&hellip;</p>
+            </div>
+
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+@section Scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            ShowList();
+        })
+
+        $(".datepicker").datepicker({
+            format: 'dd M yyyy',
+
+        })
+
+        function ShowList() {
+            $.ajax({
+                url: "http://localhost:50876/api/T_Events",
+                type: 'get',
+                data: 'json',
+                success: function (result) {
+                    var table = "<table class='table'>";
+                    table += "<tbody>";
+                    $.each(result, function (i, item) {
+                        var tr = "<tr><td></td><td>" + item.Code + "</td><td>" + item.FullName + "</td><td>" + item.RequestDate + "</td><td>" + item.StatusName + "</td><td>" + item.CreatedDate + "</td><td>" + item.CreatedBy + "</td><td><button type='button' class='btn btn-sm btn-info btn-View' data-id='" + item.Id + "'onclick ='ViewUser(this)' ><span class='glyphicon glyphicon-search'></span></button><button type='button' class='btn btn-sm btn-warning btn-Edit' data-id='" + item.Id + "' onclick='EditUser(this)' ><span class='glyphicon glyphicon-pencil'></span></button></td></tr>";
+                        table += tr;
+
+                    })
+                    table += "</tbody>";
+                    table += "</table>";
+                    $("#item-list").html(table);
+                    $("#data-list").DataTable();
+                },
+                error: function (err) {
+                    alert(err);
+                }
+            })
+        }
+
+        $("#btn-Add").click(function () {
+            $.ajax({
+                url: '@Url.Action("Create", "T_Design")',
+                type: 'get',
+                success: function (result) {
+                    $("#boxview").html(result);
+                }
+            })
+        })
+
+    </script>
+}
