@@ -26,3 +26,4 @@ app.config
 /Code/Marcom/.vs/config
 /Code/Marcom/.vs/Marcom
 /Code/Marcom/packages
+/Code/Marcom/Marcom.MVC/*.config
