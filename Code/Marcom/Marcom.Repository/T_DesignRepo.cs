@@ -13,7 +13,7 @@ namespace Marcom.Repository
         public static string GetNewCode()
         {
             int newIncrement = 1;
-            string newCode = string.Format("TRWODS.{0}{1}{2}.", DateTime.Now.Day.ToString("D2"), DateTime.Now.Month.ToString("D2"), DateTime.Now.ToString("yy"));
+            string newCode = string.Format("TRWODS{0}{1}{2}", DateTime.Now.Day.ToString("D2"), DateTime.Now.Month.ToString("D2"), DateTime.Now.ToString("yy"));
             using (var db = new MarcomContext())
             {
                 var result = (from d in db.t_design
@@ -23,8 +23,11 @@ namespace Marcom.Repository
                               .FirstOrDefault();
                 if (result != null)
                 {
-                    string[] oldCode = result.tcode.Split('.');
-                    newIncrement = int.Parse(oldCode[2]) + 1;
+                    string rcode = result.tcode.ToString();
+                    string c1 = rcode.Substring(0, 6);
+                    string c2 = rcode.Substring(6, 6);
+                    string c3 = rcode.Substring(12, 5);
+                    newIncrement = int.Parse(c3) + 1;
                 }
             }
             newCode += newIncrement.ToString("D5");
