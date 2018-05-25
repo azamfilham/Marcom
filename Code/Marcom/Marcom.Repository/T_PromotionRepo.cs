@@ -48,7 +48,13 @@ namespace Marcom.Repository
                               CreatedBy = p.created_by,
                               CreatedDate = p.created_date,
                               UpdatedBy = p.updated_by,
-                              UpdatedDate = p.updated_date
+                              UpdatedDate = p.updated_date,
+                              //Design
+                              DCode = d.code,
+                              DTitleHeader = d.title_header,
+                              DRequestBy = d.request_by,
+                              DRequestDate = d.request_date,
+                              DNote = d.note
                           }).ToList();
             }
             return result;
