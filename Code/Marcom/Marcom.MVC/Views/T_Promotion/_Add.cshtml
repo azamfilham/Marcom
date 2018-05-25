@@ -101,12 +101,13 @@
     //submit action ke view create
     $("#add").click(function () {
         var event = $("#EventId").val();
-        var design = $("#idDesign").val();
-        //var data = { idEvent: event, idDesign: design };
+        var design = $("#selectDesign").val();
+        //var data = { 'idEvent': event, 'idDesign': design };
+        //alert(JSON.stringify(data));
         $.ajax({
             url: '@Url.Action("Create", "T_Promotion")',
             type: 'get',
-            data: { event,design },
+            data: { idEvent: event, idDesign: design },
             success: function (result) {
                 if (result.Success) {
                     alert("Menambahkan data");
