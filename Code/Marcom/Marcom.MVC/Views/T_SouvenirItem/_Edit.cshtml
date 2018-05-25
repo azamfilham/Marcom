@@ -1,0 +1,222 @@
+﻿@model Marcom.ViewModel.T_SouvinerItemViewModel
+
+@{ 
+    Layout = "";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+       
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.TransactionCode, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.TransactionCode, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.TransactionCode, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.EvenCode, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.EvenCode, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.EvenCode, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.RequestBy, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.RequestBy, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.RequestBy, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.RequestDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.RequestDate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.RequestDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DueDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.DueDate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.DueDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Note, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Note, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Note, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <button type="button" id="btn-addItem" class="btn btn-default btn-success">
+                    Add Item
+                </button>
+                <br />
+
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Souvenir Name</th>
+                            <th>Qty</th>
+                            <th>Note</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="souvenir-list"></tbody>
+
+                    <tfoot>
+
+                    </tfoot>
+                </table>
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <button type="button" id="btn-save" class="btn btn-default btn-info pull-right">
+                    Save
+                </button>
+            </div>
+        </div>
+    </div>
+
+}
+
+<script>
+
+    var loop = [];
+
+    $(document).ready(function () {
+        SetEmployeeReceived(0);
+    })
+
+    $(".datepicker").datepicker({
+        format: 'dd M yyyy',
+
+    })
+
+    function SetEmployeeReceived(EmployeeReceived) {
+        $.ajax({
+            url: 'http://localhost:50876/api/M_Employees',
+            type: 'GET',
+            success: function (result) {
+                $.each(result, function (i, item) {
+                    var option = '<option value="' + item.Id + '">' + item.FullName + '</option>';
+                    $('#EmployeeReceived').append(option);
+                })
+                $('#EmployeeReceived').val(EmployeeReceived);
+            },
+            error: function (err) {
+                alert(err);
+            }
+        })
+    }
+
+    function GetListItem() {
+        var table = "<tr>";
+        table += "<th><select class='form-control col-md-6 u_SouvenirId' data-val='true' id='u_SouvenirId' name='u_SouvenirId'><option value=' '>Select Souvenir</option></select></th> <th><input id='qty' name='qty' placeholder='Qty' type='number' /></th> <th><input id='note' name='note' placeholder='Note' /></th> <th><button type='button' class='btn btn-danger btn-sm btn-remove' onclick='Remove(this)'> <span class='glyphicon glyphicon-trash'></span></button></th>";
+
+        table += "</tr>";
+
+        return table;
+    }
+
+    $("#btn-addItem").click(function () {
+
+        //memasukkan TR ke itemlist
+        var tr = GetListItem();
+        $("#souvenir-list").append(tr);
+
+        var rowCount = $('#souvenir-list tr').length;
+
+        SetSouvenir(0);
+
+    })
+
+    function Remove(obj) {
+        $(obj).closest("tr").remove();
+    }
+
+    $("#btn-save").click(function () {
+
+        var transactionCode = document.getElementById('TransactionCode').value;
+
+
+        var rqstDate = document.getElementById('RequestDate').value;
+        var note = document.getElementById('Note').value;
+        var dueDate = document.getElementById('DueDate').value;
+        var rqstBy = document.getElementById('RequestBy').value;
+
+        var evCode = document.getElementById("EvenCode");
+        //alert(mMenuId.selectedIndex);
+        //alert(mMenuId.options[mMenuId.selectedIndex].value);
+
+        var evCode2 = evCode.options[evCode.selectedIndex].value;
+
+
+        var now = new Date();
+
+        var data = { RequestBy: rqstBy, RequestDate: rqstDate, Note: note, Type: "Additional", TSouvenirId: 1, MSouvenirId: 1, CreatedBy: "Admin", CreatedDate: now, TransactionCode: transactionCode, EvenCode: evCode2, DueDate : dueDate};
+
+        alert(JSON.stringify(data));
+
+        //$.ajax({
+        //    url: "http://localhost:50876/api/T_SouvenirItems",
+        //    type: 'post',
+        //    contentType: 'application/json',
+        //    dataType: 'json',
+        //    data: JSON.stringify(data),
+        //    success: function (result) {
+        //        if (result.Success) {
+        //            alert("Success");
+        //            $("#modal-Form").modal("hide");
+        //            ItemList();
+        //        }
+        //        else {
+        //            alert("error : " + result.Message);
+        //        }
+        //    },
+        //    error: function (err) {
+        //        alert(err);
+        //    }
+        //})
+    })
+
+    function SetSouvenir(u_SouvenirId) {
+        $.ajax({
+            url: 'http://localhost:50876/api/M_Souvenirs',
+            type: 'GET',
+            success: function (result) {
+                $('.u_SouvenirId').html('<option value="0">Select Souvenir</option>');
+                $.each(result, function (i, item) {
+                    var option = '<option value="' + item.Id + '">' + item.Name + '</option>';
+                    $('.u_SouvenirId').append(option);
+                })
+                $('.u_SouvenirId').val(u_SouvenirId);
+            },
+            error: function (err) {
+                alert(err);
+            }
+        })
+    }
+
+</script>
