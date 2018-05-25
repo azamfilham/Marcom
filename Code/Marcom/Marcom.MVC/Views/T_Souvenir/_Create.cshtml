@@ -1,12 +1,12 @@
 ﻿@model Marcom.ViewModel.T_SouvenirViewModel
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
-        
+
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
             @Html.LabelFor(model => model.Code, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -43,7 +43,7 @@
             </div>
         </div>
 
-        
+
 
         <div class="row">
             <div class="col-lg-12">
@@ -68,7 +68,7 @@
 
                     </tfoot>
                 </table>
-                
+
             </div>
         </div>
 
@@ -82,9 +82,11 @@
     </div>
 }
 
-    @Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/bundles/jqueryval")
 
 <script>
+
+    var loop = [];
 
     $(document).ready(function () {
         SetEmployeeReceived(0);
@@ -92,7 +94,7 @@
 
     $(".datepicker").datepicker({
         format: 'dd M yyyy',
-        
+
     })
 
     function SetEmployeeReceived(EmployeeReceived) {
@@ -101,7 +103,7 @@
             type: 'GET',
             success: function (result) {
                 $.each(result, function (i, item) {
-                    var option = '<option value="' + item.Id + '">' + item.EmployeeName + '</option>';
+                    var option = '<option value="' + item.Id + '">' + item.FullName + '</option>';
                     $('#EmployeeReceived').append(option);
                 })
                 $('#EmployeeReceived').val(EmployeeReceived);
@@ -114,7 +116,7 @@
 
     function GetListItem() {
         var table = "<tr>";
-        table += "<th><select class='form-control col-md-6' data-val='true' id='u_SouvenirId' name='u_SouvenirId'><option value=' '>Select Souvenir</option></select></th> <th><input id='qty' name='qty' placeholder='Qty' type='number' /></th> <th><input id='note' name='note' placeholder='Note' /></th> <th><button type='button' class='btn btn-danger btn-sm btn-remove' onclick='Remove(this)'> <span class='glyphicon glyphicon-trash'></span></button></th>";
+        table += "<th><select class='form-control col-md-6 u_SouvenirId' data-val='true' id='u_SouvenirId' name='u_SouvenirId'><option value=' '>Select Souvenir</option></select></th> <th><input id='qty' name='qty' placeholder='Qty' type='number' /></th> <th><input id='note' name='note' placeholder='Note' /></th> <th><button type='button' class='btn btn-danger btn-sm btn-remove' onclick='Remove(this)'> <span class='glyphicon glyphicon-trash'></span></button></th>";
 
         table += "</tr>";
 
@@ -122,15 +124,21 @@
     }
 
     $("#btn-addItem").click(function () {
+
+          //memasukkan TR ke itemlist
         var tr = GetListItem();
-        $("#souvenir-list").append(tr);  //memasukkan TR ke itemlist
+        $("#souvenir-list").append(tr);
+
+        var rowCount = $('#souvenir-list tr').length;
+
         SetSouvenir(0);
+
     })
 
     function Remove(obj) {
         $(obj).closest("tr").remove();
     }
-    
+
     $("#btn-save").click(function () {
 
         var transactionCode = document.getElementById('Code').value;
@@ -141,11 +149,19 @@
         //alert(mMenuId.selectedIndex);
         //alert(mMenuId.options[mMenuId.selectedIndex].value);
         var empRcvv = empRcv.options[empRcv.selectedIndex].value;
-        
+
+        $("#souvenir-list").find("tr").each(function () {
+            var SouvenirId = $(this).find("select[name=u_SouvenirId]").val();
+            var qty = $(this).find("input[name=qty]").val();
+            var notes = $(this).find("input[name=note]").val();
+
+            var testing = { MSouvenirId: SouvenirId, Note: notes, Qty: qty, IsDelete: false };
+                loop.push(testing);
+        })
 
         var now = new Date();
 
-        var data = { ReceivedBy: empRcvv, ReceivedDate: rcvDate, Note: note, Type: "Additional", TEventId: 1, CreatedBy: "Admin", CreatedDate: now, Code: transactionCode, RequestBy: empRcvv };
+        var data = { ReceivedBy: empRcvv, ReceivedDate: rcvDate, Note: note, Type: "Additional", TEventId: 1, CreatedBy: "Admin", CreatedDate: now, Code: transactionCode, RequestBy: empRcvv, DetailsSouvItem: loop };
 
         //alert(JSON.stringify(data));
 
@@ -176,12 +192,12 @@
             url: 'http://localhost:50876/api/M_Souvenirs',
             type: 'GET',
             success: function (result) {
-                $('#u_SouvenirId').html('<option value="0">Select Souvenir</option>');
+                $('.u_SouvenirId').html('<option value="0">Select Souvenir</option>');
                 $.each(result, function (i, item) {
                     var option = '<option value="' + item.Id + '">' + item.Name + '</option>';
-                    $('#u_SouvenirId').append(option);
+                    $('.u_SouvenirId').append(option);
                 })
-                $('#u_SouvenirId').val(u_SouvenirId)
+                $('.u_SouvenirId').val(u_SouvenirId);
             },
             error: function (err) {
                 alert(err);
