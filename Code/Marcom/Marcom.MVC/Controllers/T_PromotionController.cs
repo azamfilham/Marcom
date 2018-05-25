@@ -25,7 +25,10 @@ namespace Marcom.MVC.Controllers
             T_PromotionViewModel model = new T_PromotionViewModel();
             model.TEventId = idEvent;
             model.TDesignId = idDesign;
-            return View("_Create");
+            T_MarketingPromotionViewModel models = new T_MarketingPromotionViewModel();
+            models.Promotion = model;
+            //models.Promotion.TDesignId = model.TDesignId;
+            return View("_Create",models);
         }
     }
 }
