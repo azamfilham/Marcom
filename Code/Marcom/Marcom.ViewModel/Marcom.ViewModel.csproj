@@ -55,6 +55,7 @@
     <Compile Include="T_DesignItemViewModel.cs" />
     <Compile Include="T_DesignViewModel.cs" />
     <Compile Include="T_EventViewModel.cs" />
+    <Compile Include="T_MarketingPromotionViewModel.cs" />
     <Compile Include="T_PromotionItemFileViewModel.cs" />
     <Compile Include="T_PromotionItemViewModel.cs" />
     <Compile Include="T_PromotionViewModel.cs" />

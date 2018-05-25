@@ -87,7 +87,7 @@ namespace Marcom.Repository
                     {
                         m_souvenir souvenir = new m_souvenir();
                         souvenir.id = entity.Id;
-                        souvenir.code = GetNewCode();
+                        souvenir.code = entity.Code;
                         souvenir.name = entity.Name;
                         souvenir.description = entity.Description;
                         souvenir.m_unit_id = entity.mUnitId;
