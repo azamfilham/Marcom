@@ -1,0 +1,176 @@
+﻿@model Marcom.ViewModel.T_EventViewModel
+
+
+@using (Html.BeginForm("", "T_Event", FormMethod.Post, new { id = "create-form", name = "create-form" })) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">        
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Code, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Code, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly"} })
+                @Html.ValidationMessageFor(model => model.Code, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.EventName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.EventName, new { htmlAttributes = new { @class = "form-control", requierd = "required" } })
+                @Html.ValidationMessageFor(model => model.EventName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Place, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Place, new { htmlAttributes = new { @class = "form-control", requierd = "required" } })
+                @Html.ValidationMessageFor(model => model.Place, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.StartDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control datepickerED", id = "SDate" } })
+                @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.EndDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "form-control datepickerED", id = "EDate" } })
+                @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Budget, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Budget, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Budget, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.RequestBy, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <select class="form-control valid" data-val="true" data-val-number="The field Division must be a number." data-val-required="The Department field is required." id="MEmployeeId" name="MEmployeeId" required="required">
+                    <option value="">Select Employee</option>)
+                </select>
+                @*@Html.EditorFor(model => model.RequestBy, new { htmlAttributes = new { @class = "form-control"} })*@
+                @Html.ValidationMessageFor(model => model.RequestBy, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.RequestDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.RequestDate, new { htmlAttributes = new { @class = "form-control datepickerRD", id = "RDate" } })
+                @Html.ValidationMessageFor(model => model.RequestDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Note, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.Note,  new { @class = "form-control" })
+                @*@Html.EditorFor(model => model.Note, new { htmlAttributes = new { @class = "form-control" } })*@
+                @Html.ValidationMessageFor(model => model.Note, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="button" id="btn-save" value="Create" class="btn btn-success" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+
+@Scripts.Render("~/bundles/jqueryval")
+
+<script type="text/javascript">
+        $(document).ready(function () {
+            SetEmployeeId(0);
+        })
+
+        function SetEmployeeId(MEmployeeId) {
+            $.ajax({
+                url: 'http://localhost:50876/api/M_Employees/',
+                type: 'GET',
+                success: function (result) {
+                    $('#MEmployeeId').html('<option value="0">Select Employee</option>');
+                    $.each(result, function (i, item) {
+                        var option = '<option value="' + item.Id + '">' + item.FullName + '</option>';
+                        $('#MEmployeeId').append(option);
+                    })
+                    $('#MEmployeeId').val(MEmployeeId)
+                },
+                error: function (err) {
+                    alert(err);
+                }
+            })
+        }
+
+        var date = new Date();
+            
+        $(".datepickerED").datepicker({
+            format: 'dd M yyyy',
+            startDate: date
+        })
+
+        $(".datepickerRD").datepicker({
+            format: 'dd M yyyy',
+            startDate: date,
+            endDate: date
+        })
+
+        $("#btn-save").click(function () {
+
+            var code = document.getElementById('Code').value;
+            var eName = document.getElementById('EventName').value;
+            var ePlace = document.getElementById('Place').value;
+            var eSDate = $("#SDate").val();
+            var eNDate = $("#EDate").val();
+            var req = document.getElementById('MEmployeeId');
+            var reqq = req.options[req.selectedIndex].value;
+            var reqD = $("#RDate").val();
+            var budget = document.getElementById('Budget').value;
+            var note = document.getElementById('Note').value;
+
+            //alert(reqq); 
+
+            var data = { Code: code, EventName: eName, Place: ePlace, StartDate: eSDate, EndDate: eNDate, Budget: budget, Note: note, RequestDate: reqD, RequestBy: reqq };
+            alert(JSON.stringify(data));
+            $.ajax({
+                url: "http://localhost:50876/api/T_Events",
+                type: 'post',
+                contentType: 'application/json',
+                dataType: 'json',
+                data: JSON.stringify(data),
+                success: function (result) {
+                    if (result.Success) {
+                        alert("Success");
+                        //ShowList();
+                    }
+                    else {
+                        alert("error : " + result.Message);
+                    }
+                },
+                error: function (err) {
+                    alert(err);
+                }
+            })
+            //return false;
+        })
+
+</script>
