@@ -21,6 +21,9 @@ namespace Marcom.ViewModel
         [Display(Name = "Event Code")]
         public string TEventCode { get; set; }
 
+        [Display(Name = "Title Header")]
+        public string TitleHeader { get; set; }
+
         public int? TDesignId { get; set; }
 
         [Display(Name = "Request By")]
@@ -44,7 +47,6 @@ namespace Marcom.ViewModel
         public int? ApprovedBy { get; set; }
 
         public DateTime? ApprovedDate { get; set; }
-
       
         public int? AssignTo { get; set; }
 
@@ -104,5 +106,7 @@ namespace Marcom.ViewModel
         public string UpdatedBy { get; set; }
 
         public DateTime? UpdatedDate { get; set; }
+
+        public M_RoleViewModel MyProperty { get; set; }
     }
 }
