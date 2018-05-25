@@ -60,6 +60,7 @@
     <Compile Include="M_UserRepo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="T_DesignEventRepo.cs" />
+    <Compile Include="T_DesignItemRepo.cs" />
     <Compile Include="T_DesignRepo.cs" />
     <Compile Include="T_EventRepo.cs" />
     <Compile Include="T_PromotionItemFileRepo.cs" />
