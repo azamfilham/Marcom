@@ -85,7 +85,7 @@
     //dropdown list employee
     function SetEmployeeId(MEmployeeId) {
         $.ajax({
-            url: 'http://localhost:50876/api/M_Employees',
+            url: 'http://localhost:50876/api/M_Employees/Employees/' + id,
             type: 'GET',
             success: function (result) {
                 $('#MEmployeeId').html('<option value="0">Select Employee</option>');

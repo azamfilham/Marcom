@@ -70,12 +70,14 @@
 <script type="text/javascript">
 
     $(document).ready(function () {
-        SetParentId(@Model.ParentId);
+        SetParentId(@Model.Id);
     })
     //dropdown list role
     function SetParentId(MenuId) {
+        var id = $("#MyParentId").val();
+
         $.ajax({
-            url: 'http://localhost:50876/api/M_Menus',
+            url: 'http://localhost:50876/api/Menu/M_Menus/' + id,
             type: 'GET',
             success: function (result) {
                 $('#MyParentId').html('<option value="0">Select </option>');
@@ -91,6 +93,9 @@
             }
         })
     }
+
+
+    
 
     $("#create-form").submit(function () {
         var id = $("#id").val();
@@ -114,7 +119,7 @@
                     ShowList();
                 }
                 else {
-                    alert("Maaf");
+                    
                     alert("error : " + result.Message);
                 }
             },

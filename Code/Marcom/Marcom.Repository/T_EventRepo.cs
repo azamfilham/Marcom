@@ -23,15 +23,33 @@ namespace Marcom.Repository
                               .FirstOrDefault();
                 if (result != null)
                 {
-                    string[] oldCode = result.code.Split('.');
+                    string[] oldCode = result.code.Split('.'); //SplitCode(result.code);
                     newIncrement = int.Parse(oldCode[3]) + 1;
                 }
 
             }
-            newCode += newIncrement.ToString("D2");
+            newCode += newIncrement.ToString("D5");
             string code = newCode.Replace(".", "");
             return code;
         }
+
+        //public static string[] SplitCode(string data)
+        //{
+        //    string numbers = "";
+        //    string alpha = "";
+        //    foreach (char c in data)
+        //    {
+        //        if (Char.IsDigit(c))
+        //        {
+        //            numbers = numbers + c;
+        //        }
+        //        else if (Char.IsLetter(c))
+        //        {
+        //            alpha = alpha + c;
+        //        }
+        //    }
+        //    return new string[] { numbers, alpha };
+        //}
 
         public static List<T_EventViewModel> Get()
         {
@@ -164,9 +182,9 @@ namespace Marcom.Repository
                         ev.assign_to = entity.AssignTo;
                         ev.closed_date = entity.ClosedDate;
                         ev.note = entity.Note;
-                        ev.status = entity.Status;
+                        ev.status = 1;
                         ev.reject_reason = entity.RejectReason;
-                        ev.is_delete = entity.IsDelete;
+                        ev.is_delete = false;
                         ev.created_by = "Admin";
                         ev.created_date = DateTime.Now;
                         db.t_event.Add(ev);
