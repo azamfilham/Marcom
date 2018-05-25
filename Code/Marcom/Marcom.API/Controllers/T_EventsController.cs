@@ -4,52 +4,36 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using Marcom.ViewModel;
-using Marcom.Repository;
 
 namespace Marcom.API.Controllers
 {
     public class T_EventsController : ApiController
     {
         // GET: api/T_Events
-        public IEnumerable<T_EventViewModel> Get()
+        public IEnumerable<string> Get()
         {
-            return T_EventRepo.Get();
+            return new string[] { "value1", "value2" };
         }
 
         // GET: api/T_Events/5
-        public T_EventViewModel Get(int id)
+        public string Get(int id)
         {
-            return T_EventRepo.GetById(id);
+            return "value";
         }
 
         // POST: api/T_Events
-        public Responses Post([FromBody]T_EventViewModel entity)
+        public void Post([FromBody]string value)
         {
-            Responses result = new Responses();
-            if (ModelState.IsValid)
-            {
-                result = T_EventRepo.Update(entity);
-            }
-            else
-            {
-                result.Success = false;
-            }
-            return result;
         }
 
         // PUT: api/T_Events/5
-        public Responses Put(int id, [FromBody]T_EventViewModel entity)
+        public void Put(int id, [FromBody]string value)
         {
-            entity.Id = id;
-            return T_EventRepo.Update(entity);
         }
 
         // DELETE: api/T_Events/5
-        [HttpDelete]
-        public Responses Delete(int id)
+        public void Delete(int id)
         {
-            return T_EventRepo.Delete(id);
         }
     }
 }

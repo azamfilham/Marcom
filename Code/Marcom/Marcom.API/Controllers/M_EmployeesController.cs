@@ -25,13 +25,6 @@ namespace Marcom.API.Controllers
             return M_EmployeeRepo.GetById(id);
         }
 
-        [HttpGet]
-        [Route("~/api/M_Employees/Employee")]
-        public IEnumerable<M_EmployeeViewModel> GetByEmId()
-        {
-            return M_EmployeeRepo.GetByEmployId();
-        }
-
         // POST: api/M_Employees
         public Responses Post([FromBody]M_EmployeeViewModel entity)
         {

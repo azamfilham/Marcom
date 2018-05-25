@@ -36,20 +36,20 @@ namespace Marcom.MVC.Controllers
         //[HttpPost]
         //public ActionResult Create(T_SouvinerItemViewModel model)
         //{
-        //    //if (ModelState.IsValid)
-        //    //{
-        //    //    Responses responses = (T_SouvinerItemRepo.update(model));
-        //    //    if (responses.Success)
-        //    //    {
-        //    //        return Json(new { success = true }, JsonRequestBehavior.AllowGet);
-        //    //    }
+        //    if (ModelState.IsValid)
+        //    {
+        //        Responses responses = (T_SouvinerItemRepo.update(model));
+        //        if (responses.Success)
+        //        {
+        //            return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+        //        }
 
-        //    //    else
-        //    //    {
-        //    //        return Json(new { success = false, massage = "Error msg" }, JsonRequestBehavior.AllowGet);
-        //    //    }
-        //    //}
-        //    //return Json(new { success = false, massage = "Invalid" }, JsonRequestBehavior.AllowGet);
+        //        else
+        //        {
+        //            return Json(new { success = false, massage = "Error msg" }, JsonRequestBehavior.AllowGet);
+        //        }
+        //    }
+        //    return Json(new { success = false, massage = "Invalid" }, JsonRequestBehavior.AllowGet);
 
         //}
 
@@ -104,7 +104,7 @@ namespace Marcom.MVC.Controllers
         //}
 
         //Get Detail
-        public ActionResult Views(int id)
+        public ActionResult View(int id)
         {
             return View("_View",T_SouvinerItemRepo.GetById(id));
         }
