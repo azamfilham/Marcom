@@ -257,6 +257,9 @@
     <Content Include="Views\T_SouvenirItem\Index.cshtml" />
     <Content Include="Views\T_SouvenirItem\_Create.cshtml" />
     <Content Include="Views\T_Event\Index.cshtml" />
+    <Content Include="Views\T_Promotion\_Create.cshtml" />
+    <Content Include="Views\T_Promotion\Index.cshtml" />
+    <Content Include="Views\T_Promotion\_Add.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="AdminLTE\" />
@@ -267,8 +270,6 @@
     <Folder Include="Views\T_Design\" />
     <Folder Include="Views\T_PromotionItemFile\" />
     <Folder Include="Views\T_PromotionItem\" />
-    <Folder Include="Views\T_Promotion\" />
-    <Folder Include="Views\T_SouvenirItem\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
