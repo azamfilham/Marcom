@@ -106,7 +106,6 @@ namespace Marcom.ViewModel
         public string UpdatedBy { get; set; }
 
         public DateTime? UpdatedDate { get; set; }
-
-        public M_RoleViewModel MyProperty { get; set; }
+        
     }
 }
