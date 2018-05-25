@@ -27,6 +27,14 @@ namespace Marcom.ViewModel
         [Display(Name ="Created Date")]
         public DateTime Created_date { get; set; }
 
+        public string Cdate
+        {
+            get
+            {
+                return Created_date.ToString("dd-MM-yyyy");
+            }
+        }
+
         public string Updated_by { get; set; }
 
         public DateTime? Updated_date { get; set; }

@@ -1,0 +1,361 @@
+﻿
+@model Marcom.ViewModel.T_SouvinerItemViewModel
+
+@{
+    ViewBag.Title = "List Souvenir Stock";
+}
+
+
+<style>
+    table th {
+        width: 16%;
+    }
+
+    /*.modal {
+    }
+
+        .modal .modal-dialog {
+        }
+
+            .modal .modal-dialog .modal-content {
+                border: solid 1px #3c8dbc;
+                border-radius: 10px 10px 10px 10px;
+            }
+
+                .modal .modal-dialog .modal-content .modal-header {
+                    border: solid 1px #3c8dbc;
+                    background-color: #3c8dbc;
+                    border-radius: 10px 10px 0 0;
+                }*/
+    .modal {
+    }
+
+        .modal .modal-dialog {
+        }
+
+            .modal .modal-dialog .modal-content {
+                border: solid 1px #3c8dbc;
+                border-radius: 10px 10px 10px 10px;
+            }
+
+                .modal .modal-dialog .modal-content .modal-header {
+                    border: solid 1px #3c8dbc;
+                    background-color: #3c8dbc;
+                    border-radius: 10px 10px 0 0;
+                }
+</style>
+
+
+<div class="box">
+    <div class="box-header">
+
+    </div>
+    <div class="box-body">
+        <div class="row">
+
+            <div class="col-lg-12">
+                <button type="button" id="btn-Add" class="btn btn-lg btn-success pull-right">
+                    Add
+                </button>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-lg-12">
+                <table class="table table-bordered table-striped" id="data-list">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Transaction Code</th>
+                            <th>Received By</th>
+                            <th>Received Date</th>
+                            <th>Due Date</th>
+                            <th>Create Date</th>
+                            <th>Create By</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="item-list"></tbody>
+
+                    <tfoot>
+
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog" id="modal-Form">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title"></h4>
+
+            </div>
+
+            <div class="modal-body">
+                <p>One fine body&hellip;</p>
+            </div>
+
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" tabindex="-1" role="dialog" id="modal-Souvenir">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Add Souvenir Stock</h4>
+                <div class="box">
+                    <div class="box-header">
+
+                    </div>
+                    <div class="box-body">
+                        <div class="row">
+
+                            <div class="col-lg-6">
+                                <table class='table col-md-6'>
+                                    <tr>
+                                        <td class='control-label col-md-2'>Transaction Code</td>
+                                        <td>
+                                            <input type='text' name='t_code' id='t_code' placeholder='Auto Generated' class='form-control col-md-6' />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class='control-label col-md-2'>
+                                            Received By
+                                        </td>
+                                        <td>
+                                            <select class="form-control col-md-6" data-val="true" id="u_EmployeeId" name="u_EmployeeId">
+                                                <option value=" ">Select Employee</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class='control-label col-md-2'>Received Date</td>
+                                        <td>
+                                            <input type='text' name='r_date' id='r_date' class='form-control col-md-6 datepicker' />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class='control-label col-md-2'>
+                                            Note
+                                        </td>
+                                        <td>
+                                            <textarea type='text' name='n_note' id='n_note' class='form-control col-md-6'></textarea>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <button type="button" id="btn-addItem" class="btn btn-default btn-success">
+                                    Add Item
+                                </button>
+                                <table class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Souvenir</th>
+                                            <th>Qty</th>
+                                            <th>Note</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody id="souvenir-list"></tbody>
+
+                                    <tfoot>
+
+                                    </tfoot>
+                                </table>
+                                <button type="button" id="btn-cancel" class="btn btn-default btn-success pull-right">
+                                    Cancel
+                                </button>
+                                <button type="button" id="btn-saveSouvenir" class="btn btn-default btn-default pull-right" data-dismiss="modal">
+                                    Save
+                                </button>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-body">
+                @*<p>One fine body&hellip;</p>*@
+            </div>
+
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+@section Scripts
+{
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            ItemList();
+            SetEmployeeId(0);
+            //SetEmployeeId1(0);
+        })
+
+
+        $(".datepicker").datepicker({
+            format: 'dd M yyyy',
+
+        })
+
+        function ItemList() {
+            $.ajax({
+                url: "http://localhost:50876/api/T_SouvenirItems",
+                type: 'get',
+                data: 'json',
+                success: function (result) {
+                    var table = "<table class='table'>";
+                    table += "<tbody>";
+                    $.each(result, function (i, item) {
+
+                        var tr = "<tr><td>" + item.Code + "</td><td>"
+                            + item.EmployeeName + "</td><td>"
+                            + item.ReceivedDate + "</td><td>"
+                            + item.CreatedDate + "</td><td>"
+                            + item.CreatedBy + "</td><td align='center'><button type='button' class='btn btn-sm btn-success btn-View' data-id='"
+                            + item.Id + "' onclick='ViewRole(this)' ><span class='glyphicon glyphicon-search'></span></button><button type='button' class='btn btn-sm btn-success btn-Edit' data-id='"
+                            + item.Id + "' onclick ='EditItem(this)'><span class='glyphicon glyphicon-edit'></span></button></td></tr>";
+                        table += tr;
+
+                    })
+                    table += "</tbody>";
+                    table += "</table>";
+                    $("#item-list").html(table);
+                    $("#data-list").DataTable();
+
+                },
+                error: function (err) {
+                    alert(err);
+                }
+            })
+        }
+
+        //$("#btn-Add").click(function () {
+        //    //$(".modal-body").html(form);
+        //    $(".modal-title").html("Add Souvenir Stock");
+        //    $("#modal-Souvenir").modal("show");
+        //})
+
+        $("#btn-Add").click(function () {
+            $.ajax({
+                url: '@Url.Action("Create", "T_SouvenirItem")',
+                type: 'get',
+                success: function (result) {
+                    $(".modal-body").html(result);
+                    $(".modal-title").html("Add Souvenir Stock");
+                    $("#modal-Form").modal("show");
+                }
+            })
+        })
+
+
+
+
+        $("#btn-cancel").click(function () {
+            $("#modal-Souvenir").modal("hide");
+        })
+
+        function EditItem(obj) {
+            var idS = $(obj).attr("data-id");
+
+            $.ajax({
+                url: '@Url.Action("Edit", "T_SouvenirItem")',
+                type: 'get',
+                data: { id: idS },
+                success: function (result) {
+                    $(".modal-body").html(result);
+                    $(".modal-title").html("Edit Souvenir Stock");
+                    $("#modal-Form").modal("show");
+                }
+            })
+        }
+
+        function ViewRole(obj) {
+            var idS = $(obj).attr("data-id");
+
+            $.ajax({
+                url: '@Url.Action("View", "T_SouvenirItem")',
+                type: 'get',
+                data: { id: idS },
+                success: function (result) {
+                    $(".modal-body").html(result);
+                    $(".modal-title").html("View Souvenir Stock");
+                    $("#modal-Form").modal("show");
+                }
+            })
+        }
+
+
+        function SetEmployeeId(u_EmployeeId) {
+            $.ajax({
+                url: 'http://localhost:50876/api/M_Employees',
+                type: 'GET',
+                success: function (result) {
+                    $('#u_EmployeeId').html('<option value="0">Select Employee</option>');
+                    $.each(result, function (i, item) {
+                        var option = '<option value="' + item.Id + '">' + item.EmployeeName + '</option>';
+                        $('#u_EmployeeId').append(option);
+                    })
+                    $('#u_EmployeeId').val(u_EmployeeId)
+                },
+                error: function (err) {
+                    alert(err);
+                }
+            })
+        }
+
+        $("#btn-saveSouvenir").click(function () {
+
+            var transactionCode = $("#t_code").val();
+            var m_employee_id = $("#u_EmployeeId").val();
+            var receivedDate = $("#r_date").val();
+            var note = $("#n_note").val();
+            var now = new Date();
+
+            var data = { ReceivedBy: m_employee_id, ReceivedDate: receivedDate, Note: note, Type: "Additional", TEventId: 1, CreatedBy: "Admin", CreatedDate: now, Code: transactionCode, RequestBy: m_employee_id };
+            //alert(JSON.stringify(data));
+
+            $.ajax({
+                url: "http://localhost:50876/api/T_SouvenirItems",
+                type: 'post',
+                contentType: 'application/json',
+                dataType: 'json',
+                data: JSON.stringify(data),
+                success: function (result) {
+                    if (result.Success) {
+                        alert("Success");
+                        $("#modal-Souvenir").modal("hide");
+                        ItemList();
+                    }
+                    else {
+                        alert("error : " + result.Message);
+                    }
+                },
+                error: function (err) {
+                    alert(err);
+                }
+            })
+        })
+
+        //nanti diganti jadi Souvenir
+
+
+    </script>
+}
+
+
+

@@ -48,7 +48,7 @@ namespace Marcom.Repository
                               CreatedBy = p.created_by,
                               CreatedDate = p.created_date,
                               UpdatedBy = p.updated_by,
-                              UpdatedDate = p.updated_date
+                              UpdatedDate = p.updated_date,
                           }).ToList();
             }
             return result;

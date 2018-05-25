@@ -128,9 +128,16 @@
         })
 
         $("#btn-Add").click(function () {
-            //$(".modal-body").html(form);
-            $(".modal-title").html("Add Marketing Promotion");
-            $("#modal-AddMP").modal("show");
+            $.ajax({
+                url: '@Url.Action("Add", "T_Promotion")',
+                type: 'get',
+                success: function (result) {
+                    $(".modal-body").html(result);
+                    $(".modal-title").html("Add Marketing Promotion");
+                    $("#modal-AddMP").modal("show");
+
+                }
+            })
         })
 
         function ItemList() {
@@ -158,20 +165,6 @@
                 }
             })
         }
-
-        $("#btn-Add").click(function () {
-            $.ajax({
-                url: '@Url.Action("Create", "T_Promotion")',
-                type: 'get',
-                success: function (result) {
-                    $(".modal-body").html(result);
-                    $(".modal-title").html("Add Marketing Promotion");
-                    $("#modal-Form").modal("show");
-                }
-            })
-        })
-
-
 
     </script>
 }

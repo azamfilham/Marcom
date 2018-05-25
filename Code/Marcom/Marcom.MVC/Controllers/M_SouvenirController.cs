@@ -1,4 +1,5 @@
 ﻿using Marcom.Repository;
+using Marcom.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,7 +23,9 @@ namespace Marcom.MVC.Controllers
 
         public ActionResult Create()
         {
-            return PartialView("_Create");
+            M_SouvenirViewModel model = new M_SouvenirViewModel();
+            model.Code = M_SouvenirRepo.GetNewCode();
+            return PartialView("_Create",model);
         }
 
         public ActionResult Edit(int id)

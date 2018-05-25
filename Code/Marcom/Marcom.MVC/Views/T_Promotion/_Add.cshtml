@@ -1,0 +1,132 @@
+﻿@model Marcom.ViewModel.T_PromotionViewModel
+@{ 
+    Layout = "";
+}
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            <label class="control-label col-md-4">*Select Event</label>
+            <div class="col-md-4">
+                <select class="form-control valid" data-val="true" id="EventId" name="EventId">
+                    <option value="0">Select Event</option>
+                </select>
+                @Html.ValidationMessageFor(model => model.TEventId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-4">*Select from Design</label>
+            <div class="col-md-4">
+                <select class="form-control valid" data-val="true" id="selectDesign" name="selectDesign">
+                    <option value="">Please Select</option>
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                </select>
+                @Html.ValidationMessageFor(model => model.TEventId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group" id="Design">
+            
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <button type="button" value="Add" class="btn btn-default" id="add">Add</button>
+                <input type="button" class="btn btn-md btn-warning btn-cancel" data-dismiss='modal' value="Cancel"/>
+            </div>
+        </div>
+    </div>
+}
+
+@Scripts.Render("~/bundles/jqueryval")
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        SetEvent(0);
+    })
+
+    function SetEvent(divId) {
+        $.ajax({
+            url: 'http://localhost:50876/api/T_Events',
+            type: 'GET',
+            success: function (result) {
+                $('#EventId').html('<option value="0">Select Event</option>');
+                $.each(result, function (i, item) {
+                    var option = '<option value="' + item.Id + '">' + item.Code + '</option>';
+                    $('#EventId').append(option);
+                })
+                $('#EventId').val(divId);
+            },
+            error: function (err) {
+                alert(err);
+                $('#EventId').html('<option value="0">Select Event</option>');
+            }
+        })
+    }
+
+    $("#selectDesign").change(function () {
+        var yes = $("#selectDesign").val();
+        if (yes == 1) {
+            $.ajax({
+                url: 'http://localhost:50876/api/T_Designs',
+                type: 'GET',
+                success: function (result) {
+                    var option = '<label class="control-label col-md-4">*Select from Design</label>';
+                    option += '<div class="col-md-4">';
+                    option += '<select class="form-control valid" data-val="true" id="selectDesign" name="selectDesign">';
+                    $.each(result, function (i, item) {
+                        var opt = '<option value="' + item.Id + '">' + item.Code + '</option>';
+                        option += opt;
+                    })
+                    option += '</select>';
+                    option += '</div>'
+                    $('#Design').html(option);
+                },
+                error: function (err) {
+                    alert(err);
+                    $('#EventId').html('<option value="0">Select Event</option>');
+                }
+            })
+            //alert("Benar");
+        }
+        else {
+            
+                $('#Design').remove();
+            
+        }
+    })
+
+    //submit action ke view create
+    $("#add").click(function () {
+        var event = $("#EventId").val();
+        var design = $("#selectDesign").val();
+        //var data = { 'idEvent': event, 'idDesign': design };
+        //alert(JSON.stringify(data));
+        $.ajax({
+            url: '@Url.Action("Create", "T_Promotion")',
+            type: 'get',
+            data: { idEvent: event, idDesign: design },
+            success: function (result) {
+                if (result.Success) {
+                    alert("Menambahkan data");
+                }
+                else {
+                    alert("error : " + result.Message);
+                }
+            },
+            error: function (err) {
+                alert(err);
+            }
+        })
+    })
+
+
+
+</script>

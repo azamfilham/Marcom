@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Marcom.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -13,9 +14,21 @@ namespace Marcom.MVC.Controllers
         {
             return View();
         }
-        public ActionResult Create()
+
+        public ActionResult Add()
         {
-            return View("_Create");
+            return PartialView("_Add");
+        }
+        [HttpGet]
+        public ActionResult Create(int idEvent, int idDesign)
+        {
+            T_PromotionViewModel model = new T_PromotionViewModel();
+            model.TEventId = idEvent;
+            model.TDesignId = idDesign;
+            T_MarketingPromotionViewModel models = new T_MarketingPromotionViewModel();
+            models.Promotion = model;
+            //models.Promotion.TDesignId = model.TDesignId;
+            return View("_Create",models);
         }
     }
 }
