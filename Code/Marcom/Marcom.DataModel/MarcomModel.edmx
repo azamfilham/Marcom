@@ -257,7 +257,7 @@
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="t_promotion_id" Type="int" Nullable="false" />
-          <Property Name="filename" Type="int" Nullable="false" />
+          <Property Name="filename" Type="varchar" MaxLength="200" />
           <Property Name="size" Type="varchar" MaxLength="11" />
           <Property Name="extention" Type="varchar" MaxLength="11" />
           <Property Name="start_date" Type="datetime" />
@@ -1211,7 +1211,7 @@
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="t_promotion_id" Type="Int32" Nullable="false" />
-          <Property Name="filename" Type="Int32" Nullable="false" />
+          <Property Name="filename" Type="String" MaxLength="200" Unicode="false" FixedLength="false" />
           <Property Name="size" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
           <Property Name="extention" Type="String" MaxLength="11" FixedLength="false" Unicode="false" />
           <Property Name="start_date" Type="DateTime" Precision="3" />

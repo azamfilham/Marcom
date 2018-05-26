@@ -20,11 +20,11 @@ namespace Marcom.MVC.Controllers
             return PartialView("_Add");
         }
         [HttpGet]
-        public ActionResult Create(int idEvent, int idDesign)
+        public ActionResult Create(int idEvent/*, int idDesign*/)
         {
             T_PromotionViewModel model = new T_PromotionViewModel();
             model.TEventId = idEvent;
-            model.TDesignId = idDesign;
+            //model.TDesignId = idDesign;
             T_MarketingPromotionViewModel models = new T_MarketingPromotionViewModel();
             models.Promotion = model;
             //models.Promotion.TDesignId = model.TDesignId;
