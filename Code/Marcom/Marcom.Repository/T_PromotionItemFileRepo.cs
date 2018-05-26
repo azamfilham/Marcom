@@ -92,7 +92,7 @@ namespace Marcom.Repository
                     {
                         t_promotion_item_file tpifile = new t_promotion_item_file();
                         tpifile.t_promotion_id = entity.TPromotionId;
-                        tpifile.filename = 0;
+                        tpifile.filename = entity.FileName;
                         tpifile.size = entity.Size;
                         tpifile.extention = entity.Extention;
                         tpifile.start_date = entity.StartDate;

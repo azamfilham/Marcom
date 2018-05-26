@@ -12,7 +12,8 @@ namespace Marcom.API.Controllers
     public class M_MenusController : ApiController
     {
         // GET: api/M_Menus
-        public IEnumerable<M_MenuViewModel> Get()
+        [HttpGet]
+        public IEnumerable<M_MenuViewModel> Get( )
         {
             return M_MenuRepo.Get();
         }
@@ -22,17 +23,41 @@ namespace Marcom.API.Controllers
         {
             return M_MenuRepo.GetById(id); 
         }
-
+        [HttpGet]
+        [Route("~/api/Menu/M_Menus/{PId}")]
+        public IEnumerable<M_MenuViewModel> GetByPId(int PId)
+        {
+            return M_MenuRepo.GetByParentId(PId);
+        }
         // POST: api/M_Menus
         public Responses Post([FromBody]M_MenuViewModel entity)
         {
-            return M_MenuRepo.Update(entity);
+            Responses result = new Responses();
+            if (ModelState.IsValid)
+            {
+                result = M_MenuRepo.Update(entity);
+            }
+            else
+            {
+                result.Success = false;
+            }
+            return result;
         }
 
         // PUT: api/M_Menus/5
         public Responses Put(int id, [FromBody]M_MenuViewModel entity)
         {
-            return M_MenuRepo.Update(entity);
+            entity.Id = id;
+            Responses result = new Responses();
+            if (ModelState.IsValid)
+            {
+                result = M_MenuRepo.Update(entity);
+            }
+            else
+            {
+                result.Success = false;
+            }
+            return result;
         }
 
         // DELETE: api/M_Menus/5

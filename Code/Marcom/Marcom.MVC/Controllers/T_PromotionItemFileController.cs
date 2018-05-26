@@ -18,5 +18,9 @@ namespace Marcom.MVC.Controllers
         {
             return View("_Create");
         }
+        public ActionResult Add()
+        {
+            return View("_Add");
+        }
     }
 }

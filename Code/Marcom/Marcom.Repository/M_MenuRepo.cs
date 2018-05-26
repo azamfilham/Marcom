@@ -182,6 +182,31 @@ namespace Marcom.Repository
             }
             return result;
         }
+
+        public Boolean checkName(string name)
+        {
+            M_MenuViewModel result = new M_MenuViewModel();
+            using (var db = new MarcomContext())
+            {
+                result = (from m in db.m_menu
+                          where m.name == name
+                          select new M_MenuViewModel
+                          {
+                              Id = m.id,
+                             
+                              Name = m.name
+                              
+                          }).FirstOrDefault();
+            }
+            
+            if (result == null)
+            {
+                return true;
+            }
+
+
+            return false;
+        }
     }
 }
 

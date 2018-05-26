@@ -1,0 +1,205 @@
+﻿@model Marcom.ViewModel.T_PromotionItemFileViewModel
+
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        
+        <div class="box">
+            <div class="box-header">
+                <div class="col-md-6">
+                    <button type="button" class="btn btn-sm btn-info" id="selectAdd">
+                        Add Item
+                    </button>
+                </div>
+
+            </div>
+            <div class="box-body">
+
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>File Name</th>
+                                    <th>Qty</th>
+                                    <th>Todo</th>
+                                    <th>Due Date</th>
+                                    <th>Start Date</th>
+                                    <th>End Date</th>
+                                    <th>Note</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="item-list"></tbody>
+
+
+                        </table>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <button type="button" id="btn-save" class="btn btn-success ">
+                            Save
+                        </button>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" tabindex="-1" role="dialog" id="modal-Form">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+
+                    </div>
+
+                    <div class="modal-body">
+                        <p>One fine body&hellip;</p>
+                    </div>
+
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
+
+    </div>
+}
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+
+<script type="text/javascript">
+
+  
+     $(".datepicker").datepicker({
+         format: 'dd M yyyy'
+     })
+
+
+
+
+     //tampilan list form
+     $("#selectAdd").click(function () {
+        
+         $.ajax({
+             data: 'json',
+             success: function (result) {
+                 var tr = GetItem(result);
+                 $("#item-list").append(tr);  //memasukkan TR ke itemlist
+                 SetTodo(0);
+                
+             },
+             error: function (err) {
+                 alert(err);
+             }
+         })
+
+     })
+
+     // get / ambil tampilan list form
+     function GetItem() {
+         var html = '<tr>';
+         html += '<td> <span class="btn btn-primary btn-file">Browse<input type="file"></span> </td>';
+         html += '<td> <input type="text" name="filename" id="filename" class="form-control " placeholder="filename"  ></td>';
+         html += '<td> <input type="number" name="qty" id="qty" class="form-control" placeholder="QTY">  </td>';
+         html += '<td> <select class="form-control todo" data-val="true" id="todo" name="todo"><option value=" ">Select Todo</option></select> </td>';
+         html += '<td> <input class="form-control datepicker" data-val="true" data-val-date="The field Date Of Hire must be a date." data-val-required="The Date Of Hire field is required." id="due_date" name="due_date" type="datetime" value=""> </td>';
+         html += '<td> <input type="text" name="start_date" id="start_date" class="form-control " placeholder="Start Date"  > </td>';
+         html += '<td> <input type="text" name="end_date" id="end_date" class="form-control " placeholder="End Date"  > </td>';
+         html += '<td> <input type="text" name="note" id="note" class="form-control " placeholder="Note"  ></td>';
+         html += '<td> <button type="button" class="btn btn-danger btn-remove" onclick="Remove(this)"> <span class="glyphicon glyphicon-trash"></span></button></td>';
+
+         html += '</tr>';
+
+         return html;
+     }
+
+     function Remove(obj) {
+         $(obj).closest("tr").remove();
+
+     }
+
+
+     $("#btn-save").click(function () {
+         var details = [];
+
+         $("#item-list").find("tr").each(function () {
+             var filename = $(this).find("input[name=filename]").val();
+             var qty = $(this).find("input[name=qty]").val();
+             //var todo = $(this).find("input[name=todo]").val();
+             var todo = document.getElementById('todo');
+             var mTodo = todo.options[todo.selectedIndex].value;
+             //alert(mTodo);
+             var due_date = $(this).find("input[name=due_date]").val();
+             var start_date = $(this).find("input[name=start_date]").val();
+             var end_date = $(this).find("input[name=end_date]").val();
+             var note = $(this).find("input[name=note]").val();
+
+             var data = { Filename: filename, Qty: qty, Todo: mTodo, RequestDueDate: due_date, StartDate: start_date, EndDate: end_date, Note: note };
+             alert (JSON.stringify(data));
+             details.push(data);
+
+         })
+
+         //$.ajax({
+         //    url: "http://localhost:50876/api/T_PromotionItemFiles",
+         //    type: 'post',
+         //    contentType: 'application/json',
+         //    dataType: 'json',
+         //    data: JSON.stringify(data),
+         //    success: function (result) {
+         //        if (result.Success) {
+
+         //            alert("Success");
+
+         //        }
+         //        else {
+         //            alert("error : " + result.Message);
+         //        }
+         //    },
+         //    error: function (err) {
+         //        alert(err);
+         //    }
+         //})
+
+     })
+
+
+     function SetTodo(todo) {
+         $.ajax({
+             url: 'http://localhost:50876/api/T_PromotionItemFiles',
+             type: 'GET',
+             success: function (result) {
+                 $('.todo').html('<option value="0">Select Todo</option>');
+                 $.each(result, function (i, item) {
+                     var option = '<option value="' + item.Todo + '">' + item.TodoList + '</option>';
+                     $('.todo').append(option);
+                 })
+                 $('.todo').val(todo);
+             },
+             error: function (err) {
+                 alert(err);
+                 $('.todo').html('<option value="0">Select Todo</option>');
+             }
+         })
+     }
+
+</script>
+
+}
