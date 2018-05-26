@@ -107,24 +107,10 @@
     $("#add").click(function () {
         var event = $("#EventId").val();
         var design = $("#selectDesign").val();
-        //var data = { 'idEvent': event, 'idDesign': design };
-        //alert(JSON.stringify(data));
-        $.ajax({
-            url: '@Url.Action("Create", "T_Promotion")',
-            type: 'get',
-            data: { idEvent: event, idDesign: design },
-            success: function (result) {
-                if (result.Success) {
-                    alert("Menambahkan data");
-                }
-                else {
-                    alert("error : " + result.Message);
-                }
-            },
-            error: function (err) {
-                alert(err);
-            }
-        })
+        
+        var url = "/T_Promotion/Create?idEvent=" + event+"&idDesign="+design;
+        window.location.href = url;
+        
     })
 
 

@@ -90,7 +90,32 @@ namespace Marcom.Repository
             return result;
         }
 
-        
+        public static T_MarketingPromotionViewModel GetByEventandDesign(int EventId,int DesignId)
+        {
+            T_MarketingPromotionViewModel result = new T_MarketingPromotionViewModel();
+            using (var db = new MarcomContext())
+            {
+                result = (from p in db.t_promotion
+                          join e in db.t_event
+                          on p.t_event_id equals e.id
+                          join d in db.t_design
+                          on p.t_design_id equals d.id
+                          where p.t_design_id == DesignId && p.t_event_id == EventId
+                          select new T_MarketingPromotionViewModel
+                          {
+                              TEventCode = e.code,
+                              RequestBy = d.request_by,
+                              RequestDate = DateTime.Now,
+                              TDesignCode = d.code,
+                              TDesignTitleHeader = d.title_header,
+                              TDesignRequestBy = d.request_by,
+                              TDesignRequestDate = d.request_date,
+                              TDesignNote = d.note
+                          }).FirstOrDefault();
+            }
+            return result;
+        }
+
 
         public static Responses Delete(int id)
         {
