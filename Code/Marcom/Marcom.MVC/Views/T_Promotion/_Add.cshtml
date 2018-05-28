@@ -23,7 +23,7 @@
         <div class="form-group">
             <label class="control-label col-md-4">*Select from Design</label>
             <div class="col-md-4">
-                <select class="form-control valid" data-val="true" id="selectDesign" name="selectDesign">
+                <select class="form-control valid" data-val="true" id="sDesign" name="sDesign">
                     <option value="">Please Select</option>
                     <option value="1">Yes</option>
                     <option value="0">No</option>
@@ -71,8 +71,8 @@
         })
     }
 
-    $("#selectDesign").change(function () {
-        var yes = $("#selectDesign").val();
+    $("#sDesign").change(function () {
+        var yes = $("#sDesign").val();
         if (yes == 1) {
             $.ajax({
                 url: 'http://localhost:50876/api/T_Designs',
