@@ -66,6 +66,31 @@ namespace Marcom.Repository
             return result;
         }
 
+		public static List<T_SouvinerItemViewModel> GetBySouvId(int SouvId)
+        {
+            List<T_SouvinerItemViewModel> result = new List<T_SouvinerItemViewModel>();
+            using (var db = new MarcomContext())
+            {
+                result = (from souvItem in db.t_souvenir_item
+                          join souv in db.t_souvenir
+                          on souvItem.t_souvenir_id equals souv.id
+                          join mSouv in db.m_souvenir
+                          on souvItem.m_souvenir_id equals mSouv.id
+                          where souvItem.t_souvenir_id == SouvId
+                          select new T_SouvinerItemViewModel
+                          {
+                              Id = souvItem.id,
+                              MSouvenirId = souvItem.m_souvenir_id,
+                              Qty = souvItem.qty,
+                              Note = souvItem.note,
+                              SouvenirName = mSouv.name
+
+
+                          }).ToList();
+            }
+            return result;
+        }
+		
         //public static Responses update(T_SouvinerItemViewModel entity)
         //{
         //    Responses result = new Responses();
