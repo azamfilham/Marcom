@@ -385,11 +385,11 @@
         //tampilan Delete (dipanggil di fungsi Delete)
         function DeleteItem(data) {
             var form = "<h1>Delete Data?</h1>";
-            var form = "<td><input data-val='true' id='eId' type='hidden' value='" + data.Id + "'/>";
-            form += "<td align='center'>";
-            form += "<button type='button' class='btn btn-sm btn-success btn-delete' onclick='ConfirmDeleteProduct(this)'>Delete</button>";
-            form += "<button type='button' class='btn btn-sm btn-default btn-cancel' data-dismiss='modal'>Cancel</button>";
-            form += "</td>";
+            form += "<td><input data-val='true' id='eId' type='hidden' value='" + data.Id + "'/>"
+            form += "<br>"
+            form += "<button type='button' class='btn btn-sm btn-success btn-save' onclick='ConfirmDeleteProduct(this)'>Delete</button>"
+            form += "<button type='button' class='btn btn-sm btn-default btn-cancel' data-dismiss='modal'>Cancel</button>"
+            form += "</form>";
             $(".modal-body").html(form);
             $("#modal-Form2").modal("show");
         }
@@ -406,9 +406,9 @@
                 data: { Id: id },
                 success: function (result) {
                     if (result.Success) {
-                        $(".modal-body").html(tr);
-                        $(".modal-title").html("Delete Unit");
-                        $("#modal-Form2").modal("show");
+                        alert("Success");
+                        $("#modal-Form2").modal("hide");
+                        ShowList();
                     }
                     else {
                         alert("error : " + result.Message);

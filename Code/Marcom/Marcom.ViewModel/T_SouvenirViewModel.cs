@@ -49,5 +49,12 @@ namespace Marcom.ViewModel
         public DateTime? CreatedDate { get; set; }
         public string UpdatedBy { get; set; }
         public DateTime? UpdatedDate { get; set; }
+
+        public string NoteItem { get; set; }
+        public decimal? QtyItem { get; set; }
+        public int MSouvNir { get; set; }
+        
+
+        public List<T_SouvinerItemViewModel> DetailsSouvItem { get; set; }
     }
 }

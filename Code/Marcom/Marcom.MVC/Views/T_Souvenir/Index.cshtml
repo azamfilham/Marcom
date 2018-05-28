@@ -1,7 +1,7 @@
 ﻿@model Marcom.ViewModel.T_SouvenirViewModel
 
 @{
-    ViewBag.Title = "List Souvenir Item";
+    ViewBag.Title = "List Souvenir Stock";
 }
 
 
@@ -42,7 +42,6 @@
                     background-color: #3c8dbc;
                     border-radius: 10px 10px 0 0;
                 }
-
 </style>
 
 
@@ -179,7 +178,7 @@
                                 <button type="button" id="btn-saveSouvenir" class="btn btn-default btn-default pull-right" data-dismiss="modal">
                                     Save
                                 </button>
-                                
+
                             </div>
                         </div>
                     </div>
@@ -215,7 +214,7 @@
                 url: "http://localhost:50876/api/T_Souvenirs",
                 type: 'get',
                 data: 'json',
-                success: function (result) {    
+                success: function (result) {
                     var table = "<table class='table'>";
                     table += "<tbody>";
                     $.each(result, function (i, item) {
@@ -263,6 +262,7 @@
 
         function EditItem(obj) {
             var idS = $(obj).attr("data-id");
+            alert(idS);
 
             $.ajax({
                 url: '@Url.Action("Edit", "T_Souvenir")',
@@ -299,7 +299,7 @@
                 success: function (result) {
                     $('#u_EmployeeId').html('<option value="0">Select Employee</option>');
                     $.each(result, function (i, item) {
-                        var option = '<option value="' + item.Id + '">' + item.FullName+ '</option>';
+                        var option = '<option value="' + item.Id + '">' + item.EmployeeName + '</option>';
                         $('#u_EmployeeId').append(option);
                     })
                     $('#u_EmployeeId').val(u_EmployeeId)

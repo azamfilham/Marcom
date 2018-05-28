@@ -63,6 +63,9 @@ namespace Marcom.Repository
                 result = (from t in db.t_souvenir
                           join e in db.m_employee on
                           t.received_by equals e.id
+                          join tsi in db.t_souvenir_item on
+                          t.id equals tsi.t_souvenir_id
+                          where t.id == id
                           select new T_SouvenirViewModel
                           {
                               Id = t.id,//
@@ -91,8 +94,12 @@ namespace Marcom.Repository
                               CreatedBy = t.created_by,
                               CreatedDate = t.created_date,
                               UpdatedBy = t.updated_by,
-                              UpdatedDate = t.updated_date
+                              UpdatedDate = t.updated_date,
 
+                              QtyItem = tsi.qty,
+                              MSouvNir = tsi.m_souvenir_id,
+                              NoteItem = tsi.note
+                              
                           }).FirstOrDefault();
             }
 
@@ -160,6 +167,17 @@ namespace Marcom.Repository
                         t.is_delete = entity.IsDelete;
                         t.created_by = "Csk";
                         t.created_date = DateTime.Now;
+
+                        foreach (var item in entity.DetailsSouvItem)
+                        {
+                            t_souvenir_item Sitem = new t_souvenir_item();
+                            Sitem.t_souvenir_id = t.id;
+                            Sitem.m_souvenir_id = item.MSouvenirId;
+                            Sitem.note = item.Note;
+                            Sitem.qty = item.Qty;
+                            Sitem.is_delete = item.IsDelete;
+                            db.t_souvenir_item.Add(Sitem);
+                        }
 
                         db.t_souvenir.Add(t);
                         db.SaveChanges();

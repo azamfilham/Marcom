@@ -14,6 +14,8 @@ namespace Marcom.ViewModel
         public int Id { get; set; }
         public int TSouvenirId { get; set; }
 
+        public int TEvenId { get; set; }
+
         [Display(Name = "Transaction Code")]
         public string TransactionCode  { get; set; }
 
@@ -52,6 +54,8 @@ namespace Marcom.ViewModel
         public DateTime? CreatedDate { get; set; }
         public string UpdatedBy { get; set; }
         public DateTime? UpdatedDate { get; set; }
+
+        public List<T_SouvinerItemViewModel> DetailsSouvItem { get; set; }
 
     }
 }
