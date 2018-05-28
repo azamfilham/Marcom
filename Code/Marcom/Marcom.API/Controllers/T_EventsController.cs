@@ -26,9 +26,14 @@ namespace Marcom.API.Controllers
         }
 
         // POST: api/T_Events
+<<<<<<< HEAD
         public Responses Post([FromBody]T_EventViewModel entity) //bagian Add
         {
 
+=======
+        public Responses Post([FromBody]T_EventViewModel entity)
+        {
+>>>>>>> 9fa68a320bb1933c32d2a3bf22524c0ca4af5ce7
             Responses result = new Responses();
             if (ModelState.IsValid)
             {
@@ -42,6 +47,7 @@ namespace Marcom.API.Controllers
         }
 
         // PUT: api/T_Events/5
+<<<<<<< HEAD
         public Responses Put(int id, [FromBody]T_EventViewModel entity) //Bagian Edit(Update)
         {
             entity.Id = id;
@@ -60,8 +66,20 @@ namespace Marcom.API.Controllers
 
         // DELETE: api/T_Events/5
         public Responses Delete(int id) //Bagian Delete
+=======
+        public Responses Put(int id, [FromBody]T_EventViewModel entity)
+        {
+            entity.Id = id;
+            return T_EventRepo.Update(entity);
+        }
+
+        // DELETE: api/T_Events/5
+        [HttpDelete]
+        public Responses Delete(int id)
+>>>>>>> 9fa68a320bb1933c32d2a3bf22524c0ca4af5ce7
         {
             return T_EventRepo.Delete(id);
         }
     }
+
 }
