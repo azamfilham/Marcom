@@ -35,28 +35,6 @@ namespace Marcom.MVC.Controllers
             return View("_Edit", M_MenuRepo.GetById(id));
         }
 
-
-        
-        [HttpPost]
-        public JsonResult checkNameValidate(M_MenuViewModel name)
-        {
-            if (ModelState.IsValid)
-            {
-                Responses responses = (M_MenuRepo.Update(name));
-                if (responses.Success)
-                {
-                    return Json(new { succes = true }, JsonRequestBehavior.AllowGet);
-                }
-                else
-                {
-                    return Json("Email Already Exists!", JsonRequestBehavior.AllowGet);
-                }
-            }
-            return Json(new { succes = false, message = "Invalid" }, JsonRequestBehavior.AllowGet);
-
-        }
-
-        
-
+  
     }
 }

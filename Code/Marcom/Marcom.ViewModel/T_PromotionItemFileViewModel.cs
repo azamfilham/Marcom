@@ -11,16 +11,16 @@ namespace Marcom.ViewModel
     {
         public int Id { get; set; }
 
-        [Display(Name = "Promotion Id")]
+        [Display(Name = "Promotion Id"), MaxLength(11)]
         public int TPromotionId { get; set; }
 
-        [Display(Name = "File Name")]
-        public string FileName { get; set; }
+        [Display(Name = "File Name"), MaxLength(11)]
+        public int FileName { get; set; }
 
-        [Display(Name = "Size")]
+        [Display(Name = "Size"), MaxLength(11)]
         public string Size { get; set; }
 
-        [Display(Name = "Extention")]
+        [Display(Name = "Extention"), MaxLength(11)]
         public string Extention { get; set; }
 
         [Display(Name = "Start Date")]
@@ -32,34 +32,15 @@ namespace Marcom.ViewModel
         [Display(Name = "Due Date")]
         public DateTime? RequestDueDate { get; set; }
 
-        [Display(Name = "QTY")]
+        [Display(Name = "QTY"), MaxLength(50)]
         public decimal? Qty { get; set; }
 
         
         public int Todo { get; set; }
 
-        [Display(Name = "Todo")]
-        public string TodoList
-        {
-            get
-            {
-                if (Todo == 1)
-                {
-                    return "Print / Cetak";
-                }
-                else if (Todo == 2)
-                {
-                    return "Posting Sosial Media";
-                }
-             
-                else
-                {
-                    return "Unknown";
-                }
-            }
-        }
+        
 
-        [Display(Name = "Note")]
+        [Display(Name = "Note"), MaxLength(255)]
         public string Note { get; set; }
 
         public bool? IsDelete { get; set; }

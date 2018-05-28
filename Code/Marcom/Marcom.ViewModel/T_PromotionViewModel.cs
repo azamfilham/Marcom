@@ -107,6 +107,5 @@ namespace Marcom.ViewModel
 
         public DateTime? UpdatedDate { get; set; }
         
-        public List<T_PromotionItemViewModel> DetailItem { get; set; }
     }
 }

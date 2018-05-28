@@ -5,8 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 
-
-
 namespace Marcom.ViewModel
 {
     public class M_MenuViewModel
@@ -16,8 +14,6 @@ namespace Marcom.ViewModel
         [Display(Name = "Code"), MaxLength(50)]
         public string Code { get; set; }
 
-       
-        [RegularExpression(@"^[a-z A-Z]+$", ErrorMessage = "Use alphabet only please")]
         [Display(Name = "Menu Name"), Required, MaxLength(50)]
         public string Name { get; set; }
 

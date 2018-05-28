@@ -22,19 +22,19 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.EvenCode, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.TEvenId, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <select class="form-control valid" data-val="true" id="evenCode" name="evenCode">
                     <option value="0">Even Code</option>
                 </select>
-                @Html.ValidationMessageFor(model => model.EvenCode, "", new { @class = "text-danger" })
+                @Html.ValidationMessageFor(model => model.TEvenId, "", new { @class = "text-danger" })
             </div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.RequestBy, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.RequestBy, new { htmlAttributes = new { @class = "form-control" , @readonly = "readonly" } })
+                @Html.EditorFor(model => model.RequestBy, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.RequestBy, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -106,7 +106,7 @@
     var loop = [];
 
     $(document).ready(function () {
-        SetEmployeeReceived(0);
+        SetEvenCode(0);
     })
 
     $(".datepicker").datepicker({
@@ -114,16 +114,16 @@
 
     })
 
-    function SetEmployeeReceived(EmployeeReceived) {
+    function SetEvenCode(evenCode) {
         $.ajax({
-            url: 'http://localhost:50876/api/M_Employees',
+            url: 'http://localhost:50876/api/T_Events',
             type: 'GET',
             success: function (result) {
                 $.each(result, function (i, item) {
-                    var option = '<option value="' + item.Id + '">' + item.FullName + '</option>';
-                    $('#EmployeeReceived').append(option);
+                    var option = '<option value="' + item.Id + '">' + item.EventName + '</option>';
+                    $('#evenCode').append(option);
                 })
-                $('#EmployeeReceived').val(EmployeeReceived);
+                $('#evenCode').val(evenCode);
             },
             error: function (err) {
                 alert(err);
@@ -131,7 +131,7 @@
         })
     }
 
-    function GetListItem() {
+    function GetListItem() {  //Sovenir List
         var table = "<tr>";
         table += "<th><select class='form-control col-md-6 u_SouvenirId' data-val='true' id='u_SouvenirId' name='u_SouvenirId'><option value=' '>Select Souvenir</option></select></th> <th><input id='qty' name='qty' placeholder='Qty' type='number' /></th> <th><input id='note' name='note' placeholder='Note' /></th> <th><button type='button' class='btn btn-danger btn-sm btn-remove' onclick='Remove(this)'> <span class='glyphicon glyphicon-trash'></span></button></th>";
 
@@ -166,39 +166,46 @@
         var dueDate = document.getElementById('DueDate').value;
         var rqstBy = document.getElementById('RequestBy').value;
 
-        var evCode = document.getElementById("EvenCode");
-        //alert(mMenuId.selectedIndex);
-        //alert(mMenuId.options[mMenuId.selectedIndex].value);
-       
-        var evCode2 = evCode.options[evCode.selectedIndex].value;
+        var empRcv = document.getElementById('evenCode'); //panggil berdasarkan element yang ada di tengah model
+        ////alert(mMenuId.selectedIndex);
+        ////alert(mMenuId.options[mMenuId.selectedIndex].value);
+        var empRcvv = empRcv.options[empRcv.selectedIndex].value;
+        
+        $("#souvenir-list").find("tr").each(function () {
+            var SouvenirId = $(this).find("select[name=u_SouvenirId]").val();
+            var qty = $(this).find("input[name=qty]").val();
+            var notes = $(this).find("input[name=note]").val();
 
+            var testing = {Note: notes, Qty: qty, IsDelete: false };
+            loop.push(testing);
+        })
 
         var now = new Date();
 
-        var data = { RequestBy: rqstBy, RequestDate: rqstDate, Note: note, Type: "Additional", TSouvenirId: 1, MSouvenirId: 1, CreatedBy: "Admin", CreatedDate: now, TransactionCode: transactionCode, EvenCode: evCode2, DueDate : dueDate};
+        var data = { RequestBy: rqstBy, RequestDate: now, Note: note, TSouvenirId: 1002, MSouvenirId: 1, CreatedBy: "Admin", CreatedDate: now, TransactionCode: transactionCode, DueDate: dueDate, TEvenId: empRcvv, IsDelete: false, DetailsSouvItem: loop };
 
-        alert(JSON.stringify(data));
+       alert(JSON.stringify(data));
 
-        //$.ajax({
-        //    url: "http://localhost:50876/api/T_SouvenirItems",
-        //    type: 'post',
-        //    contentType: 'application/json',
-        //    dataType: 'json',
-        //    data: JSON.stringify(data),
-        //    success: function (result) {
-        //        if (result.Success) {
-        //            alert("Success");
-        //            $("#modal-Form").modal("hide");
-        //            ItemList();
-        //        }
-        //        else {
-        //            alert("error : " + result.Message);
-        //        }
-        //    },
-        //    error: function (err) {
-        //        alert(err);
-        //    }
-        //})
+        $.ajax({
+            url: "http://localhost:50876/api/T_SouvenirItems",
+            type: 'post',
+            contentType: 'application/json',
+            dataType: 'json',
+            data: JSON.stringify(data),
+            success: function (result) {
+                if (result.Success) {
+                    alert("Success");
+                    $("#modal-Form").modal("hide");
+                    ItemList();
+                }
+                else {
+                    alert("error : " + result.Message);
+                }
+            },
+            error: function (err) {
+                alert(err);
+            }
+        })
     })
 
     function SetSouvenir(u_SouvenirId) {

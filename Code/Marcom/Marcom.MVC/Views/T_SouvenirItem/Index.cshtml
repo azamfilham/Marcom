@@ -201,7 +201,7 @@
 
         $(document).ready(function () {
             ItemList();
-            SetEmployeeId(0);
+            //SetEmployeeId(0);
             //SetEmployeeId1(0);
         })
 
@@ -256,7 +256,7 @@
                 type: 'get',
                 success: function (result) {
                     $(".modal-body").html(result);
-                    $(".modal-title").html("Add Souvenir Stock");
+                    $(".modal-title").html("Add Souvenir Item Stock");
                     $("#modal-Form").modal("show");
                 }
             })

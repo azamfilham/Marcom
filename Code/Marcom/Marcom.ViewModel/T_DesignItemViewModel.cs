@@ -14,8 +14,6 @@ namespace Marcom.ViewModel
         public int TDesignId { get; set; }
         [Display(Name = "Product ID"), Required]
         public int MProductId { get; set; }
-        public string ProductName { get; set; }
-        public string ProductDescription { get; set; }
         [Display(Name = "Title Item"), Required]
         public string TitleItem { get; set; }
         public int RequestPic { get; set; }

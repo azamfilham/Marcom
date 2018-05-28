@@ -26,16 +26,19 @@ namespace Marcom.API.Controllers
         }
 
         // POST: api/T_SouvenirItems
-        public void Post([FromBody]string value)
+        public Responses Post([FromBody]T_SouvenirViewModel entity)
         {
+            return T_SouvenirRepo.Update(entity);
         }
 
-        // PUT: api/T_SouvenirItems/5
-        public void Put(int id, [FromBody]string value)
+        // PUT: api/T_Souvenirs/5
+        public Responses Put(int id, [FromBody]T_SouvenirViewModel entity)
         {
+            entity.Id = id;
+            return T_SouvenirRepo.Update(entity);
         }
 
-        // DELETE: api/T_SouvenirItems/5
+        // DELETE: api/T_Souvenirs/5
         public void Delete(int id)
         {
         }

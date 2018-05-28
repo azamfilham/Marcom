@@ -29,7 +29,11 @@ namespace Marcom.MVC.Controllers
         public ActionResult Create()
         {
             //ViewBag.M_UnitList = new SelectList(T_SouvinerItemRepo.Get(), "Id", "Description");
-            return View("_Create");
+            
+            T_SouvinerItemViewModel modelCode = new T_SouvinerItemViewModel();  
+            modelCode.TransactionCode = T_SouvinerItemRepo.GetNewCode();
+
+            return PartialView("_Create", modelCode);
         }
 
         //POST Create

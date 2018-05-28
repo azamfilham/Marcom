@@ -16,7 +16,7 @@ namespace Marcom.DataModel
     {
         public int id { get; set; }
         public int t_promotion_id { get; set; }
-        public string filename { get; set; }
+        public int filename { get; set; }
         public string size { get; set; }
         public string extention { get; set; }
         public Nullable<System.DateTime> start_date { get; set; }

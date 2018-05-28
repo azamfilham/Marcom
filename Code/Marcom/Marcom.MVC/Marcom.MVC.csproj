@@ -180,7 +180,9 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Views\Web.config" />
+    <Content Include="Views\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error2.cshtml" />
     <Content Include="Views\Shared\_Layout2.cshtml" />
@@ -209,11 +211,6 @@
     <Content Include="Web - Copy.Release.config">
       <DependentUpon>Web - Copy.config</DependentUpon>
     </Content>
-    <Content Include="Views\M_Unit\_Create.cshtml" />
-    <Content Include="Views\M_Unit\_List.cshtml" />
-    <Content Include="Views\M_Unit\_Edit.cshtml" />
-    <Content Include="Views\M_Unit\_Delete.cshtml" />
-    <Content Include="Views\M_Unit\_Views.cshtml" />
     <Content Include="Views\M_User\_Create.cshtml" />
     <Content Include="Views\M_User\_Edit.cshtml" />
     <Content Include="Views\M_User\_View.cshtml" />
@@ -234,10 +231,6 @@
     <Content Include="Views\M_MenuAccess\_Edit.cshtml" />
     <Content Include="Views\M_Menu\_Create.cshtml" />
     <Content Include="Views\M_Menu\_Edit.cshtml" />
-    <Content Include="Views\M_Product\_Create.cshtml" />
-    <Content Include="Views\M_Product\_Delete.cshtml" />
-    <Content Include="Views\M_Product\_Edit.cshtml" />
-    <Content Include="Views\M_Product\_View.cshtml" />
     <Content Include="Views\M_Role\_Create.cshtml" />
     <Content Include="Views\M_Role\_Delete.cshtml" />
     <Content Include="Views\M_Role\_Edit.cshtml" />
@@ -245,11 +238,6 @@
     <Content Include="Views\M_Souvenir\_Create.cshtml" />
     <Content Include="Views\M_Souvenir\_Edit.cshtml" />
     <Content Include="Views\M_Souvenir\_List.cshtml" />
-    <Content Include="Views\M_Unit\_Create.cshtml" />
-    <Content Include="Views\M_Unit\_Delete.cshtml" />
-    <Content Include="Views\M_Unit\_Edit.cshtml" />
-    <Content Include="Views\M_Unit\_List.cshtml" />
-    <Content Include="Views\M_Unit\_Views.cshtml" />
     <Content Include="Views\T_Souvenir\Index.cshtml" />
     <Content Include="Views\T_Souvenir\_Create.cshtml" />
     <Content Include="Views\T_Souvenir\_Edit.cshtml" />
@@ -257,15 +245,16 @@
     <Content Include="Views\T_SouvenirItem\Index.cshtml" />
     <Content Include="Views\T_SouvenirItem\_Create.cshtml" />
     <Content Include="Views\T_Event\Index.cshtml" />
-
-    <Content Include="Views\T_Promotion\_Create.cshtml" />
-    <Content Include="Views\T_Promotion\Index.cshtml" />
-    <Content Include="Views\T_Promotion\_Add.cshtml" />
-
     <Content Include="Views\T_Event\_Create.cshtml" />
     <Content Include="Views\T_Event\_View.cshtml" />
     <Content Include="Views\T_Event\_Edit.cshtml" />
-
+    <Content Include="Views\T_SouvenirItem\_Edit.cshtml" />
+    <Content Include="Views\T_SouvenirItem\_View.cshtml" />
+    <Content Include="Views\M_Unit\_Create.cshtml" />
+    <Content Include="Views\M_Unit\_Delete.cshtml" />
+    <Content Include="Views\M_Unit\_Edit.cshtml" />
+    <Content Include="Views\M_Unit\_List.cshtml" />
+    <Content Include="Views\M_Unit\_Views.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="AdminLTE\" />
@@ -276,9 +265,7 @@
     <Folder Include="Views\T_Design\" />
     <Folder Include="Views\T_PromotionItemFile\" />
     <Folder Include="Views\T_PromotionItem\" />
-
     <Folder Include="Views\T_Promotion\" />
-
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

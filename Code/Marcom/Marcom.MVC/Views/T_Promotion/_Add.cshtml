@@ -23,7 +23,7 @@
         <div class="form-group">
             <label class="control-label col-md-4">*Select from Design</label>
             <div class="col-md-4">
-                <select class="form-control valid" data-val="true" id="sDesign" name="sDesign">
+                <select class="form-control valid" data-val="true" id="selectDesign" name="selectDesign">
                     <option value="">Please Select</option>
                     <option value="1">Yes</option>
                     <option value="0">No</option>
@@ -38,7 +38,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <button type="button" value="Add" class="btn btn-default" id="add">Next</button>
+                <button type="button" value="Add" class="btn btn-default" id="add">Add</button>
                 <input type="button" class="btn btn-md btn-warning btn-cancel" data-dismiss='modal' value="Cancel"/>
             </div>
         </div>
@@ -71,8 +71,8 @@
         })
     }
 
-    $("#sDesign").change(function () {
-        var yes = $("#sDesign").val();
+    $("#selectDesign").change(function () {
+        var yes = $("#selectDesign").val();
         if (yes == 1) {
             $.ajax({
                 url: 'http://localhost:50876/api/T_Designs',
@@ -107,10 +107,24 @@
     $("#add").click(function () {
         var event = $("#EventId").val();
         var design = $("#selectDesign").val();
-        
-        var url = "/T_Promotion/Create?idEvent=" + event+"&idDesign="+design;
-        window.location.href = url;
-        
+        //var data = { 'idEvent': event, 'idDesign': design };
+        //alert(JSON.stringify(data));
+        $.ajax({
+            url: '@Url.Action("Create", "T_Promotion")',
+            type: 'get',
+            data: { idEvent: event, idDesign: design },
+            success: function (result) {
+                if (result.Success) {
+                    alert("Menambahkan data");
+                }
+                else {
+                    alert("error : " + result.Message);
+                }
+            },
+            error: function (err) {
+                alert(err);
+            }
+        })
     })
 
 
