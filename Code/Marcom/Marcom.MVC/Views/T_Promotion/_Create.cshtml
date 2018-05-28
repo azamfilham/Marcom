@@ -160,7 +160,7 @@
             ShowList();
         })
 
-        $("#dItem-list input").datepicker({
+        $(".datepicker").datepicker({
             format: 'dd M yyyy'
         });
 
@@ -172,7 +172,7 @@
                 success: function (result) {
                     var table;
                     $.each(result, function (i, item) {
-                        var tr = "<tr><td><input class='form-control text-box single-line' id='ItemCode' name='ItemCode' readonly='readonly' type='text' value='"+item.ProductName+"'></td><td>" + item.ProductDescription + "</td><td>"+ item.TitleItem +"</td><td width='5%'><input class='form-control text-box single-line' id='ItemQty' name='ItemQty' type='text' value=''></td><td><select class='form-control' data-val='true' id='todo' name='todo'><option value=''>Select Todo</option><option value='1'>Print</option><option value='2'>Post social Media</option><option value='3'>Other</option></select></td><td><input class='form-control datepicker text-box single-line' data-val='true' data-val-date='The field End Date must be a date.' id='EndDate' name='EndDate' type='datetime' value=''></td><td><button type='button' class='btn btn-sm btn-danger' data-id='" + item.Id + "' onclick='DeleteSouvenir(this)' ><span class='glyphicon glyphicon-trash'></span></button></td></tr>";
+                        var tr = "<tr><td width='12%'><input class='form-control text-box single-line' id='ItemCode' name='ItemCode' readonly='readonly' type='text' value='"+item.ProductName+"'></td><td><input class='form-control text-box single-line' id='ItemDescription' name='ItemDescription' readonly='readonly' type='text' value='"+item.ProductDescription+"'></td><td><input class='form-control text-box single-line' id='ItemTitle' name='ItemTitle' readonly='readonly' type='text' value='"+item.TitleItem+"'></td><td width='5%'><input class='form-control text-box single-line' id='ItemQty' name='ItemQty' type='text' value=''></td><td><select class='form-control' data-val='true' id='todo' name='todo'><option value=''>Select Todo</option><option value='1'>Print</option><option value='2'>Post social Media</option><option value='3'>Other</option></select></td><td width='12%'><input class='form-control datepicker text-box single-line' data-val='true' data-val-date='The field End Date must be a date.' id='DueDate' name='DueDate' type='datetime' value=''></td><td width='12%'><input class='form-control text-box single-line' id='ItemStDate' name='ItemStDate' readonly='readonly' type='text' value='"+item.StartDate+"'></td><td width='12%'><input class='form-control text-box single-line' id='EndDate' name='EndDate' readonly='readonly' type='text' value='"+item.EndDate+"'></td><td><input class='form-control text-box single-line' id='Note' name='Note' readonly='readonly' type='text' value='"+item.Note+"'></td><td><button type='button' class='btn btn-sm btn-danger' data-id='" + item.Id + "' onclick='DeleteSouvenir(this)' ><span class='glyphicon glyphicon-trash'></span></button></td></tr>";
 
                         table += tr;
                     })
