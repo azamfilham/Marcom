@@ -22,10 +22,10 @@
                         @Html.EditorFor(model => model.Code, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                         @Html.ValidationMessageFor(model => model.Code, "", new { @class = "text-danger" })
                     </div>
-                    @Html.LabelFor(model => model.RequestBy, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.LabelFor(model => model.RequestName, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-3">
-                        @Html.EditorFor(model => model.RequestBy, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                        @Html.ValidationMessageFor(model => model.RequestBy, "", new { @class = "text-danger" })
+                        @Html.EditorFor(model => model.RequestName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        @Html.ValidationMessageFor(model => model.RequestName, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
@@ -82,10 +82,10 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    @Html.LabelFor(model => model.TDesignRequestBy, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.LabelFor(model => model.DesignRequestName, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-3">
-                        @Html.EditorFor(model => model.TDesignRequestBy, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                        @Html.ValidationMessageFor(model => model.TDesignRequestBy, "", new { @class = "text-danger" })
+                        @Html.EditorFor(model => model.DesignRequestName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        @Html.ValidationMessageFor(model => model.DesignRequestName, "", new { @class = "text-danger" })
                     </div>
                 </div>
                 <div class="form-group">

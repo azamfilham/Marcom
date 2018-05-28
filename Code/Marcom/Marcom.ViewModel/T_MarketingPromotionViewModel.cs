@@ -62,6 +62,19 @@ namespace Marcom.ViewModel
         [Display(Name = "Request By")]
         public int? TDesignRequestBy { get; set; }
 
+        [Display(Name = "Request By")]
+        public string DesignRequestName
+        {
+            get
+            {
+                return DFirstName + (string.IsNullOrEmpty(DLastName) ? "" : " " + DLastName);
+            }
+        }
+
+        public string DFirstName { get; set; }
+
+        public string DLastName { get; set; }
+
         [Display(Name = "Title Header")]
         public string TDesignTitleHeader { get; set; }
 
