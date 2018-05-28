@@ -70,6 +70,42 @@ namespace Marcom.Repository
             }
             return result;
         }
+
+        public static List<T_DesignItemViewModel> GetByDesignId(int DesignId)
+        {
+            List<T_DesignItemViewModel> result = new List<T_DesignItemViewModel>();
+            using (var db = new MarcomContext())
+            {
+                result = (from di in db.t_design_item
+                          join d in db.t_design on
+                          di.t_design_id equals d.id
+                          join p in db.m_product on
+                          di.m_product_id equals p.id
+                          where di.t_design_id == DesignId
+                          select new T_DesignItemViewModel
+                          {
+                              Id = di.id,
+                              TDesignId = d.id,
+                              MProductId = di.m_product_id,
+                              ProductName = p.name,
+                              ProductDescription=p.description,
+                              TitleItem = di.title_item,
+                              RequestPic = di.request_pic,
+                              StartDate = di.start_date,
+                              EndDate = di.end_date,
+                              RequestDueDate = di.request_due_date,
+                              Note = di.note,
+                              IsDelete = di.is_delete,
+                              CreatedBy = di.created_by,
+                              CreatedDate = di.created_date,
+                              UpdatedBy = di.updated_by,
+                              UpdatedDate = di.updated_date
+                          }).ToList();
+            }
+            return result;
+        }
+
+
         public static Responses Update(T_DesignItemViewModel entity)
         {
             Responses result = new Responses();

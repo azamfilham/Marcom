@@ -101,6 +101,8 @@ namespace Marcom.Repository
                           where d.id == DesignId && d.t_event_id == EventId
                           select new T_MarketingPromotionViewModel
                           {
+                              TEventId = e.id,
+                              TDesignId = d.id,
                               TEventCode = e.code,
                               RequestBy = d.request_by,
                               RequestDate = DateTime.Now,

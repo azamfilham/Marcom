@@ -15,6 +15,7 @@ namespace Marcom.ViewModel
         public string Code { get; set; }
 
         public string FlagDesign { get; set; }
+        //bagian event
 
         public int TEventId { get; set; }
 
@@ -37,6 +38,7 @@ namespace Marcom.ViewModel
 
         public string RLastName { get; set; }
 
+        [Display(Name = "Request By")]
         public int? RequestBy { get; set; }
 
         [Display(Name = "Request Date"), DisplayFormat(DataFormatString = "{0:dd MMM yyyy}")]
@@ -47,12 +49,20 @@ namespace Marcom.ViewModel
 
         //Design
         public int? TDesignId { get; set; }
-        [Display(Name = "Transaction Code")]
+
+        [Display(Name = "Design Code")]
         public string TDesignCode { get; set; }
+
+        [Display(Name = "Request Date")]
         public System.DateTime TDesignRequestDate { get; set; }
+
+        [Display(Name = "Note")]
         public string TDesignNote { get; set; }
+
+        [Display(Name = "Request By")]
         public int? TDesignRequestBy { get; set; }
-        [Display(Name = "Design Title")]
+
+        [Display(Name = "Title Header")]
         public string TDesignTitleHeader { get; set; }
 
 
