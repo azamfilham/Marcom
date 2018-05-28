@@ -26,6 +26,7 @@ namespace Marcom.API.Controllers
         // POST: api/T_Souvenirs
         public Responses Post([FromBody]T_SouvenirViewModel entity)
         {
+            entity.Code = T_SouvenirRepo.GetNewCode();
             return T_SouvenirRepo.Update(entity);
         }
 

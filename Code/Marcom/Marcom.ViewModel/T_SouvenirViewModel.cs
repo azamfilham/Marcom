@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,9 +18,16 @@ namespace Marcom.ViewModel
         public string Type { get; set; }
         public int TEventId { get; set; }
         public int RequestBy { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:d}")]
         public DateTime? RequestDate { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:d}")]
         public DateTime? RequestDueDate { get; set; }
+
         public int? ApprovedBy { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:d}")]
         public DateTime? ApprovedDate { get; set; }
 
         [Display(Name = "Received By")]
@@ -35,6 +43,7 @@ namespace Marcom.ViewModel
         public string LastName { get; set; }
 
         [Display(Name = "Received Date")]
+        [DisplayFormat(DataFormatString = "{0:d}")]
         public DateTime? ReceivedDate { get; set; }
 
         public int? SettlementBy { get; set; }
@@ -46,8 +55,19 @@ namespace Marcom.ViewModel
         public string RejectReason { get; set; }
         public bool? IsDelete { get; set; }
         public string CreatedBy { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:d}")]
         public DateTime? CreatedDate { get; set; }
         public string UpdatedBy { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:d}")]
         public DateTime? UpdatedDate { get; set; }
+
+        public string NoteItem { get; set; }
+        public decimal? QtyItem { get; set; }
+        public int MSouvNir { get; set; }
+        
+
+        public List<T_SouvinerItemViewModel> DetailsSouvItem { get; set; }
     }
 }

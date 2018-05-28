@@ -29,6 +29,13 @@ namespace Marcom.API.Controllers
         public void Post([FromBody]string value)
         {
         }
+		
+		[HttpGet]
+        [Route("~/api/T_SouvenirItems/TSouvId/{id}")]
+        public IEnumerable<T_SouvinerItemViewModel> GetBySouvId(int id)
+        {
+            return T_SouvinerItemRepo.GetBySouvId(id);
+        }
 
         // PUT: api/T_SouvenirItems/5
         public void Put(int id, [FromBody]string value)

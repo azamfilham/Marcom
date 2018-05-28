@@ -29,5 +29,11 @@ namespace Marcom.MVC.Controllers
         {
             return PartialView("_View", T_SouvenirRepo.GetById(id));
         }
+
+        public ActionResult AddItem()
+        {
+            return PartialView("_AddItem");
+        }
+
     }
 }
