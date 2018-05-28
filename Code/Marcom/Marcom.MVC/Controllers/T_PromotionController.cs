@@ -25,5 +25,10 @@ namespace Marcom.MVC.Controllers
         {            
             return View("_Create", T_PromotionRepo.GetByEventandDesign(idEvent, idDesign));
         }
+
+        public ActionResult Listby(int DesignId)
+        {
+            return PartialView("_List", T_DesignItemRepo.GetByDesignId(DesignId));
+        }
     }
 }

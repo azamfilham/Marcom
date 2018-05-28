@@ -1,0 +1,47 @@
+﻿@model IEnumerable<Marcom.ViewModel.T_DesignItemViewModel>
+
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td>
+            @Html.HiddenFor(modelItem => item.MProductId)
+            @Html.EditorFor(modelItem => item.ProductName, new { htmlAttributes = new { @class = "form-control" } })
+        </td>
+        <td>
+            @Html.EditorFor(modelItem => item.ProductDescription, new { htmlAttributes = new { @class = "form-control" } })
+        </td>
+        <td>
+            @Html.EditorFor(modelItem => item.TitleItem, new { htmlAttributes = new { @class = "form-control" } })
+        </td>
+        <td>
+            <input class='form-control text-box single-line' id='ItemQty' name='ItemQty' type='text' value=''>
+        </td>
+        <td>
+            <select class='form-control' data-val='true' id='todo' name='todo'>
+                <option value=''>Select Todo</option>
+                <option value='1'>Print</option>
+                <option value='2'>Post social Media</option>
+                <option value='3'>Other</option>
+            </select>
+        </td>
+        <td>
+            <input class='form-control datepicker text-box single-line' data-val='true' data-val-date='The field End Date must be a date.' id='DueDate' name='DueDate' type='datetime' value=''>
+        </td>
+        <td>
+            @Html.EditorFor(modelItem => item.StartDate, new { htmlAttributes = new { @class = "form-control" } })
+        </td>
+        <td>
+            @Html.EditorFor(modelItem => item.EndDate, new { htmlAttributes = new { @class = "form-control" } })
+        </td>
+        <td>
+            @Html.EditorFor(modelItem => item.Note, new { htmlAttributes = new { @class = "form-control" } })
+        </td>
+    </tr>
+}
+
+<script type="text/javascript">
+    $(".datepicker").datepicker({
+        format: 'dd M yyyy'
+    });
+</script>

@@ -22,10 +22,10 @@
                         @Html.EditorFor(model => model.Code, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
                         @Html.ValidationMessageFor(model => model.Code, "", new { @class = "text-danger" })
                     </div>
-                    @Html.LabelFor(model => model.RequestName, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.LabelFor(model => model.RequestBy, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-3">
-                        @Html.EditorFor(model => model.RequestName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                        @Html.ValidationMessageFor(model => model.RequestName, "", new { @class = "text-danger" })
+                        @Html.EditorFor(model => model.RequestBy, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        @Html.ValidationMessageFor(model => model.RequestBy, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
@@ -45,7 +45,7 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.TitleHeader, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-3">
-                        @Html.EditorFor(model => model.TitleHeader, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.EditorFor(model => model.TitleHeader, new { htmlAttributes = new { @class = "form-control datepicker" } })
                         @Html.ValidationMessageFor(model => model.TitleHeader, "", new { @class = "text-danger" })
                     </div>
                     @Html.LabelFor(model => model.Note, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -82,10 +82,10 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    @Html.LabelFor(model => model.DesignRequestName, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.LabelFor(model => model.TDesignRequestBy, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-3">
-                        @Html.EditorFor(model => model.DesignRequestName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                        @Html.ValidationMessageFor(model => model.DesignRequestName, "", new { @class = "text-danger" })
+                        @Html.EditorFor(model => model.TDesignRequestBy, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        @Html.ValidationMessageFor(model => model.TDesignRequestBy, "", new { @class = "text-danger" })
                     </div>
                 </div>
                 <div class="form-group">
@@ -116,7 +116,6 @@
                                 <th>Start Date</th>
                                 <th>End Date</th>
                                 <th>Note</th>
-                                <th></th>
                             </tr>
                         </thead>
 
@@ -144,7 +143,9 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <button type="button" id="btn-Save" class="btn btn-info">
+                    Save
+                </button>
             </div>
         </div>
     </div>
@@ -167,19 +168,12 @@
         function ShowList() {
             var id = @Model.TDesignId;
             $.ajax({
-                url: "http://localhost:50876/api/T_DesignItems?DesignId="+id,
+                url: '@Url.Action("Listby","T_Promotion")',
                 type: 'get',
+                data: { DesignId: id },
                 success: function (result) {
-                    var table;
-                    $.each(result, function (i, item) {
-                        var tr = "<tr><td width='12%'><input class='form-control text-box single-line' id='ItemCode' name='ItemCode' readonly='readonly' type='text' value='"+item.ProductName+"'></td><td><input class='form-control text-box single-line' id='ItemDescription' name='ItemDescription' readonly='readonly' type='text' value='"+item.ProductDescription+"'></td><td><input class='form-control text-box single-line' id='ItemTitle' name='ItemTitle' readonly='readonly' type='text' value='"+item.TitleItem+"'></td><td width='5%'><input class='form-control text-box single-line' id='ItemQty' name='ItemQty' type='text' value=''></td><td><select class='form-control' data-val='true' id='todo' name='todo'><option value=''>Select Todo</option><option value='1'>Print</option><option value='2'>Post social Media</option><option value='3'>Other</option></select></td><td width='12%'><input class='form-control datepicker text-box single-line' data-val='true' data-val-date='The field End Date must be a date.' id='DueDate' name='DueDate' type='datetime' value=''></td><td width='12%'><input class='form-control text-box single-line' id='ItemStDate' name='ItemStDate' readonly='readonly' type='text' value='"+item.StartDate+"'></td><td width='12%'><input class='form-control text-box single-line' id='EndDate' name='EndDate' readonly='readonly' type='text' value='"+item.EndDate+"'></td><td><input class='form-control text-box single-line' id='Note' name='Note' readonly='readonly' type='text' value='"+item.Note+"'></td><td><button type='button' class='btn btn-sm btn-danger' data-id='" + item.Id + "' onclick='DeleteSouvenir(this)' ><span class='glyphicon glyphicon-trash'></span></button></td></tr>";
-
-                        table += tr;
-                    })
-                    $(".datepicker").datepicker({
-                        format: 'dd M yyyy'
-                    });
-                    $("#dItem-list").html(table);
+                   
+                    $("#dItem-list").html(result);
                 },
                 error: function (err) {
                     alert(err);
@@ -187,5 +181,21 @@
             })
         }
 
+        $("#btn-Save").click(function(){
+            var dataList = [];
+            $("#dItem-list").find("tr").each(function(){
+                var pId = $(this).find("#item_MProductId").val();
+                var qty = $(this).find("#ItemQty").val();
+                var todo = $(this).find("#todo").val();
+                var due = $(this).find("#DueDate").val();
+                var data = {PID:pId,
+                    Qty:qty,
+                    Todo:todo,
+                    Due:due
+                }
+                dataList.push(data); 
+            })
+            alert(JSON.stringify(dataList));
+        })
     </script>
 }
