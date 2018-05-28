@@ -183,8 +183,8 @@ namespace Marcom.Repository
                     {
                         t_promotion p = new t_promotion();
                         p.id = entity.Id;                
-                        p.code = entity.Code;
-                        p.flag_design = entity.FlagDesign;
+                        p.code = "TRWOMP0000012";
+                        p.flag_design = "1";
                         p.t_event_id = entity.TEventId;
                         p.t_design_id = entity.TDesignId;
                         p.request_by = entity.RequestBy;
@@ -207,7 +207,7 @@ namespace Marcom.Repository
                             pi.t_design_item_id = item.TDesignItemId;
                             pi.m_product_id = item.MProductId;
                             pi.title = item.Title;
-                            pi.request_pic = item.RequestPic;
+                            pi.request_pic = 2;
                             pi.start_date = item.StartDate;
                             pi.end_date = item.EndDate;
                             pi.request_due_date = item.RequestDueDate;

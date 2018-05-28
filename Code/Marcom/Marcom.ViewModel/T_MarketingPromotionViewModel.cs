@@ -53,6 +53,8 @@ namespace Marcom.ViewModel
         [Display(Name = "Design Code")]
         public string TDesignCode { get; set; }
 
+        public int TDesignRequestPIC { get; set; }
+
         [Display(Name = "Request Date")]
         public System.DateTime TDesignRequestDate { get; set; }
 

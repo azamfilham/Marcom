@@ -45,7 +45,7 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.TitleHeader, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-3">
-                        @Html.EditorFor(model => model.TitleHeader, new { htmlAttributes = new { @class = "form-control datepicker" } })
+                        @Html.EditorFor(model => model.TitleHeader, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.TitleHeader, "", new { @class = "text-danger" })
                     </div>
                     @Html.LabelFor(model => model.Note, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -182,20 +182,70 @@
         }
 
         $("#btn-Save").click(function(){
+            var code = document.getElementById('Code').value;
+            var reqBy = document.getElementById('RequestBy').value;
+            var reqDate = document.getElementById('RequestDate').value;
+            var eventId = @Model.TEventId;
+            var designId = @Model.TDesignId;
+            var note = document.getElementById('Note').value;
+            
             var dataList = [];
+            
             $("#dItem-list").find("tr").each(function(){
+                var title = document.getElementById('TitleHeader').value;
                 var pId = $(this).find("#item_MProductId").val();
                 var qty = $(this).find("#ItemQty").val();
                 var todo = $(this).find("#todo").val();
                 var due = $(this).find("#DueDate").val();
-                var data = {PID:pId,
+                var stDate = $(this).find('#item_StartDate').val();
+                var enDate = $(this).find('#item_EndDate').val();
+                var note = $(this).find('#item_Note').val();
+                var data = {
+                    Title: title,
+                    MProductId:pId,
                     Qty:qty,
-                    Todo:todo,
-                    Due:due
+                    ToDo:todo,
+                    RequestDueDate:due,
+                    StartDate:stDate,
+                    EndDate:enDate,
+                    Note:note
                 }
                 dataList.push(data); 
             })
-            alert(JSON.stringify(dataList));
+
+            var promotion = {
+                Code: code,
+                TEventId: eventId,
+                TDesignId: designId,
+                RequestBy: reqBy,
+                RequestDate: reqDate,
+                Note: note,
+                DetailItem: dataList
+            }
+
+            alert(JSON.stringify(promotion));
+
+            $.ajax({
+                url: "http://localhost:50876/api/T_Promotions",
+                type: 'post',
+                contentType: 'application/json',
+                dataType: 'json',
+                data: JSON.stringify(promotion),
+                success: function (result) {
+                    if (result.Success) {
+                        alert("Success");
+                        $("#modal-Form").modal("hide");
+                        ShowList();
+                    }
+                    else {
+                        alert("error : " + result.Message);
+                    }
+                },
+                error: function (err) {
+                    alert(err);
+                }
+            })
+
         })
     </script>
 }

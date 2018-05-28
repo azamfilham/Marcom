@@ -24,8 +24,9 @@ namespace Marcom.API.Controllers
         }
 
         // POST: api/T_Promotions
-        public void Post([FromBody]T_PromotionViewModel value)
+        public Responses Post([FromBody]T_PromotionViewModel entity)
         {
+            return T_PromotionRepo.Update(entity);
         }
 
         // PUT: api/T_Promotions/5
