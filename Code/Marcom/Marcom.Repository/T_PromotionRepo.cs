@@ -122,6 +122,78 @@ namespace Marcom.Repository
             return result;
         }
 
+        public static Responses Update(T_PromotionViewModel entity)
+        {
+            Responses result = new Responses();
+            try
+            {
+                using (var db = new MarcomContext())
+                {
+                    if (entity.Id != 0)
+                    {
+                        //t_promotion role = db.t_promotion.Where(o => o.id == entity.Id).FirstOrDefault();
+                        //if (role != null)
+                        //{
+                        //    role.code = entity.Code;
+                        //    role.is_delete = entity.IsDelete;
+                        //    role.updated_by = "Freeska";
+                        //    role.updated_date = DateTime.Now;
+                        //    db.SaveChanges();
+                        //}
+                    }
+                    else
+                    {
+                        t_promotion p = new t_promotion();
+                        p.id = entity.Id;                
+                        p.code = entity.Code;
+                        p.flag_design = entity.FlagDesign;
+                        p.t_event_id = entity.TEventId;
+                        p.t_design_id = entity.TDesignId;
+                        p.request_by = entity.RequestBy;
+                        p.request_date = entity.RequestDate;
+                        p.approved_by = entity.ApprovedBy;
+                        p.approved_date = entity.ApprovedDate;
+                        p.assign_to = entity.AssignTo;
+                        p.close_date = entity.CloseDate;
+                        p.note = entity.Note;
+                        p.status = entity.Status;
+                        p.reject_reason = entity.RejectReason;
+                        p.is_delete = entity.IsDelete;
+                        p.created_by = "Freeska";
+                        p.created_date = DateTime.Now;
+                        foreach (var item in entity.DetailItem)
+                        {
+                            t_promotion_item pi = new t_promotion_item();
+                            pi.id = item.Id;
+                            pi.t_promotion_id = entity.Id;
+                            pi.t_design_item_id = item.TDesignItemId;
+                            pi.m_product_id = item.MProductId;
+                            pi.title = item.Title;
+                            pi.request_pic = item.RequestPic;
+                            pi.start_date = item.StartDate;
+                            pi.end_date = item.EndDate;
+                            pi.request_due_date = item.RequestDueDate;
+                            pi.qty = item.Qty;
+                            pi.todo = item.ToDo;
+                            pi.note = item.Note;
+                            pi.is_delete = item.isDelete;
+                            pi.created_by = "Freeska";
+                            pi.created_date = DateTime.Now;
+                            db.t_promotion_item.Add(pi);
+                        }
+
+                        db.t_promotion.Add(p);
+                        db.SaveChanges();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Message = ex.Message;
+                result.Success = false;
+            }
+            return result;
+        }
 
         public static Responses Delete(int id)
         {
